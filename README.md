@@ -114,3 +114,8 @@ barbecue.setup({
   },
 })
 ```
+
+## Todo
+
+- [ ] Add a preview gif in the readme.
+- [ ] Add `barbecue.nvim` help tag.
