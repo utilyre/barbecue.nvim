@@ -112,7 +112,7 @@ M.setup = function(opts)
       end
 
       vim.opt_local.winbar = vim.g.barbecue.prefix
-          .. str_gsub(filepath, "/", vim.g.barbecue.separator, 2)
+          .. str_gsub(filepath, "/", vim.g.barbecue.separator:gsub("%%", "%%%%"), 2)
           .. ((icon == nil or highlight == nil) and "" or " %#" .. highlight .. "#" .. icon .. "%*")
           .. " %#"
           .. (vim.bo.modified and "BufferCurrentMod" or "BufferCurrent")
