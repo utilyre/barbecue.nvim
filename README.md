@@ -11,24 +11,60 @@ from lsp.
 
 ## 📬 Installation
 
-With packer:
+Install the plugin and its dependencies
+
+- With packer:
 
 ```lua
 use {
   "utilyre/barbecue.nvim",
   requires = {
     "kyazdani42/nvim-web-devicons", -- optional
+    "neovim/nvim-lspconfig",
     "smiteshp/nvim-navic",
   },
 }
 ```
 
-With vim-plug:
+- With vim-plug:
 
 ```vimscript
 Plug 'kyazdani42/nvim-web-devicons' " Optional
+Plug 'neovim/nvim-lspconfig'
 Plug 'smiteshp/nvim-navic'
 Plug 'utilyre/barbecue.nvim'
+```
+
+Then call the setup function from somewhere in your config
+
+```lua
+local barbecue = require("barbecue")
+barbecue.setup()
+```
+
+At last but not the least, attach nvim-navic to the language server
+
+```lua
+local installer = require("nvim-lsp-installer")
+local navic = require("nvim-navic")
+
+installer.on_server_ready(function(server)
+  server:setup({
+    -- ...
+
+    on_attach = function(client, buffnr)
+      -- ...
+
+      if client.server_capabilities.documentSymbolProvider then
+        navic.attach(client, buffnr)
+      end
+
+      -- ...
+    end,
+
+    -- ...
+  })
+end)
 ```
 
 ## 🚠 Configuration
