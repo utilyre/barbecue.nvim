@@ -1,14 +1,50 @@
 local M = {}
 
 local default_opts = {
-  navic_opts = {},
-  update_events = { "BufWinEnter", "BufWritePost", "CursorMoved", "CursorMovedI", "TextChanged", "TextChangedI" },
-  include_buftypes = { "" },
   exclude_float = true,
+  include_buftypes = { "" },
+
+  update_events = {
+    "BufWinEnter",
+    "BufWritePost",
+    "CursorMoved",
+    "CursorMovedI",
+    "TextChanged",
+    "TextChangedI",
+  },
+
   tilde_home = true,
   prefix = " ",
   separator = " > ",
-  no_info_indicator = "%#NonText#…%*",
+  no_info_indicator = "…",
+  icons = {
+    File = " ",
+    Module = " ",
+    Namespace = " ",
+    Package = " ",
+    Class = " ",
+    Method = " ",
+    Property = " ",
+    Field = " ",
+    Constructor = " ",
+    Enum = "練",
+    Interface = "練",
+    Function = " ",
+    Variable = " ",
+    Constant = " ",
+    String = " ",
+    Number = " ",
+    Boolean = "◩ ",
+    Array = " ",
+    Object = " ",
+    Key = " ",
+    Null = "ﳠ ",
+    EnumMember = " ",
+    Struct = " ",
+    Event = " ",
+    Operator = " ",
+    TypeParameter = " ",
+  },
 }
 
 ---Returns `true` if current buffer should be excluded otherwise returns `false`
@@ -36,7 +72,10 @@ M.setup = function(opts)
   vim.g.barbecue = vim.tbl_deep_extend("force", default_opts, opts)
 
   local navic = require("nvim-navic")
-  navic.setup(vim.g.barbecue.navic_opts)
+  navic.setup({
+    separator = vim.g.barbecue.separator,
+    icons = vim.g.barbecue.icons,
+  })
 
   local gBarbecue = vim.api.nvim_create_augroup("Barbecue", {})
   vim.api.nvim_create_autocmd(vim.g.barbecue.update_events, {
