@@ -1,15 +1,15 @@
-# Barbecue
+# 🍡 Barbecue
 
 This is a vscode like winbar that uses
 [nvim-navic](https://github.com/SmiteshP/nvim-navic) to get cursor location
 from lsp.
 
-## Dependencies
+## 📦 Dependencies
 
 - [nvim-web-devicons](https://github.com/kyazdani42/nvim-web-devicons): Install to optionally show the file icon.
 - [nvim-navic](https://github.com/smiteshp/nvim-navic): Used to get lsp location information.
 
-## Installation
+## 📬 Installation
 
 With packer:
 
@@ -31,7 +31,7 @@ Plug 'smiteshp/nvim-navic'
 Plug 'utilyre/barbecue.nvim'
 ```
 
-## Configuration
+## 🚠 Configuration
 
 **Note:** `nvim-navic` is configured through barbecue's setup so you don't need
 to (and should not) call its setup function.
@@ -115,7 +115,7 @@ barbecue.setup({
 })
 ```
 
-## Todo
+## 📓 Todo
 
 - [ ] Add a preview gif in the readme.
 - [ ] Add `barbecue.nvim` help tag.
