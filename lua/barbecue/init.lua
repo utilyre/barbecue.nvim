@@ -111,25 +111,27 @@ M.setup = function(opts)
         return
       end
 
-      vim.opt_local.winbar = vim.g.barbecue.prefix
-          .. str_gsub(filepath, "/", vim.g.barbecue.separator:gsub("%%", "%%%%"), 2)
-          .. ((icon == nil or highlight == nil) and "" or "%#" .. highlight .. "#" .. icon .. "%*")
-          .. " %#"
-          .. (vim.bo.modified and "BufferCurrentMod" or "BufferCurrent")
-          .. "#"
-          .. filename
-          .. "%*"
+      vim.schedule(function()
+        vim.opt_local.winbar = vim.g.barbecue.prefix
+            .. str_gsub(filepath, "/", vim.g.barbecue.separator:gsub("%%", "%%%%"), 2)
+            .. ((icon == nil or highlight == nil) and "" or "%#" .. highlight .. "#" .. icon .. "%*")
+            .. " %#"
+            .. (vim.bo.modified and "BufferCurrentMod" or "BufferCurrent")
+            .. "#"
+            .. filename
+            .. "%*"
 
-      -- Won't continue if nvim-navic isn't available
-      if not navic.is_available() then
-        return
-      end
+        -- Won't continue if nvim-navic isn't available
+        if not navic.is_available() then
+          return
+        end
 
-      -- Append the lsp location provided by nvim-navic to winbar
-      local location = navic.get_location()
-      vim.opt_local.winbar:append(
-        vim.g.barbecue.separator .. (location == "" and vim.g.barbecue.no_info_indicator or location)
-      )
+        -- Append the lsp location provided by nvim-navic to winbar
+        local location = navic.get_location()
+        vim.opt_local.winbar:append(
+          vim.g.barbecue.separator .. (location == "" and vim.g.barbecue.no_info_indicator or location)
+        )
+      end)
     end,
   })
 end
