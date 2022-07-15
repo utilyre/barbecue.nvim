@@ -67,6 +67,45 @@ local str_gsub = function(str, patt, repl, from, to)
   return str:sub(1, from - 1) .. str:sub(from, to):gsub(patt, repl) .. str:sub(to + 1, str:len())
 end
 
+---Gets all the information about the current buffer
+---@return string filepath
+---@return string filename
+---@return string icon
+---@return string highlight
+---@return string location
+local get_buf_metadata = function()
+  -- Gets the current buffer filepath with trailing slash
+  local filepath = vim.fn.expand("%" .. (vim.g.barbecue.tilde_home and ":~" or "") .. ":.:h") .. "/"
+  -- Treats the first slash as directory instead of separator
+  if filepath ~= "//" and filepath:sub(1, 1) == "/" then
+    filepath = "/" .. filepath
+  end
+  -- Won't show the filepath if the file is in the current working directory
+  if filepath == "./" then
+    filepath = ""
+  end
+
+  -- Obtains the current buffer icon and highlight group via web-devicons (optional)
+  local devicons_ok, devicons = pcall(require, "nvim-web-devicons")
+  local icon, highlight = nil, nil
+  if devicons_ok then
+    icon, highlight = devicons.get_icon_by_filetype(vim.bo.filetype)
+  end
+
+  -- Gets the current buffer name
+  local filename = vim.fn.expand("%:t")
+
+  -- Gets the location or nil if not available
+  local navic = require("nvim-navic")
+  local location = nil
+  if navic.is_available() then
+    location = navic.get_location()
+    location = location == "" and vim.g.barbecue.no_info_indicator or location
+  end
+
+  return filepath, filename, icon, highlight, location
+end
+
 M.setup = function(opts)
   -- Merges the user opts into default opts (prefres user opts)
   vim.g.barbecue = vim.tbl_deep_extend("force", default_opts, opts)
@@ -81,34 +120,14 @@ M.setup = function(opts)
   vim.api.nvim_create_autocmd(vim.g.barbecue.update_events, {
     group = gBarbecue,
     callback = function()
-      -- Gets the current buffer filepath with trailing slash
-      local filepath = vim.fn.expand("%" .. (vim.g.barbecue.tilde_home and ":~" or "") .. ":.:h") .. "/"
-      -- Treats the first slash as directory instead of separator
-      if filepath ~= "//" and filepath:sub(1, 1) == "/" then
-        filepath = "/" .. filepath
-      end
-      -- Won't show the filepath if the file is in the current working directory
-      if filepath == "./" then
-        filepath = ""
-      end
-
-      -- Obtains the current buffer icon and highlight group via web-devicons (optional)
-      local ok, devicons = pcall(require, "nvim-web-devicons")
-      local icon, highlight = nil, nil
-      if ok then
-        icon, highlight = devicons.get_icon_by_filetype(vim.bo.filetype)
-      end
-
-      -- Gets the current buffer name
-      local filename = vim.fn.expand("%:t")
-      -- Hides the winbar if the current buffer isn't saved yet
-      if filename == "" then
-        return
-      end
-
       vim.schedule(function()
         if exclude() then
           vim.opt_local.winbar = nil
+          return
+        end
+
+        local filepath, filename, icon, highlight, location = get_buf_metadata()
+        if filename == "" then
           return
         end
 
@@ -121,16 +140,9 @@ M.setup = function(opts)
             .. filename
             .. "%*"
 
-        -- Won't continue if nvim-navic isn't available
-        if not navic.is_available() then
-          return
+        if location ~= nil then
+          vim.opt_local.winbar:append(vim.g.barbecue.separator .. location)
         end
-
-        -- Append the lsp location provided by nvim-navic to winbar
-        local location = navic.get_location()
-        vim.opt_local.winbar:append(
-          vim.g.barbecue.separator .. (location == "" and vim.g.barbecue.no_info_indicator or location)
-        )
       end)
     end,
   })
