@@ -81,11 +81,6 @@ M.setup = function(opts)
   vim.api.nvim_create_autocmd(vim.g.barbecue.update_events, {
     group = gBarbecue,
     callback = function()
-      if exclude() then
-        vim.opt_local.winbar = nil
-        return
-      end
-
       -- Gets the current buffer filepath with trailing slash
       local filepath = vim.fn.expand("%" .. (vim.g.barbecue.tilde_home and ":~" or "") .. ":.:h") .. "/"
       -- Treats the first slash as directory instead of separator
@@ -112,6 +107,11 @@ M.setup = function(opts)
       end
 
       vim.schedule(function()
+        if exclude() then
+          vim.opt_local.winbar = nil
+          return
+        end
+
         vim.opt_local.winbar = vim.g.barbecue.prefix
             .. str_gsub(filepath, "/", vim.g.barbecue.separator:gsub("%%", "%%%%"), 2)
             .. ((icon == nil or highlight == nil) and "" or "%#" .. highlight .. "#" .. icon .. "%*")
