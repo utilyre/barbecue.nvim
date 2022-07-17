@@ -146,7 +146,7 @@ M.setup = function(opts)
         local location = get_location()
 
         vim.opt_local.winbar = vim.g.barbecue.prefix
-            .. str_gsub(str_escape(filepath), "/", str_escape(vim.g.barbecue.separator), 2)
+            .. str_gsub(filepath, "/", str_escape(vim.g.barbecue.separator), 2)
             .. ((icon == nil or highlight == nil) and "" or "%#" .. highlight .. "#" .. icon .. "%* ")
             .. "%#"
             .. (vim.bo.modified and "BufferCurrentMod" or "BufferCurrent")
