@@ -48,10 +48,15 @@ local default_opts = {
 }
 
 ---Returns `true` if current buffer should be excluded otherwise returns `false`
+---@param buffnr number
+---@param winnr number
 ---@return boolean
-local excludes = function()
-  return not vim.tbl_contains(vim.g.barbecue.include_buftypes, vim.bo.buftype)
-      or (vim.g.barbecue.exclude_float and vim.api.nvim_win_get_config(0).relative ~= "")
+local excludes = function(buffnr, winnr)
+  local buftype = vim.api.nvim_buf_get_option(buffnr, "buftype")
+  local relative = vim.api.nvim_win_get_config(winnr).relative
+
+  return not vim.tbl_contains(vim.g.barbecue.include_buftypes, buftype)
+      or (vim.g.barbecue.exclude_float and relative ~= "")
 end
 
 ---Escapes the given string from lua regex
@@ -75,11 +80,12 @@ local str_gsub = function(str, patt, repl, from, to)
 end
 
 ---Returns all the information about the current buffer
+---@param buffnr number
 ---@return string filepath
 ---@return string filename
 ---@return string icon
 ---@return string highlight
-local get_buf_metadata = function()
+local get_buf_metadata = function(buffnr)
   -- Gets the current buffer filepath with trailing slash
   local filepath = vim.fn.expand("<afile>" .. (vim.g.barbecue.tilde_home and ":~" or "") .. ":.:h") .. "/"
   -- Treats the first slash as directory instead of separator
@@ -95,7 +101,8 @@ local get_buf_metadata = function()
   local devicons_ok, devicons = pcall(require, "nvim-web-devicons")
   local icon, highlight = nil, nil
   if devicons_ok then
-    icon, highlight = devicons.get_icon_by_filetype(vim.bo.filetype)
+    local filetype = vim.api.nvim_buf_get_option(buffnr, "filetype")
+    icon, highlight = devicons.get_icon_by_filetype(filetype)
   end
 
   -- Gets the current buffer name
@@ -132,17 +139,20 @@ M.setup = function(opts)
   vim.api.nvim_create_autocmd(vim.g.barbecue.update_events, {
     group = gBarbecue,
     callback = function()
-      if excludes() then
-        vim.opt_local.winbar = nil
-        return
-      end
+      local buffnr = vim.api.nvim_get_current_buf()
+      local winnr = vim.api.nvim_get_current_win()
 
-      local filepath, filename, icon, highlight = get_buf_metadata()
+      local filepath, filename, icon, highlight = get_buf_metadata(buffnr)
       if filename == "" then
         return
       end
 
       vim.schedule(function()
+        if excludes(buffnr, winnr) then
+          vim.opt_local.winbar = nil
+          return
+        end
+
         local location = get_location()
 
         vim.opt_local.winbar = vim.g.barbecue.prefix
