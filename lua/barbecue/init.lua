@@ -67,15 +67,14 @@ local str_gsub = function(str, patt, repl, from, to)
   return str:sub(1, from - 1) .. str:sub(from, to):gsub(patt, repl) .. str:sub(to + 1, str:len())
 end
 
----Gets all the information about the current buffer
+---Returns all the information about the current buffer
 ---@return string filepath
 ---@return string filename
 ---@return string icon
 ---@return string highlight
----@return string location
 local get_buf_metadata = function()
   -- Gets the current buffer filepath with trailing slash
-  local filepath = vim.fn.expand("%" .. (vim.g.barbecue.tilde_home and ":~" or "") .. ":.:h") .. "/"
+  local filepath = vim.fn.expand("<afile>" .. (vim.g.barbecue.tilde_home and ":~" or "") .. ":.:h") .. "/"
   -- Treats the first slash as directory instead of separator
   if filepath ~= "//" and filepath:sub(1, 1) == "/" then
     filepath = "/" .. filepath
@@ -93,17 +92,23 @@ local get_buf_metadata = function()
   end
 
   -- Gets the current buffer name
-  local filename = vim.fn.expand("%:t")
+  local filename = vim.fn.expand("<afile>:t")
 
-  -- Gets the location or nil if not available
+  return filepath, filename, icon, highlight
+end
+
+---Returns the current location of cursor
+---@return string
+local get_location = function()
   local navic = require("nvim-navic")
+
   local location = nil
   if navic.is_available() then
     location = navic.get_location()
     location = location == "" and vim.g.barbecue.no_info_indicator or location
   end
 
-  return filepath, filename, icon, highlight, location
+  return location
 end
 
 M.setup = function(opts)
@@ -120,16 +125,18 @@ M.setup = function(opts)
   vim.api.nvim_create_autocmd(vim.g.barbecue.update_events, {
     group = gBarbecue,
     callback = function()
-      vim.schedule(function()
-        if exclude() then
-          vim.opt_local.winbar = nil
-          return
-        end
+      if exclude() then
+        vim.opt_local.winbar = nil
+        return
+      end
 
-        local filepath, filename, icon, highlight, location = get_buf_metadata()
-        if filename == "" then
-          return
-        end
+      local filepath, filename, icon, highlight = get_buf_metadata()
+      if filename == "" then
+        return
+      end
+
+      vim.schedule(function()
+        local location = get_location()
 
         vim.opt_local.winbar = vim.g.barbecue.prefix
             .. str_gsub(filepath, "/", vim.g.barbecue.separator:gsub("%%", "%%%%"), 2)
