@@ -49,7 +49,7 @@ local default_opts = {
 
 ---Returns `true` if current buffer should be excluded otherwise returns `false`
 ---@return boolean
-local exclude = function()
+local excludes = function()
   return not vim.tbl_contains(vim.g.barbecue.include_buftypes, vim.bo.buftype)
       or (vim.g.barbecue.exclude_float and vim.api.nvim_win_get_config(0).relative ~= "")
 end
@@ -132,7 +132,7 @@ M.setup = function(opts)
   vim.api.nvim_create_autocmd(vim.g.barbecue.update_events, {
     group = gBarbecue,
     callback = function()
-      if exclude() then
+      if excludes() then
         vim.opt_local.winbar = nil
         return
       end
