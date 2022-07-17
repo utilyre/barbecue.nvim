@@ -151,7 +151,29 @@ barbecue.setup({
 })
 ```
 
+## Highlight Groups
+
+For now highlights are passed directly through `icons`, `separator`, etc.
+
+Here's an example:
+
+```lua
+-- The general form is like this:
+-- %#[hl]#[text]%*
+
+barbecue.setup({
+  separator = " %#Delimiter#%* ",
+  no_info_indicator = "%#NonText#…%*",
+  icons = {
+    File = "%#CmpItemKindFile#%* ",
+    Package = "%#CmpItemKindFolder#%* ",
+    -- ...
+  },
+})
+```
+
 ## 📓 Todo
 
 - [ ] Add a preview gif in the readme.
 - [ ] Add `barbecue.nvim` help tag.
+- [ ] Add plugin specific highlights and have them default to the current highlights
