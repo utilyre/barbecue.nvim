@@ -126,6 +126,15 @@ local get_location = function()
 end
 
 M.setup = function(opts)
+  if vim.g.barbecue ~= nil then
+    vim.notify("barbecue: Prevent calling the setup function twice.", vim.log.levels.WARN, {
+      icon = "🍡",
+      title = "Barbecue",
+    })
+
+    return
+  end
+
   -- Merges the user opts into default opts (prefres user opts)
   vim.g.barbecue = vim.tbl_deep_extend("force", default_opts, opts)
 
