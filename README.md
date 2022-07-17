@@ -28,8 +28,8 @@ use {
 
 - With vim-plug:
 
-```vimscript
-Plug 'kyazdani42/nvim-web-devicons' " Optional
+```vim
+Plug 'kyazdani42/nvim-web-devicons' " optional
 Plug 'neovim/nvim-lspconfig'
 Plug 'smiteshp/nvim-navic'
 Plug 'utilyre/barbecue.nvim'
@@ -158,7 +158,7 @@ For now highlights are passed directly through `icons`, `separator`, etc.
 Here's an example:
 
 ```lua
--- The general form is like this:
+-- The general pattern is like this:
 -- %#[hl]#[text]%*
 
 barbecue.setup({
