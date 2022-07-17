@@ -54,6 +54,13 @@ local exclude = function()
       or (vim.g.barbecue.exclude_float and vim.api.nvim_win_get_config(0).relative ~= "")
 end
 
+---Escapes the given string from lua regex
+---@param str string
+---@return string
+local str_escape = function(str)
+  return str:gsub("[%^%$%(%)%%%.%[%]%*%+%-%?]", "%%%1")
+end
+
 ---Subsitutes string within range
 ---@param str string
 ---@param patt string
@@ -139,7 +146,7 @@ M.setup = function(opts)
         local location = get_location()
 
         vim.opt_local.winbar = vim.g.barbecue.prefix
-            .. str_gsub(filepath, "/", vim.g.barbecue.separator:gsub("%%", "%%%%"), 2)
+            .. str_gsub(str_escape(filepath), "/", str_escape(vim.g.barbecue.separator), 2)
             .. ((icon == nil or highlight == nil) and "" or "%#" .. highlight .. "#" .. icon .. "%* ")
             .. "%#"
             .. (vim.bo.modified and "BufferCurrentMod" or "BufferCurrent")
