@@ -151,7 +151,7 @@ barbecue.setup({
 })
 ```
 
-## Highlight Groups
+## 🎨 Highlight Groups
 
 For now highlights are passed directly through `icons`, `separator`, etc.
 
