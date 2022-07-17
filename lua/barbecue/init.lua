@@ -56,7 +56,7 @@ local excludes = function(buffnr, winnr)
   local relative = vim.api.nvim_win_get_config(winnr).relative
 
   return not vim.tbl_contains(vim.g.barbecue.include_buftypes, buftype)
-      or (vim.g.barbecue.exclude_float and relative ~= "")
+    or (vim.g.barbecue.exclude_float and relative ~= "")
 end
 
 ---Escapes the given string from lua regex
@@ -156,13 +156,13 @@ M.setup = function(opts)
         local location = get_location()
 
         vim.opt_local.winbar = vim.g.barbecue.prefix
-            .. str_gsub(filepath, "/", str_escape(vim.g.barbecue.separator), 2)
-            .. ((icon == nil or highlight == nil) and "" or "%#" .. highlight .. "#" .. icon .. "%* ")
-            .. "%#"
-            .. (vim.bo.modified and "BufferCurrentMod" or "BufferCurrent")
-            .. "#"
-            .. filename
-            .. "%*"
+          .. str_gsub(filepath, "/", str_escape(vim.g.barbecue.separator), 2)
+          .. ((icon == nil or highlight == nil) and "" or "%#" .. highlight .. "#" .. icon .. "%* ")
+          .. "%#"
+          .. (vim.bo.modified and "BufferCurrentMod" or "BufferCurrent")
+          .. "#"
+          .. filename
+          .. "%*"
 
         if location ~= nil then
           vim.opt_local.winbar:append(vim.g.barbecue.separator .. location)
