@@ -157,7 +157,8 @@ M.setup = function(opts)
       end
 
       vim.schedule(function()
-        if excludes(buffnr, winnr) then
+        -- FIXME: Pass buffnr and winnr to excludes
+        if excludes(0, 0) then
           vim.opt_local.winbar = nil
           return
         end
