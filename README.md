@@ -1,13 +1,14 @@
 # 🍡 Barbecue
 
 This is a vscode like winbar that uses
-[nvim-navic](https://github.com/SmiteshP/nvim-navic) to get cursor location
-from lsp.
+[nvim-navic](https://github.com/SmiteshP/nvim-navic) in order to get lsp
+context from your language server.
 
 ## 📦 Dependencies
 
+- [NVIM nightly](https://github.com/neovim/neovim/releases/tag/nightly): For winbar support.
 - [nvim-web-devicons](https://github.com/kyazdani42/nvim-web-devicons): Install to optionally show the file icon.
-- [nvim-navic](https://github.com/smiteshp/nvim-navic): Used to get lsp location information.
+- [nvim-navic](https://github.com/smiteshp/nvim-navic): Used to get lsp context information.
 
 ## 📬 Installation
 
@@ -42,7 +43,7 @@ local barbecue = require("barbecue")
 barbecue.setup()
 ```
 
-At last but not the least, attach nvim-navic to the language server
+At last, attach nvim-navic to the language server
 
 ```lua
 local installer = require("nvim-lsp-installer")
@@ -176,4 +177,4 @@ barbecue.setup({
 
 - [ ] Add a preview gif in the readme.
 - [ ] Add `barbecue.nvim` help tag.
-- [ ] Add plugin specific highlights and have them default to the current highlights
+- [ ] Add plugin specific highlights and have them default to the current highlights.
