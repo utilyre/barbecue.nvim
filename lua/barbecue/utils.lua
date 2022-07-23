@@ -68,16 +68,16 @@ U.get_buf_metadata = function(filepath, buffnr)
   return dirname, filename, highlight, icon
 end
 
----Returns the current location of cursor
+---Returns the current lsp context
 ---@return string
-U.get_location = function()
-  local location = nil
+U.get_context = function()
+  local context = nil
   if navic.is_available() then
-    location = navic.get_location()
-    location = location == "" and state.config.no_info_indicator or location
+    context = navic.get_location()
+    context = context == "" and state.config.no_info_indicator or context
   end
 
-  return location
+  return context
 end
 
 return U

@@ -30,7 +30,7 @@ M.setup = function(config)
       -- FIXME: Remove this schedule after `update_context` from nvim-navic is fixed
       vim.schedule(function()
         local dirname, filename, highlight, icon = utils.get_buf_metadata(args.file, args.buf)
-        local location = utils.get_location()
+        local context = utils.get_context()
 
         if filename == "" then
           return
@@ -45,8 +45,8 @@ M.setup = function(config)
           .. filename
           .. "%*"
 
-        if location ~= nil then
-          winbar = winbar .. state.config.separator .. location
+        if context ~= nil then
+          winbar = winbar .. state.config.separator .. context
         end
 
         vim.wo[winnr].winbar = winbar

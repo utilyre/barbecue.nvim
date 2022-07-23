@@ -98,7 +98,7 @@ barbecue.setup({
     -- To show if file is saved or not
     "BufWritePost",
 
-    -- When lsp location might change
+    -- When lsp context might change
     "CursorMoved",
     "CursorMovedI",
 
@@ -116,7 +116,7 @@ barbecue.setup({
   -- The sign between each entry
   separator = " > ",
 
-  -- Show if lsp location is available but nothing to show
+  -- Show if lsp context is available but nothing to show
   -- (You're either at the root of your file or language server is broken)
   no_info_indicator = "…",
 
