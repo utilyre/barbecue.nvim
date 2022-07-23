@@ -29,7 +29,7 @@ end
 ---@param winnr number
 ---@return boolean
 U.excludes = function(buffnr, winnr)
-  local buftype = vim.api.nvim_buf_get_option(buffnr, "buftype")
+  local buftype = vim.bo[buffnr].buftype
   local relative = vim.api.nvim_win_get_config(winnr).relative
 
   return not vim.tbl_contains(state.config.include_buftypes, buftype) or (state.config.exclude_float and relative ~= "")
@@ -58,7 +58,7 @@ U.get_buf_metadata = function(filepath, buffnr)
   local devicons_ok, devicons = pcall(require, "nvim-web-devicons")
   local icon, highlight = nil, nil
   if devicons_ok then
-    local filetype = vim.api.nvim_buf_get_option(buffnr, "filetype")
+    local filetype = vim.bo[buffnr].filetype
     icon, highlight = devicons.get_icon_by_filetype(filetype)
   end
 
