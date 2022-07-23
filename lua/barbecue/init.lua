@@ -63,7 +63,8 @@ end
 ---@param str string
 ---@return string
 local str_escape = function(str)
-  return str:gsub("[%^%$%(%)%%%.%[%]%*%+%-%?]", "%%%1")
+  local escaped = str:gsub("[%^%$%(%)%%%.%[%]%*%+%-%?]", "%%%1")
+  return escaped
 end
 
 ---Subsitutes string within range
@@ -80,21 +81,22 @@ local str_gsub = function(str, patt, repl, from, to)
 end
 
 ---Returns all the information about the current buffer
+---@param filepath string
 ---@param buffnr number
 ---@return string filepath
 ---@return string filename
 ---@return string icon
 ---@return string highlight
-local get_buf_metadata = function(buffnr)
+local get_buf_metadata = function(filepath, buffnr)
   -- Gets the current buffer filepath with trailing slash
-  local filepath = vim.fn.expand("<afile>" .. (vim.g.barbecue.tilde_home and ":~" or "") .. ":.:h") .. "/"
+  local dirname = vim.fn.fnamemodify(filepath, (vim.g.barbecue.tilde_home and ":~" or "") .. ":.:h") .. "/"
   -- Treats the first slash as directory instead of separator
-  if filepath ~= "//" and filepath:sub(1, 1) == "/" then
-    filepath = "/" .. filepath
+  if dirname ~= "//" and dirname:sub(1, 1) == "/" then
+    dirname = "/" .. dirname
   end
   -- Won't show the filepath if the file is in the current working directory
-  if filepath == "./" then
-    filepath = ""
+  if dirname == "./" then
+    dirname = ""
   end
 
   -- Obtains the current buffer icon and highlight group via web-devicons (optional)
@@ -106,9 +108,9 @@ local get_buf_metadata = function(buffnr)
   end
 
   -- Gets the current buffer name
-  local filename = vim.fn.expand("<afile>:t")
+  local filename = vim.fn.fnamemodify(filepath, ":t")
 
-  return filepath, filename, icon, highlight
+  return dirname, filename, highlight, icon
 end
 
 ---Returns the current location of cursor
@@ -147,26 +149,22 @@ M.setup = function(opts)
   local gBarbecue = vim.api.nvim_create_augroup("Barbecue", {})
   vim.api.nvim_create_autocmd(vim.g.barbecue.update_events, {
     group = gBarbecue,
-    callback = function()
-      local buffnr = vim.api.nvim_get_current_buf()
-      local winnr = vim.api.nvim_get_current_win()
-
-      local filepath, filename, icon, highlight = get_buf_metadata(buffnr)
-      if filename == "" then
-        return
-      end
-
+    callback = function(args)
       vim.schedule(function()
-        -- FIXME: Pass buffnr and winnr to excludes
         if excludes(0, 0) then
           vim.opt_local.winbar = nil
           return
         end
 
+        local dirname, filename, highlight, icon = get_buf_metadata(args.file, args.buf)
         local location = get_location()
 
+        if filename == "" then
+          return
+        end
+
         vim.opt_local.winbar = vim.g.barbecue.prefix
-          .. str_gsub(filepath, "/", str_escape(vim.g.barbecue.separator), 2)
+          .. str_gsub(dirname, "/", str_escape(vim.g.barbecue.separator), 2)
           .. ((icon == nil or highlight == nil) and "" or "%#" .. highlight .. "#" .. icon .. "%* ")
           .. "%#"
           .. (vim.bo.modified and "BufferCurrentMod" or "BufferCurrent")
