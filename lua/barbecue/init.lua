@@ -1,6 +1,7 @@
 local M = {}
 
-local default_opts = {
+---@type table
+local default_config = {
   exclude_float = true,
   include_buftypes = { "" },
 
@@ -55,8 +56,7 @@ local excludes = function(buffnr, winnr)
   local buftype = vim.api.nvim_buf_get_option(buffnr, "buftype")
   local relative = vim.api.nvim_win_get_config(winnr).relative
 
-  return not vim.tbl_contains(vim.g.barbecue.include_buftypes, buftype)
-    or (vim.g.barbecue.exclude_float and relative ~= "")
+  return not vim.tbl_contains(M.config.include_buftypes, buftype) or (M.config.exclude_float and relative ~= "")
 end
 
 ---Escapes the given string from lua regex
@@ -89,7 +89,7 @@ end
 ---@return string highlight
 local get_buf_metadata = function(filepath, buffnr)
   -- Gets the current buffer filepath with trailing slash
-  local dirname = vim.fn.fnamemodify(filepath, (vim.g.barbecue.tilde_home and ":~" or "") .. ":.:h") .. "/"
+  local dirname = vim.fn.fnamemodify(filepath, (M.config.tilde_home and ":~" or "") .. ":.:h") .. "/"
   -- Treats the first slash as directory instead of separator
   if dirname ~= "//" and dirname:sub(1, 1) == "/" then
     dirname = "/" .. dirname
@@ -121,34 +121,30 @@ local get_location = function()
   local location = nil
   if navic.is_available() then
     location = navic.get_location()
-    location = location == "" and vim.g.barbecue.no_info_indicator or location
+    location = location == "" and M.config.no_info_indicator or location
   end
 
   return location
 end
 
-M.setup = function(opts)
-  if vim.g.barbecue ~= nil then
-    vim.notify("barbecue: Prevent calling the setup function twice.", vim.log.levels.WARN, {
-      icon = "🍡",
-      title = "Barbecue",
-    })
+---@type table
+M.config = default_config
 
-    return
-  end
-
-  -- Merges the user opts into default opts (prefres user opts)
-  vim.g.barbecue = vim.tbl_deep_extend("force", default_opts, opts)
+---Configures and starts the plugin
+---@param config table
+M.setup = function(config)
+  -- Merges the `config` into `default_config` (prefres `config`)
+  M.config = vim.tbl_deep_extend("force", default_config, config)
 
   local navic = require("nvim-navic")
   navic.setup({
-    separator = vim.g.barbecue.separator,
-    icons = vim.g.barbecue.icons,
+    separator = M.config.separator,
+    icons = M.config.icons,
   })
 
-  local gBarbecue = vim.api.nvim_create_augroup("Barbecue", {})
-  vim.api.nvim_create_autocmd(vim.g.barbecue.update_events, {
-    group = gBarbecue,
+  local Barbecue = vim.api.nvim_create_augroup("Barbecue", {})
+  vim.api.nvim_create_autocmd(M.config.update_events, {
+    group = Barbecue,
     callback = function(args)
       vim.schedule(function()
         if excludes(0, 0) then
@@ -163,8 +159,8 @@ M.setup = function(opts)
           return
         end
 
-        vim.opt_local.winbar = vim.g.barbecue.prefix
-          .. str_gsub(dirname, "/", str_escape(vim.g.barbecue.separator), 2)
+        vim.opt_local.winbar = M.config.prefix
+          .. str_gsub(dirname, "/", str_escape(M.config.separator), 2)
           .. ((icon == nil or highlight == nil) and "" or "%#" .. highlight .. "#" .. icon .. "%* ")
           .. "%#"
           .. (vim.bo.modified and "BufferCurrentMod" or "BufferCurrent")
@@ -173,7 +169,7 @@ M.setup = function(opts)
           .. "%*"
 
         if location ~= nil then
-          vim.opt_local.winbar:append(vim.g.barbecue.separator .. location)
+          vim.opt_local.winbar:append(M.config.separator .. location)
         end
       end)
     end,
