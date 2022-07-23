@@ -1,25 +1,22 @@
 local navic = require("nvim-navic")
-local consts = require("barbecue.consts")
+local state = require("barbecue.state")
 local utils = require("barbecue.utils")
 
 local M = {}
-
----@type table
-M.config = consts.default_config
 
 ---Configures and starts the plugin
 ---@param config table
 M.setup = function(config)
   -- Merges `config` into `default_config` (prefres `config`)
-  M.config = vim.tbl_deep_extend("force", consts.default_config, config)
+  state.config = vim.tbl_deep_extend("force", state.default_config, config)
 
   navic.setup({
-    separator = M.config.separator,
-    icons = M.config.icons,
+    separator = state.config.separator,
+    icons = state.config.icons,
   })
 
   local Barbecue = vim.api.nvim_create_augroup("Barbecue", {})
-  vim.api.nvim_create_autocmd(M.config.update_events, {
+  vim.api.nvim_create_autocmd(state.config.update_events, {
     group = Barbecue,
     callback = function(args)
       vim.schedule(function()
@@ -35,8 +32,8 @@ M.setup = function(config)
           return
         end
 
-        vim.opt_local.winbar = M.config.prefix
-          .. utils.str_gsub(dirname, "/", utils.str_escape(M.config.separator), 2)
+        vim.opt_local.winbar = state.config.prefix
+          .. utils.str_gsub(dirname, "/", utils.str_escape(state.config.separator), 2)
           .. ((icon == nil or highlight == nil) and "" or "%#" .. highlight .. "#" .. icon .. "%* ")
           .. "%#"
           .. (vim.bo.modified and "BufferCurrentMod" or "BufferCurrent")
@@ -45,7 +42,7 @@ M.setup = function(config)
           .. "%*"
 
         if location ~= nil then
-          vim.opt_local.winbar:append(M.config.separator .. location)
+          vim.opt_local.winbar:append(state.config.separator .. location)
         end
       end)
     end,

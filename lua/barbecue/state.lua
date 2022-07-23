@@ -1,7 +1,7 @@
-local C = {}
+local S = {}
 
 ---@type table
-C.default_config = {
+S.default_config = {
   exclude_float = true,
   include_buftypes = { "" },
 
@@ -48,4 +48,7 @@ C.default_config = {
   },
 }
 
-return C
+---@type table
+S.config = S.default_config
+
+return S

@@ -1,5 +1,5 @@
 local navic = require("nvim-navic")
-local barbecue = require("barbecue")
+local state = require("barbecue.state")
 
 local U = {}
 
@@ -32,7 +32,7 @@ U.excludes = function(buffnr, winnr)
   local buftype = vim.api.nvim_buf_get_option(buffnr, "buftype")
   local relative = vim.api.nvim_win_get_config(winnr).relative
 
-  return not vim.tbl_contains(barbecue.config.include_buftypes, buftype) or (barbecue.config.exclude_float and relative ~= "")
+  return not vim.tbl_contains(state.config.include_buftypes, buftype) or (state.config.exclude_float and relative ~= "")
 end
 
 ---Returns all the information about the current buffer
@@ -44,7 +44,7 @@ end
 ---@return string highlight
 U.get_buf_metadata = function(filepath, buffnr)
   -- Gets the current buffer filepath with trailing slash
-  local dirname = vim.fn.fnamemodify(filepath, (barbecue.config.tilde_home and ":~" or "") .. ":.:h") .. "/"
+  local dirname = vim.fn.fnamemodify(filepath, (state.config.tilde_home and ":~" or "") .. ":.:h") .. "/"
   -- Treats the first slash as directory instead of separator
   if dirname ~= "//" and dirname:sub(1, 1) == "/" then
     dirname = "/" .. dirname
@@ -74,7 +74,7 @@ U.get_location = function()
   local location = nil
   if navic.is_available() then
     location = navic.get_location()
-    location = location == "" and barbecue.config.no_info_indicator or location
+    location = location == "" and state.config.no_info_indicator or location
   end
 
   return location
