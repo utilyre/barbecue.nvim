@@ -80,4 +80,17 @@ U.get_context = function()
   return context
 end
 
+---Returns parent window of the given buffer or `nil` if buffer is hidden
+---@return number|nil
+U.get_buf_win = function(buffnr)
+  local wins = vim.api.nvim_list_wins()
+  for _, win in ipairs(wins) do
+    if buffnr == vim.api.nvim_win_get_buf(win) then
+      return win
+    end
+  end
+
+  return nil
+end
+
 return U

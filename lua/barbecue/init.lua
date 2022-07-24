@@ -19,10 +19,12 @@ M.setup = function(config)
   vim.api.nvim_create_autocmd(state.config.update_events, {
     group = Barbecue,
     callback = function(args)
-      local winnr = vim.api.nvim_get_current_win()
+      local winnr = utils.get_buf_win(args.buf)
+      if winnr == nil then
+        return
+      end
 
-      -- FIXME: Pass `args.buf` and `winnr` when `update_context` from nvim-navic is fixed
-      if utils.excludes(0, 0) then
+      if utils.excludes(args.buf, winnr) then
         vim.wo[winnr].winbar = nil
         return
       end
