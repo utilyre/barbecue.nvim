@@ -90,19 +90,13 @@ barbecue.setup({
   -- ...
   include_buftypes = { "" },
 
-  -- :h events
+  -- :help events
+  -- :help [event] (like :help BufWinEnter)
   update_events = {
-    -- When you open the file
     "BufWinEnter",
-
-    -- To show if file is saved or not
     "BufWritePost",
-
-    -- When lsp context might change
     "CursorMoved",
     "CursorMovedI",
-
-    -- The same as previous but also to show if file is saved or not
     "TextChanged",
     "TextChangedI",
   },
