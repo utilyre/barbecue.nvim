@@ -13,6 +13,7 @@ M.setup = function(config)
   navic.setup({
     separator = state.config.separator,
     icons = state.config.icons,
+    highlight = true,
   })
 
   vim.api.nvim_create_augroup("barbecue", {})
@@ -39,16 +40,21 @@ M.setup = function(config)
         end
 
         local winbar = state.config.prefix
-          .. utils.str_gsub(dirname, "/", utils.str_escape(state.config.separator), 2)
+          .. "%#NavicText#"
+          .. utils.str_gsub(
+            dirname,
+            "/",
+            utils.str_escape("%*%#NavicSeparator#" .. state.config.separator .. "%*%#NavicText#"),
+            2
+          )
+          .. "%*"
           .. ((icon == nil or highlight == nil) and "" or "%#" .. highlight .. "#" .. icon .. "%* ")
-          .. "%#"
-          .. (vim.bo[a.buf].modified and "BufferCurrentMod" or "BufferCurrent")
-          .. "#"
+          .. "%#NavicText#"
           .. filename
           .. "%*"
 
         if context ~= nil then
-          winbar = winbar .. state.config.separator .. context
+          winbar = winbar .. "%#NavicSeparator#" .. state.config.separator .. "%*" .. context
         end
 
         vim.wo[winnr].winbar = winbar

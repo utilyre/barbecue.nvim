@@ -148,24 +148,37 @@ barbecue.setup({
 
 ## 🎨 Highlight Groups
 
-For now highlights are passed directly through `icons`, `separator`, etc.
+It's basically the same as
+[nvim-navic](https://github.com/SmiteshP/nvim-navic).
 
-Here's an example:
-
-```lua
--- The general pattern is like this:
--- %#[hl]#[text]%*
-
-barbecue.setup({
-  separator = " %#Delimiter#%* ",
-  no_info_indicator = "%#NonText#…%*",
-  icons = {
-    File = "%#CmpItemKindFile#%* ",
-    Package = "%#CmpItemKindFolder#%* ",
-    -- ...
-  },
-})
-```
+- `NavicIconsFile`
+- `NavicIconsModule`
+- `NavicIconsNamespace`
+- `NavicIconsPackage`
+- `NavicIconsClass`
+- `NavicIconsMethod`
+- `NavicIconsProperty`
+- `NavicIconsField`
+- `NavicIconsConstructor`
+- `NavicIconsEnum`
+- `NavicIconsInterface`
+- `NavicIconsFunction`
+- `NavicIconsVariable`
+- `NavicIconsConstant`
+- `NavicIconsString`
+- `NavicIconsNumber`
+- `NavicIconsBoolean`
+- `NavicIconsArray`
+- `NavicIconsObject`
+- `NavicIconsKey`
+- `NavicIconsNull`
+- `NavicIconsEnumMember`
+- `NavicIconsStruct`
+- `NavicIconsEvent`
+- `NavicIconsOperator`
+- `NavicIconsTypeParameter`
+- `NavicText`
+- `NavicSeparator`
 
 ## 📓 Todo
 

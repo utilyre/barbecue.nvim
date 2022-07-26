@@ -74,7 +74,7 @@ U.get_context = function()
   local context = nil
   if navic.is_available() then
     context = navic.get_location()
-    context = context == "" and state.config.no_info_indicator or context
+    context = context == "" and "%#NavicText#" .. state.config.no_info_indicator .. "%*" or context
   end
 
   return context
