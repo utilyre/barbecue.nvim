@@ -15,23 +15,23 @@ M.setup = function(config)
     icons = state.config.icons,
   })
 
-  local Barbecue = vim.api.nvim_create_augroup("Barbecue", {})
+  vim.api.nvim_create_augroup("barbecue", {})
   vim.api.nvim_create_autocmd(state.config.update_events, {
-    group = Barbecue,
-    callback = function(args)
-      local winnr = utils.get_buf_win(args.buf)
+    group = "barbecue",
+    callback = function(a)
+      local winnr = utils.get_buf_win(a.buf)
       if winnr == nil then
         return
       end
 
-      if utils.excludes(args.buf, winnr) then
+      if utils.excludes(a.buf, winnr) then
         vim.wo[winnr].winbar = nil
         return
       end
 
       -- FIXME: Remove this schedule after `update_context` from nvim-navic is fixed
       vim.schedule(function()
-        local dirname, filename, highlight, icon = utils.get_buf_metadata(args.file, args.buf)
+        local dirname, filename, highlight, icon = utils.get_buf_metadata(a.file, a.buf)
         local context = utils.get_context()
 
         if filename == "" then
@@ -42,7 +42,7 @@ M.setup = function(config)
           .. utils.str_gsub(dirname, "/", utils.str_escape(state.config.separator), 2)
           .. ((icon == nil or highlight == nil) and "" or "%#" .. highlight .. "#" .. icon .. "%* ")
           .. "%#"
-          .. (vim.bo[args.buf].modified and "BufferCurrentMod" or "BufferCurrent")
+          .. (vim.bo[a.buf].modified and "BufferCurrentMod" or "BufferCurrent")
           .. "#"
           .. filename
           .. "%*"

@@ -25,11 +25,11 @@ U.str_gsub = function(str, patt, repl, from, to)
 end
 
 ---Returns `true` if current buffer should be excluded otherwise returns `false`
----@param buffnr number
+---@param bufnr number
 ---@param winnr number
 ---@return boolean
-U.excludes = function(buffnr, winnr)
-  local buftype = vim.bo[buffnr].buftype
+U.excludes = function(bufnr, winnr)
+  local buftype = vim.bo[bufnr].buftype
   local relative = vim.api.nvim_win_get_config(winnr).relative
 
   return not vim.tbl_contains(state.config.include_buftypes, buftype) or (state.config.exclude_float and relative ~= "")
@@ -37,12 +37,12 @@ end
 
 ---Returns all the information about the current buffer
 ---@param filepath string
----@param buffnr number
+---@param bufnr number
 ---@return string filepath
 ---@return string filename
 ---@return string icon
 ---@return string highlight
-U.get_buf_metadata = function(filepath, buffnr)
+U.get_buf_metadata = function(filepath, bufnr)
   -- Gets the current buffer filepath with trailing slash
   local dirname = vim.fn.fnamemodify(filepath, (state.config.tilde_home and ":~" or "") .. ":.:h") .. "/"
   -- Treats the first slash as directory instead of separator
@@ -58,7 +58,7 @@ U.get_buf_metadata = function(filepath, buffnr)
   local devicons_ok, devicons = pcall(require, "nvim-web-devicons")
   local icon, highlight = nil, nil
   if devicons_ok then
-    local filetype = vim.bo[buffnr].filetype
+    local filetype = vim.bo[bufnr].filetype
     icon, highlight = devicons.get_icon_by_filetype(filetype)
   end
 
@@ -82,10 +82,10 @@ end
 
 ---Returns parent window of the given buffer or `nil` if buffer is hidden
 ---@return number|nil
-U.get_buf_win = function(buffnr)
+U.get_buf_win = function(bufnr)
   local wins = vim.api.nvim_list_wins()
   for _, win in ipairs(wins) do
-    if buffnr == vim.api.nvim_win_get_buf(win) then
+    if bufnr == vim.api.nvim_win_get_buf(win) then
       return win
     end
   end

@@ -53,11 +53,11 @@ installer.on_server_ready(function(server)
   server:setup({
     -- ...
 
-    on_attach = function(client, buffnr)
+    on_attach = function(client, bufnr)
       -- ...
 
       if client.server_capabilities.documentSymbolProvider then
-        navic.attach(client, buffnr)
+        navic.attach(client, bufnr)
       end
 
       -- ...
