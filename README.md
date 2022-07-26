@@ -184,4 +184,3 @@ It's basically the same as
 
 - [ ] Add a preview gif in the readme.
 - [ ] Add `barbecue.nvim` help tag.
-- [ ] Add plugin specific highlights and have them default to the current highlights.
