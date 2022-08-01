@@ -43,29 +43,27 @@ local barbecue = require("barbecue")
 barbecue.setup()
 ```
 
-At last, attach nvim-navic to the language server
+At last, attach nvim-navic to the language server (e.g. tsserver)
 
 ```lua
-local installer = require("nvim-lsp-installer")
+local lspconfig = require("lspconfig")
 local navic = require("nvim-navic")
 
-installer.on_server_ready(function(server)
-  server:setup({
+lspconfig.tsserver.setup({
+  -- ...
+
+  on_attach = function(client, bufnr)
     -- ...
 
-    on_attach = function(client, bufnr)
-      -- ...
-
-      if client.server_capabilities.documentSymbolProvider then
-        navic.attach(client, bufnr)
-      end
-
-      -- ...
-    end,
+    if client.server_capabilities.documentSymbolProvider then
+      navic.attach(client, bufnr)
+    end
 
     -- ...
-  })
-end)
+  end,
+
+  -- ...
+})
 ```
 
 ## 🚠 Configuration
