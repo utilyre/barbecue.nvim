@@ -32,6 +32,15 @@ M.setup = function(config)
 
       -- FIXME: Remove this schedule after `update_context` from nvim-navic is fixed
       vim.schedule(function()
+        -- Sometimes `winnr` might not be valid due to schedule call
+        if not vim.api.nvim_win_is_valid(winnr) then
+          return
+        end
+        -- Checks if `bufnr` is still inside `winnr`
+        if a.buf ~= vim.api.nvim_win_get_buf(winnr) then
+          return
+        end
+
         local dirname, filename, highlight, icon = utils.get_buf_metadata(a.file, a.buf)
         local context = utils.get_context()
 
