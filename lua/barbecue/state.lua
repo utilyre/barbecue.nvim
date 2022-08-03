@@ -18,6 +18,8 @@ S.default_config = {
   prefix = " ",
   separator = " > ",
   no_info_indicator = "…",
+  modified_indicator = nil,
+
   icons = {
     File = " ",
     Module = " ",

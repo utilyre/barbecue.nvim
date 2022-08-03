@@ -112,6 +112,9 @@ barbecue.setup({
   -- (You're either at the root of your file or language server is broken)
   no_info_indicator = "…",
 
+  -- Symbol to show if file has been modified (not saved). It's usually `[+]` in vim
+  modified_indicator = nil,
+
   -- Icons passed to nvim-navic
   icons = {
     File = " ",
