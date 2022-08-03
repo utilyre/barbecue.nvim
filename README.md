@@ -113,6 +113,7 @@ barbecue.setup({
   no_info_indicator = "…",
 
   -- Symbol to show if file has been modified (not saved). It's usually `[+]` in vim
+  -- `nil` to disable
   modified_indicator = nil,
 
   -- Icons passed to nvim-navic
