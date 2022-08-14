@@ -16,7 +16,7 @@ S.default_config = {
 
   tilde_home = true,
   prefix = " ",
-  separator = " > ",
+  separator = "  ",
   no_info_indicator = "…",
   modified_indicator = nil,
 

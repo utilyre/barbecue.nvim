@@ -101,14 +101,14 @@ barbecue.setup({
     "TextChangedI",
   },
 
-  -- Show `~ > ...` instead of `/ > home > user > ...`
+  -- Show `~  ...` instead of `/  home  user  ...`
   tilde_home = true,
 
   -- Your winbar will have a little padding from the edge
   prefix = " ",
 
   -- The sign between each entry
-  separator = " > ",
+  separator = "  ",
 
   -- Show if lsp context is available but there is nothing to show
   no_info_indicator = "…",
