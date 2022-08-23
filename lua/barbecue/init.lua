@@ -87,7 +87,7 @@ M.setup = function(config)
             2
           )
           .. "%*"
-          .. ((icon == nil or highlight == nil) and "" or ("%#" .. highlight .. "#" .. icon .. "%* "))
+          .. ((icon == nil or highlight == nil) and "" or ("%#" .. highlight .. "#" .. icon .. " %*"))
           .. "%#NavicText#"
           .. filename
           .. (vim.bo[a.buf].modified and (state.config.modified_indicator or "") or "")
