@@ -70,7 +70,7 @@ lspconfig.tsserver.setup({
 
 ## 🚠 Configuration
 
-**Note:** nvim-navic is configured through barbecue's setup so you don't need
+**Note**: nvim-navic is configured through barbecue's setup so you don't need
 to (and should not) call its setup function.
 
 Sample setup with default configs
@@ -151,8 +151,10 @@ barbecue.setup({
 
 ## 🎨 Highlight Groups
 
-It's basically the same as
-[nvim-navic](https://github.com/SmiteshP/nvim-navic).
+It's basically the same as nvim-navic.
+
+**NOTE**: You don't need to worry about these as long as your colorscheme
+either supports nvim-navic itself or nvim-cmp.
 
 - `NavicIconsFile`
 - `NavicIconsModule`
