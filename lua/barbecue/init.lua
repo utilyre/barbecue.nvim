@@ -7,6 +7,10 @@ local M = {}
 ---Configures and starts the plugin
 ---@param config table
 M.setup = function(config)
+  if config == nil then
+    config = {}
+  end
+  
   -- Merges `config` into `default_config` (prefres `config`)
   state.config = vim.tbl_deep_extend("force", state.default_config, config)
 
