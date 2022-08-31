@@ -105,19 +105,21 @@ M.setup = function(config)
     highlight = true,
   })
 
-  vim.api.nvim_create_autocmd({
-    "BufWinEnter",
-    "BufWritePost",
-    "CursorMoved",
-    "CursorMovedI",
-    "TextChanged",
-    "TextChangedI",
-  }, {
-    group = vim.api.nvim_create_augroup("barbecue", {}),
-    callback = function(a)
-      M.update(a.file, a.buf)
-    end,
-  })
+  if state.config.create_autocmd then
+    vim.api.nvim_create_autocmd({
+      "BufWinEnter",
+      "BufWritePost",
+      "CursorMoved",
+      "CursorMovedI",
+      "TextChanged",
+      "TextChangedI",
+    }, {
+      group = vim.api.nvim_create_augroup("barbecue", {}),
+      callback = function(a)
+        M.update(a.file, a.buf)
+      end,
+    })
+  end
 end
 
 return M

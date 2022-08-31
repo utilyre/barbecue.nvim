@@ -2,6 +2,8 @@ local S = {}
 
 ---@type table
 S.default_config = {
+  create_autocmd = true,
+
   exclude_float = true,
   include_buftypes = { "" },
 
