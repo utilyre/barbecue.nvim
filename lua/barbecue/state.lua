@@ -5,15 +5,6 @@ S.default_config = {
   exclude_float = true,
   include_buftypes = { "" },
 
-  update_events = {
-    "BufWinEnter",
-    "BufWritePost",
-    "CursorMoved",
-    "CursorMovedI",
-    "TextChanged",
-    "TextChangedI",
-  },
-
   tilde_home = true,
   prefix = " ",
   separator = "  ",
