@@ -100,4 +100,10 @@ U.hl_link_default = function(from, to)
   vim.api.nvim_set_hl(0, from, { default = true, link = to })
 end
 
+---Notifies with error
+---@param msg string
+U.error = function(msg)
+  vim.notify(msg, vim.log.levels.ERROR, { title = "barbecue.nvim" })
+end
+
 return U

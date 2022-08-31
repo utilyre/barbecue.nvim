@@ -8,6 +8,15 @@ local M = {}
 ---@param file string
 ---@param buf number
 M.update = function(file, buf)
+  if file == nil then
+    utils.error("file parameter is missing")
+    return
+  end
+  if buf == nil then
+    utils.error("buf parameter is missing")
+    return
+  end
+
   local winnr = utils.get_buf_win(buf)
   if winnr == nil then
     return
