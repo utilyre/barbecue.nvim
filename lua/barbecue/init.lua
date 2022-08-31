@@ -6,23 +6,23 @@ local M = {}
 
 ---Updates the winbar
 ---@param file string
----@param buf number
-M.update = function(file, buf)
+---@param bufnr number
+M.update = function(file, bufnr)
   if file == nil then
     utils.error("file parameter is missing")
     return
   end
-  if buf == nil then
+  if bufnr == nil then
     utils.error("buf parameter is missing")
     return
   end
 
-  local winnr = utils.get_buf_win(buf)
+  local winnr = utils.get_buf_win(bufnr)
   if winnr == nil then
     return
   end
 
-  if utils.excludes(buf, winnr) then
+  if utils.excludes(bufnr, winnr) then
     vim.wo[winnr].winbar = nil
     return
   end
@@ -34,11 +34,11 @@ M.update = function(file, buf)
       return
     end
     -- Checks if `bufnr` is still inside `winnr`
-    if buf ~= vim.api.nvim_win_get_buf(winnr) then
+    if bufnr ~= vim.api.nvim_win_get_buf(winnr) then
       return
     end
 
-    local dirname, filename, highlight, icon = utils.get_buf_metadata(file, buf)
+    local dirname, filename, highlight, icon = utils.get_buf_metadata(file, bufnr)
     local context = utils.get_context()
 
     if filename == "" then
@@ -57,7 +57,7 @@ M.update = function(file, buf)
       .. ((icon == nil or highlight == nil) and "" or ("%#" .. highlight .. "#" .. icon .. " %*"))
       .. "%#NavicText#"
       .. filename
-      .. (vim.bo[buf].modified and (state.config.modified_indicator or "") or "")
+      .. (vim.bo[bufnr].modified and (state.config.modified_indicator or "") or "")
       .. "%*"
 
     if context ~= nil then
