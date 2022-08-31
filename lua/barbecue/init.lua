@@ -9,11 +9,15 @@ local M = {}
 ---@param bufnr number
 M.update = function(file, bufnr)
   if file == nil then
-    utils.error("file parameter is missing")
+    utils.error("file is missing")
     return
   end
   if bufnr == nil then
-    utils.error("buf parameter is missing")
+    utils.error("bufnr is missing")
+    return
+  end
+  if not vim.api.nvim_buf_is_valid(bufnr) then
+    utils.error("bufnr is not valid")
     return
   end
 
