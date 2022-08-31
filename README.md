@@ -79,6 +79,9 @@ Sample setup with default configs
 local barbecue = require("barbecue")
 
 barbecue.setup({
+  -- Whether to create an autocmd to update winbar
+  create_autocmd = true,
+
   -- If you set this to false, floating windows will look weird
   exclude_float = true,
 
@@ -89,17 +92,6 @@ barbecue.setup({
   -- "terminal": e.g. fterm.nvim and toggleterm.nvim
   -- ...
   include_buftypes = { "" },
-
-  -- :help events
-  -- :help [event] (like :help BufWinEnter)
-  update_events = {
-    "BufWinEnter",
-    "BufWritePost",
-    "CursorMoved",
-    "CursorMovedI",
-    "TextChanged",
-    "TextChangedI",
-  },
 
   -- Show `~  ...` instead of `/  home  user  ...`
   tilde_home = true,
