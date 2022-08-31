@@ -93,4 +93,11 @@ U.get_buf_win = function(bufnr)
   return nil
 end
 
+---Links a highlight group to another if it didn't exist
+---@param from string
+---@param to string
+U.hl_link_default = function(from, to)
+  vim.api.nvim_set_hl(0, from, { default = true, link = to })
+end
+
 return U
