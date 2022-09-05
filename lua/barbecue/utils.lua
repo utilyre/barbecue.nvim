@@ -41,7 +41,7 @@ end
 ---@return string highlight
 U.get_buf_metadata = function(filepath, bufnr)
   -- Gets the current buffer filepath with trailing slash
-  local dirname = vim.fn.fnamemodify(filepath, (state.config.tilde_home and ":~" or "") .. ":.:h") .. "/"
+  local dirname = vim.fn.fnamemodify(filepath, state.config.dirname_mods .. ":h") .. "/"
   -- Treats the first slash as directory instead of separator
   if dirname ~= "//" and dirname:sub(1, 1) == "/" then
     dirname = "/" .. dirname
@@ -60,7 +60,7 @@ U.get_buf_metadata = function(filepath, bufnr)
   end
 
   -- Gets the current buffer name
-  local filename = vim.fn.fnamemodify(filepath, ":t")
+  local filename = vim.fn.fnamemodify(filepath, state.config.filename_mods .. ":t")
 
   return dirname, filename, highlight, icon
 end

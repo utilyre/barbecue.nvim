@@ -3,10 +3,11 @@ local S = {}
 ---@type table
 S.default_config = {
   create_autocmd = true,
-
   include_buftypes = { "" },
 
-  tilde_home = true,
+  dirname_mods = ":~:.",
+  filename_mods = "",
+
   prefix = " ",
   separator = "  ",
   no_info_indicator = "…",

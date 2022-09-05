@@ -90,8 +90,9 @@ barbecue.setup({
   -- ...
   include_buftypes = { "" },
 
-  -- Show `~  ...` instead of `/  home  user  ...`
-  tilde_home = true,
+  -- :help filename-modifiers
+  dirname_mods = ":~:.",
+  filename_mods = "",
 
   -- Your winbar will have a little padding from the edge
   prefix = " ",
