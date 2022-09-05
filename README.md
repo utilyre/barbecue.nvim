@@ -70,7 +70,7 @@ lspconfig.tsserver.setup({
 
 ## 🚠 Configuration
 
-**Note**: nvim-navic is configured through barbecue's setup so you don't need
+**NOTE**: nvim-navic is configured through barbecue's setup so you don't need
 to (and should not) call its setup function.
 
 Sample setup with default configs
@@ -85,7 +85,7 @@ barbecue.setup({
   -- If you set this to false, floating windows will look weird
   exclude_float = true,
 
-  -- Instead of excluding countless number of filetypes, barbecue tries to only show on some buftypes
+  -- Instead of excluding countless number of filetypes, barbecue tries to only be shown on some buftypes
   -- "": file buffer
   -- "nofile": e.g. nvim-tree and nvim-dap-ui
   -- "prompt": e.g. telescope.nvim and nvim-fzf
