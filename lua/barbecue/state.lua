@@ -4,7 +4,6 @@ local S = {}
 S.default_config = {
   create_autocmd = true,
 
-  exclude_float = true,
   include_buftypes = { "" },
 
   tilde_home = true,

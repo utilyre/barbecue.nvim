@@ -26,7 +26,7 @@ M.update = function(file, bufnr)
     return
   end
 
-  if utils.excludes(bufnr, winnr) then
+  if utils.excludes(bufnr) then
     vim.wo[winnr].winbar = nil
     return
   end

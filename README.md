@@ -82,9 +82,6 @@ barbecue.setup({
   -- Whether to create an autocmd to update winbar
   create_autocmd = true,
 
-  -- If you set this to false, floating windows will look weird
-  exclude_float = true,
-
   -- Instead of excluding countless number of filetypes, barbecue tries to only be shown on some buftypes
   -- "": file buffer
   -- "nofile": e.g. nvim-tree and nvim-dap-ui

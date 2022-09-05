@@ -26,13 +26,10 @@ end
 
 ---Returns `true` if current buffer should be excluded otherwise returns `false`
 ---@param bufnr number
----@param winnr number
 ---@return boolean
-U.excludes = function(bufnr, winnr)
+U.excludes = function(bufnr)
   local buftype = vim.bo[bufnr].buftype
-  local relative = vim.api.nvim_win_get_config(winnr).relative
-
-  return not vim.tbl_contains(state.config.include_buftypes, buftype) or (state.config.exclude_float and relative ~= "")
+  return not vim.tbl_contains(state.config.include_buftypes, buftype)
 end
 
 ---Returns all the information about the current buffer
