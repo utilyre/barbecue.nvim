@@ -6,7 +6,7 @@ S.default_config = {
   include_buftypes = { "" },
 
   dirname_mods = ":~:.",
-  filename_mods = "",
+  basename_mods = "",
 
   prefix = " ",
   separator = "  ",

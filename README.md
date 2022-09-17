@@ -92,7 +92,7 @@ barbecue.setup({
 
   -- :help filename-modifiers
   dirname_mods = ":~:.",
-  filename_mods = "",
+  basename_mods = "",
 
   -- Your winbar will have a little padding from the edge
   prefix = " ",

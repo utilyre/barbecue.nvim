@@ -60,7 +60,7 @@ U.buf_get_metadata = function(filename, bufnr)
   end
 
   -- Gets the current buffer basename
-  local basename = vim.fn.fnamemodify(filename, state.config.filename_mods .. ":t")
+  local basename = vim.fn.fnamemodify(filename, state.config.basename_mods .. ":t")
 
   return dirname, basename, highlight, icon
 end
