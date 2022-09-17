@@ -15,6 +15,13 @@ function M.update(bufnr)
   end
 
   vim.schedule(function()
+    local winnrs = utils.buf_get_wins(bufnr)
+    for _, winnr in ipairs(winnrs) do
+      if vim.api.nvim_win_get_buf(winnr) ~= bufnr then
+        return
+      end
+    end
+
     local dirname, basename, highlight, icon = utils.buf_get_metadata(bufnr)
     local context = utils.buf_get_context()
 
@@ -41,7 +48,7 @@ function M.update(bufnr)
       winbar = winbar .. "%#NavicSeparator#" .. state.config.separator .. "%*" .. context
     end
 
-    for _, winnr in ipairs(utils.buf_get_wins(bufnr)) do
+    for _, winnr in ipairs(winnrs) do
       vim.wo[winnr].winbar = winbar
     end
   end)
