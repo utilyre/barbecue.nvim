@@ -6,7 +6,7 @@ local U = {}
 ---Escapes the given string from lua regex
 ---@param str string
 ---@return string
-U.str_escape = function(str)
+function U.str_escape(str)
   local escaped = str:gsub("[%^%$%(%)%%%.%[%]%*%+%-%?]", "%%%1")
   return escaped
 end
@@ -18,7 +18,7 @@ end
 ---@param from integer?
 ---@param to integer?
 ---@return string
-U.str_gsub = function(str, patt, repl, from, to)
+function U.str_gsub(str, patt, repl, from, to)
   from = from or 1
   to = to or str:len()
   return str:sub(1, from - 1) .. str:sub(from, to):gsub(patt, repl) .. str:sub(to + 1, str:len())
@@ -27,7 +27,7 @@ end
 ---Returns true if the given bufnr shall be excluded otherwise false
 ---@param bufnr number
 ---@return boolean
-U.excludes = function(bufnr)
+function U.excludes(bufnr)
   local buftype = vim.bo[bufnr].buftype
   return not vim.tbl_contains(state.config.include_buftypes, buftype)
 end
@@ -39,7 +39,7 @@ end
 ---@return string basename
 ---@return string highlight
 ---@return string icon
-U.buf_get_metadata = function(filename, bufnr)
+function U.buf_get_metadata(filename, bufnr)
   -- Gets the current buffer dirname with trailing slash
   local dirname = vim.fn.fnamemodify(filename, state.config.dirname_mods .. ":h") .. "/"
   -- Treats the first slash as directory instead of separator
@@ -67,7 +67,7 @@ end
 
 ---Returns the current lsp context
 ---@return string
-U.get_context = function()
+function U.get_context()
   local context = nil
   if navic.is_available() then
     context = navic.get_location()
@@ -79,7 +79,7 @@ end
 
 ---Returns parent window of the given buffer or -1 if buffer is hidden
 ---@return number
-U.buf_get_win = function(bufnr)
+function U.buf_get_win(bufnr)
   local wins = vim.api.nvim_list_wins()
   for _, win in ipairs(wins) do
     if bufnr == vim.api.nvim_win_get_buf(win) then
@@ -92,7 +92,7 @@ end
 
 ---Notifies with error
 ---@param msg string
-U.error = function(msg)
+function U.error(msg)
   vim.notify(msg, vim.log.levels.ERROR, { title = "barbecue.nvim" })
 end
 

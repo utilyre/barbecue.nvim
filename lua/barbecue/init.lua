@@ -7,7 +7,7 @@ local M = {}
 ---Updates the winbar
 ---@param filename string
 ---@param bufnr number
-M.update = function(filename, bufnr)
+function M.update(filename, bufnr)
   if filename == nil then
     utils.error("filename is missing")
     return
@@ -69,7 +69,7 @@ end
 
 ---Configures and starts the plugin
 ---@param config table
-M.setup = function(config)
+function M.setup(config)
   state.config = vim.tbl_deep_extend("force", state.default_config, config or {})
 
   -- Resorts to built-in and nvim-cmp highlight groups if nvim-navic highlight groups are not defined
