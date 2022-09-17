@@ -5,24 +5,20 @@ local utils = require("barbecue.utils")
 local M = {}
 
 ---Updates the winbar
----@param file string
+---@param filename string
 ---@param bufnr number
-M.update = function(file, bufnr)
-  if file == nil then
-    utils.error("file is missing")
+M.update = function(filename, bufnr)
+  if filename == nil then
+    utils.error("filename is missing")
     return
   end
   if bufnr == nil then
     utils.error("bufnr is missing")
     return
   end
-  if not vim.api.nvim_buf_is_valid(bufnr) then
-    utils.error("bufnr is not valid")
-    return
-  end
 
-  local winnr = utils.get_buf_win(bufnr)
-  if winnr == nil then
+  local winnr = utils.buf_get_win(bufnr)
+  if winnr == -1 then
     return
   end
 
@@ -31,21 +27,20 @@ M.update = function(file, bufnr)
     return
   end
 
-  -- FIXME: Remove this schedule after `update_context` from nvim-navic is fixed
   vim.schedule(function()
-    -- Sometimes `winnr` might not be valid due to schedule call
+    -- Window might not be valid due to schedule call
     if not vim.api.nvim_win_is_valid(winnr) then
       return
     end
-    -- Checks if `bufnr` is still inside `winnr`
+    -- Buffer might not still be inside window
     if bufnr ~= vim.api.nvim_win_get_buf(winnr) then
       return
     end
 
-    local dirname, filename, highlight, icon = utils.get_buf_metadata(file, bufnr)
+    local dirname, basename, highlight, icon = utils.buf_get_metadata(filename, bufnr)
     local context = utils.get_context()
 
-    if filename == "" then
+    if basename == "" then
       return
     end
 
@@ -60,7 +55,7 @@ M.update = function(file, bufnr)
       .. "%*"
       .. ((icon == nil or highlight == nil) and "" or ("%#" .. highlight .. "#" .. icon .. " %*"))
       .. "%#NavicText#"
-      .. filename
+      .. basename
       .. (vim.bo[bufnr].modified and (state.config.modified_indicator or "") or "")
       .. "%*"
 
@@ -75,42 +70,15 @@ end
 ---Configures and starts the plugin
 ---@param config table
 M.setup = function(config)
-  if config == nil then
-    config = {}
-  end
-
-  -- Merges `config` into `default_config` (prefres `config`)
-  state.config = vim.tbl_deep_extend("force", state.default_config, config)
+  state.config = vim.tbl_deep_extend("force", state.default_config, config or {})
 
   -- Resorts to built-in and nvim-cmp highlight groups if nvim-navic highlight groups are not defined
-  utils.hl_link_default("NavicText", "Normal")
-  utils.hl_link_default("NavicSeparator", "Conceal")
-  utils.hl_link_default("NavicIconsFile", "CmpItemKindFile")
-  utils.hl_link_default("NavicIconsPackage", "CmpItemKindFolder")
-  utils.hl_link_default("NavicIconsModule", "CmpItemKindModule")
-  utils.hl_link_default("NavicIconsNamespace", "CmpItemKindModule")
-  utils.hl_link_default("NavicIconsClass", "CmpItemKindClass")
-  utils.hl_link_default("NavicIconsConstructor", "CmpItemKindConstructor")
-  utils.hl_link_default("NavicIconsField", "CmpItemKindField")
-  utils.hl_link_default("NavicIconsProperty", "CmpItemKindProperty")
-  utils.hl_link_default("NavicIconsMethod", "CmpItemKindMethod")
-  utils.hl_link_default("NavicIconsStruct", "CmpItemKindStruct")
-  utils.hl_link_default("NavicIconsEvent", "CmpItemKindEvent")
-  utils.hl_link_default("NavicIconsInterface", "CmpItemKindInterface")
-  utils.hl_link_default("NavicIconsEnum", "CmpItemKindEnum")
-  utils.hl_link_default("NavicIconsEnumMember", "CmpItemKindEnumMember")
-  utils.hl_link_default("NavicIconsConstant", "CmpItemKindConstant")
-  utils.hl_link_default("NavicIconsFunction", "CmpItemKindFunction")
-  utils.hl_link_default("NavicIconsTypeParameter", "CmpItemKindTypeParameter")
-  utils.hl_link_default("NavicIconsVariable", "CmpItemKindVariable")
-  utils.hl_link_default("NavicIconsOperator", "CmpItemKindOperator")
-  utils.hl_link_default("NavicIconsNull", "CmpItemKindValue")
-  utils.hl_link_default("NavicIconsBoolean", "CmpItemKindValue")
-  utils.hl_link_default("NavicIconsNumber", "CmpItemKindValue")
-  utils.hl_link_default("NavicIconsString", "CmpItemKindValue")
-  utils.hl_link_default("NavicIconsKey", "CmpItemKindValue")
-  utils.hl_link_default("NavicIconsArray", "CmpItemKindValue")
-  utils.hl_link_default("NavicIconsObject", "CmpItemKindValue")
+  for from, to in pairs(state.default_highlights) do
+    vim.api.nvim_set_hl(0, from, {
+      link = to,
+      default = true,
+    })
+  end
 
   navic.setup({
     separator = state.config.separator,
