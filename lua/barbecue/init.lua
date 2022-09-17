@@ -10,26 +10,11 @@ function M.update(bufnr)
   -- Uses the current buffer if a specific buffer is not given
   bufnr = bufnr or vim.api.nvim_get_current_buf()
 
-  local winnr = utils.buf_get_win(bufnr)
-  if winnr == -1 then
-    return
-  end
-
   if utils.buf_excludes(bufnr) then
-    vim.wo[winnr].winbar = nil
     return
   end
 
   vim.schedule(function()
-    -- Window might not be valid due to schedule call
-    if not vim.api.nvim_win_is_valid(winnr) then
-      return
-    end
-    -- Buffer might not still be inside window
-    if bufnr ~= vim.api.nvim_win_get_buf(winnr) then
-      return
-    end
-
     local dirname, basename, highlight, icon = utils.buf_get_metadata(bufnr)
     local context = utils.buf_get_context()
 
@@ -56,7 +41,9 @@ function M.update(bufnr)
       winbar = winbar .. "%#NavicSeparator#" .. state.config.separator .. "%*" .. context
     end
 
-    vim.wo[winnr].winbar = winbar
+    for _, winnr in ipairs(utils.buf_get_wins(bufnr)) do
+      vim.wo[winnr].winbar = winbar
+    end
   end)
 end
 
