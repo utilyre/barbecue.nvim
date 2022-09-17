@@ -5,24 +5,17 @@ local utils = require("barbecue.utils")
 local M = {}
 
 ---Updates the winbar
----@param filename string
----@param bufnr number
-function M.update(filename, bufnr)
-  if filename == nil then
-    utils.error("filename is missing")
-    return
-  end
-  if bufnr == nil then
-    utils.error("bufnr is missing")
-    return
-  end
+---@param bufnr? number
+function M.update(bufnr)
+  -- Uses the current buffer if a specific buffer is not given
+  bufnr = bufnr or vim.api.nvim_get_current_buf()
 
   local winnr = utils.buf_get_win(bufnr)
   if winnr == -1 then
     return
   end
 
-  if utils.excludes(bufnr) then
+  if utils.buf_excludes(bufnr) then
     vim.wo[winnr].winbar = nil
     return
   end
@@ -37,8 +30,8 @@ function M.update(filename, bufnr)
       return
     end
 
-    local dirname, basename, highlight, icon = utils.buf_get_metadata(filename, bufnr)
-    local context = utils.get_context()
+    local dirname, basename, highlight, icon = utils.buf_get_metadata(bufnr)
+    local context = utils.buf_get_context()
 
     if basename == "" then
       return
@@ -97,7 +90,7 @@ function M.setup(config)
     }, {
       group = vim.api.nvim_create_augroup("barbecue", {}),
       callback = function(a)
-        M.update(a.file, a.buf)
+        M.update(a.buf)
       end,
     })
   end

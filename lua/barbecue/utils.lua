@@ -27,19 +27,33 @@ end
 ---Returns true if the given bufnr shall be excluded otherwise false
 ---@param bufnr number
 ---@return boolean
-function U.excludes(bufnr)
+function U.buf_excludes(bufnr)
   local buftype = vim.bo[bufnr].buftype
   return not vim.tbl_contains(state.config.include_buftypes, buftype)
 end
 
+---Returns parent window of the given buffer or -1 if buffer is hidden
+---@param bufnr number
+---@return number
+function U.buf_get_win(bufnr)
+  local wins = vim.api.nvim_list_wins()
+  for _, win in ipairs(wins) do
+    if bufnr == vim.api.nvim_win_get_buf(win) then
+      return win
+    end
+  end
+
+  return -1
+end
 ---Returns all the information about the current buffer
----@param filename string
 ---@param bufnr number
 ---@return string dirname
 ---@return string basename
 ---@return string highlight
 ---@return string icon
-function U.buf_get_metadata(filename, bufnr)
+function U.buf_get_metadata(bufnr)
+  local filename = vim.api.nvim_buf_get_name(bufnr)
+
   -- Gets the current buffer dirname with trailing slash
   local dirname = vim.fn.fnamemodify(filename, state.config.dirname_mods .. ":h") .. "/"
   -- Treats the first slash as directory instead of separator
@@ -67,7 +81,7 @@ end
 
 ---Returns the current lsp context
 ---@return string
-function U.get_context()
+function U.buf_get_context()
   local context = nil
   if navic.is_available() then
     context = navic.get_location()
@@ -75,25 +89,6 @@ function U.get_context()
   end
 
   return context
-end
-
----Returns parent window of the given buffer or -1 if buffer is hidden
----@return number
-function U.buf_get_win(bufnr)
-  local wins = vim.api.nvim_list_wins()
-  for _, win in ipairs(wins) do
-    if bufnr == vim.api.nvim_win_get_buf(win) then
-      return win
-    end
-  end
-
-  return -1
-end
-
----Notifies with error
----@param msg string
-function U.error(msg)
-  vim.notify(msg, vim.log.levels.ERROR, { title = "barbecue.nvim" })
 end
 
 return U
