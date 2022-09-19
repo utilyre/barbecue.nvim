@@ -163,7 +163,7 @@ vim.api.nvim_create_autocmd({
 }, {
   group = vim.api.nvim_create_augroup("barbecue", {}),
   callback = function(a)
-    M.update(a.buf)
+    require("barbecue").update(a.buf)
 
     -- Maybe a bit more logic here
   end,
