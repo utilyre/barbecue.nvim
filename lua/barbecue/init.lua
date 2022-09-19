@@ -10,12 +10,18 @@ function M.update(bufnr)
   -- Uses the current buffer if a specific buffer is not given
   bufnr = bufnr or vim.api.nvim_get_current_buf()
 
+  local winnrs = utils.buf_get_wins(bufnr)
   if utils.buf_excludes(bufnr) then
+    for _, winnr in ipairs(winnrs) do
+      vim.wo[winnr].winbar = nil
+    end
     return
   end
 
   vim.schedule(function()
-    local winnrs = utils.buf_get_wins(bufnr)
+    if not vim.api.nvim_buf_is_valid(bufnr) then
+      return
+    end
     for _, winnr in ipairs(winnrs) do
       if vim.api.nvim_win_get_buf(winnr) ~= bufnr then
         return
