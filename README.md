@@ -145,6 +145,31 @@ barbecue.setup({
 })
 ```
 
+---
+
+In order to customize the autocmd behavior, you need to override `barbecue`
+augroup (or ideally set `create_autocmd` to false and completely handle it
+yourself) like so
+
+```lua
+vim.api.nvim_create_autocmd({
+  "BufWinEnter",
+  "BufWritePost",
+  "CursorMoved",
+  "CursorMovedI",
+  "TextChanged",
+  "TextChangedI",
+  -- Add more events here
+}, {
+  group = vim.api.nvim_create_augroup("barbecue", {}),
+  callback = function(a)
+    M.update(a.buf)
+
+    -- Maybe a bit more logic here
+  end,
+})
+```
+
 ## 🎨 Highlight Groups
 
 It's basically the same as nvim-navic.
