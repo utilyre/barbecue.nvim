@@ -13,6 +13,10 @@ S.default_config = {
   no_info_indicator = "…",
   modified_indicator = nil,
 
+  custom_section = function()
+    return ""
+  end,
+
   icons = {
     File = " ",
     Module = " ",

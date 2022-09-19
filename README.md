@@ -107,6 +107,12 @@ barbecue.setup({
   -- `nil` to disable
   modified_indicator = nil,
 
+  -- Add custom content at the end of winbar
+  -- Return value has to be a string
+  custom_section = function(bufnr)
+    return ""
+  end,
+
   -- Icons passed to nvim-navic
   icons = {
     File = " ",

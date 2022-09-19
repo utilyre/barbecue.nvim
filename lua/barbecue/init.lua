@@ -48,6 +48,11 @@ function M.update(bufnr)
       winbar = winbar .. "%#NavicSeparator#" .. state.config.separator .. "%*" .. context
     end
 
+    local ok, custom_section = pcall(state.config.custom_section, bufnr)
+    if ok then
+      winbar = winbar .. "%=" .. custom_section
+    end
+
     for _, winnr in ipairs(winnrs) do
       vim.wo[winnr].winbar = winbar
     end
