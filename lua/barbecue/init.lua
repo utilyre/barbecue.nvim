@@ -23,6 +23,10 @@ function M.update(bufnr)
       return
     end
     for _, winnr in ipairs(winnrs) do
+      if not vim.api.nvim_win_is_valid(winnr) then
+        return
+      end
+
       if vim.api.nvim_win_get_buf(winnr) ~= bufnr then
         return
       end
