@@ -24,14 +24,6 @@ function U.str_gsub(str, patt, repl, from, to)
   return str:sub(1, from - 1) .. str:sub(from, to):gsub(patt, repl) .. str:sub(to + 1, str:len())
 end
 
----Returns true if the given bufnr shall be excluded otherwise false
----@param bufnr number
----@return boolean
-function U.buf_excludes(bufnr)
-  local buftype = vim.bo[bufnr].buftype
-  return not vim.tbl_contains(state.config.include_buftypes, buftype)
-end
-
 ---Returns all the information about the current buffer
 ---@param bufnr number
 ---@return string dirname

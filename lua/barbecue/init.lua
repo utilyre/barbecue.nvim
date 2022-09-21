@@ -11,7 +11,7 @@ function M.update(bufnr, winnr)
   bufnr = bufnr or vim.api.nvim_get_current_buf()
   winnr = winnr or vim.api.nvim_get_current_win()
 
-  if utils.buf_excludes(bufnr) then
+  if not vim.tbl_contains(state.config.include_buftypes, vim.bo[bufnr].buftype) then
     vim.wo[winnr].winbar = nil
     return
   end
