@@ -1,6 +1,5 @@
 local S = {}
 
----@type table
 S.default_config = {
   create_autocmd = true,
   include_buftypes = { "" },
@@ -47,7 +46,6 @@ S.default_config = {
   },
 }
 
---@type table
 S.default_highlights = {
   NavicText = "Normal",
   NavicSeparator = "Conceal",
@@ -79,7 +77,6 @@ S.default_highlights = {
   NavicIconsObject = "CmpItemKindValue",
 }
 
----@type table
 S.config = S.default_config
 
 return S
