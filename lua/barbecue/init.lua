@@ -55,7 +55,7 @@ function M.update(bufnr, winnr)
 
     local ok, custom_section = pcall(state.config.custom_section, bufnr)
     if ok then
-      winbar = winbar .. "%=" .. custom_section
+      winbar = winbar .. "%=%#NavicText#" .. custom_section .. "%*"
     end
 
     vim.wo[winnr].winbar = winbar
