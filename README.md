@@ -79,68 +79,127 @@ Sample setup with default configs
 local barbecue = require("barbecue")
 
 barbecue.setup({
-  -- Whether to create an autocmd to update winbar
+  ---whether to create winbar updater autocmd
+  ---@type boolean
   create_autocmd = true,
 
-  -- Instead of excluding countless number of filetypes, barbecue tries to only be shown on some buftypes
-  -- "": file buffer
-  -- "nofile": e.g. nvim-tree and nvim-dap-ui
-  -- "prompt": e.g. telescope.nvim and nvim-fzf
-  -- "terminal": e.g. fterm.nvim and toggleterm.nvim
-  -- ...
+  ---buftypes to enable winbar in
+  ---@type table
   include_buftypes = { "" },
 
-  -- :help filename-modifiers
-  dirname_mods = ":~:.",
-  basename_mods = "",
-
-  -- Your winbar will have a little padding from the edge
-  prefix = " ",
-
-  -- The sign between each entry
-  separator = "  ",
-
-  -- Show if lsp context is available but there is nothing to show
-  no_info_indicator = "…",
-
-  -- Symbol to show if file has been modified (not saved). It's usually `[+]` in vim
-  -- `nil` to disable
-  modified_indicator = nil,
-
-  -- Add custom content at the end of winbar
-  -- Return value has to be a string
+  ---returns a string to be shown at the end of winbar
+  ---@param bufnr number
+  ---@return string
   custom_section = function(bufnr)
     return ""
   end,
 
-  -- Icons passed to nvim-navic
-  icons = {
+  ---:help filename-modifiers
+  modifiers = {
+    ---@type string
+    dirname = ":~:.",
+
+    ---@type string
+    basename = "",
+  },
+
+  symbol = {
+    ---string to be shown at the start of winbar
+    ---@type string
+    prefix = " ",
+
+    ---entry separator
+    ---@type string
+    separator = "  ",
+
+    ---string to be shown when buffer is modified
+    ---@type string
+    modified = "",
+
+    ---string to be shown when context is available but empty
+    ---@type string
+    default_context = "…",
+  },
+
+  ---icons for different context entry kinds
+  kind = {
+    ---@type string
     File = " ",
-    Module = " ",
-    Namespace = " ",
+
+    ---@type string
     Package = " ",
+
+    ---@type string
+    Module = " ",
+
+    ---@type string
+    Namespace = " ",
+
+    ---@type string
     Class = " ",
-    Method = " ",
-    Property = " ",
-    Field = " ",
+
+    ---@type string
     Constructor = " ",
-    Enum = "練",
-    Interface = "練",
-    Function = " ",
-    Variable = " ",
-    Constant = " ",
-    String = " ",
-    Number = " ",
-    Boolean = "◩ ",
-    Array = " ",
-    Object = " ",
-    Key = " ",
-    Null = "ﳠ ",
-    EnumMember = " ",
+
+    ---@type string
+    Field = " ",
+
+    ---@type string
+    Property = " ",
+
+    ---@type string
+    Method = " ",
+
+    ---@type string
     Struct = " ",
+
+    ---@type string
     Event = " ",
-    Operator = " ",
+
+    ---@type string
+    Interface = "練",
+
+    ---@type string
+    Enum = "練",
+
+    ---@type string
+    EnumMember = " ",
+
+    ---@type string
+    Constant = " ",
+
+    ---@type string
+    Function = " ",
+
+    ---@type string
     TypeParameter = " ",
+
+    ---@type string
+    Variable = " ",
+
+    ---@type string
+    Operator = " ",
+
+    ---@type string
+    Null = "ﳠ ",
+
+    ---@type string
+    Boolean = "◩ ",
+
+    ---@type string
+    Number = " ",
+
+    ---@type string
+    String = " ",
+
+    ---@type string
+    Key = " ",
+
+    ---@type string
+    Array = " ",
+
+    ---@type string
+    Object = " ",
   },
 })
 ```

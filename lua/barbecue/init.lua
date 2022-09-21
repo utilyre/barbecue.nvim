@@ -34,19 +34,19 @@ function M.update(bufnr, winnr)
       return
     end
 
-    local winbar = state.config.prefix
+    local winbar = state.config.symbols.prefix
       .. "%#NavicText#"
       .. utils.str_gsub(
         dirname,
         "/",
-        utils.str_escape("%*%#NavicSeparator#" .. state.config.separator .. "%*%#NavicText#"),
+        utils.str_escape("%*%#NavicSeparator#" .. state.config.symbols.separator .. "%*%#NavicText#"),
         2
       )
       .. "%*"
       .. ((icon == nil or highlight == nil) and "" or ("%#" .. highlight .. "#" .. icon .. " %*"))
       .. "%#NavicText#"
       .. basename
-      .. (vim.bo[bufnr].modified and (state.config.modified_indicator or "") or "")
+      .. (vim.bo[bufnr].modified and state.config.symbols.modified or "")
       .. "%*"
       .. context
 
@@ -72,11 +72,7 @@ function M.setup(config)
     })
   end
 
-  navic.setup({
-    separator = state.config.separator,
-    icons = state.config.icons,
-    highlight = true,
-  })
+  navic.setup()
 
   if state.config.create_autocmd then
     vim.api.nvim_create_autocmd({

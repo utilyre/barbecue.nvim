@@ -42,7 +42,7 @@ function U.buf_get_metadata(bufnr)
   local filename = vim.api.nvim_buf_get_name(bufnr)
 
   -- Gets the current buffer dirname with trailing slash
-  local dirname = vim.fn.fnamemodify(filename, state.config.dirname_mods .. ":h") .. "/"
+  local dirname = vim.fn.fnamemodify(filename, state.config.modifiers.dirname .. ":h") .. "/"
   -- Treats the first slash as directory instead of separator
   if dirname ~= "//" and dirname:sub(1, 1) == "/" then
     dirname = "/" .. dirname
@@ -61,34 +61,42 @@ function U.buf_get_metadata(bufnr)
   end
 
   -- Gets the current buffer basename
-  local basename = vim.fn.fnamemodify(filename, state.config.basename_mods .. ":t")
+  local basename = vim.fn.fnamemodify(filename, state.config.modifiers.basename .. ":t")
 
   return dirname, basename, highlight, icon
 end
 
 ---Returns the current lsp context
 ---@param bufnr number
----@return string|nil
+---@return string
 function U.buf_get_context(bufnr)
   if not navic.is_available() then
     return ""
   end
 
   local data = navic.get_data(bufnr)
+  if data == nil then
+    return ""
+  end
+
   if #data == 0 then
-    return "%#NavicSeparator#" .. state.config.separator .. "%*%#NavicText#" .. state.config.no_info_indicator .. "%*"
+    return "%#NavicSeparator#"
+      .. state.config.symbols.separator
+      .. "%*%#NavicText#"
+      .. state.config.symbols.default_context
+      .. "%*"
   end
 
   local context = ""
   for _, entry in ipairs(data) do
     context = context
       .. "%#NavicSeparator#"
-      .. state.config.separator
+      .. state.config.symbols.separator
       .. "%*"
       .. "%#NavicIcons"
       .. entry.type
       .. "#"
-      .. state.config.icons[entry.type]
+      .. state.config.kinds[entry.type]
       .. "%*%#NavicText#"
       .. entry.name
       .. "%*"
