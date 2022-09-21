@@ -28,7 +28,7 @@ function M.update(bufnr, winnr)
     end
 
     local dirname, basename, highlight, icon = utils.buf_get_metadata(bufnr)
-    local context = utils.buf_get_context()
+    local context = utils.buf_get_context(bufnr)
 
     if basename == "" then
       return
@@ -48,10 +48,7 @@ function M.update(bufnr, winnr)
       .. basename
       .. (vim.bo[bufnr].modified and (state.config.modified_indicator or "") or "")
       .. "%*"
-
-    if context ~= nil then
-      winbar = winbar .. "%#NavicSeparator#" .. state.config.separator .. "%*" .. context
-    end
+      .. context
 
     local ok, custom_section = pcall(state.config.custom_section, bufnr)
     if ok then

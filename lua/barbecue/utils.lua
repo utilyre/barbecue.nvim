@@ -67,12 +67,31 @@ function U.buf_get_metadata(bufnr)
 end
 
 ---Returns the current lsp context
----@return string
-function U.buf_get_context()
-  local context = nil
-  if navic.is_available() then
-    context = navic.get_location()
-    context = context == "" and "%#NavicText#" .. state.config.no_info_indicator .. "%*" or context
+---@param bufnr number
+---@return string|nil
+function U.buf_get_context(bufnr)
+  if not navic.is_available() then
+    return ""
+  end
+
+  local data = navic.get_data(bufnr)
+  if #data == 0 then
+    return "%#NavicSeparator#" .. state.config.separator .. "%*%#NavicText#" .. state.config.no_info_indicator .. "%*"
+  end
+
+  local context = ""
+  for _, entry in ipairs(data) do
+    context = context
+      .. "%#NavicSeparator#"
+      .. state.config.separator
+      .. "%*"
+      .. "%#NavicIcons"
+      .. entry.type
+      .. "#"
+      .. state.config.icons[entry.type]
+      .. "%*%#NavicText#"
+      .. entry.name
+      .. "%*"
   end
 
   return context
