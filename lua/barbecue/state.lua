@@ -46,82 +46,82 @@ S.default_config = {
   ---icons for different context entry kinds
   kinds = {
     ---@type string
-    File = "",
+    File = "",
 
     ---@type string
-    Package = "",
+    Package = "",
 
     ---@type string
-    Module = "",
+    Module = "",
 
     ---@type string
-    Namespace = "",
+    Namespace = "",
 
     ---@type string
-    Class = "",
+    Class = "",
 
     ---@type string
-    Constructor = "",
+    Constructor = "",
 
     ---@type string
-    Field = "",
+    Field = "",
 
     ---@type string
-    Property = "",
+    Property = "",
 
     ---@type string
-    Method = "",
+    Method = "",
 
     ---@type string
-    Struct = "",
+    Struct = "",
 
     ---@type string
-    Event = "",
+    Event = "",
 
     ---@type string
-    Interface = "練",
+    Interface = "",
 
     ---@type string
-    Enum = "練",
+    Enum = "",
 
     ---@type string
-    EnumMember = "",
+    EnumMember = "",
 
     ---@type string
-    Constant = "",
+    Constant = "",
 
     ---@type string
-    Function = "",
+    Function = "",
 
     ---@type string
-    TypeParameter = "",
+    TypeParameter = "",
 
     ---@type string
-    Variable = "",
+    Variable = "",
 
     ---@type string
-    Operator = "",
+    Operator = "",
 
     ---@type string
-    Null = "ﳠ",
+    Null = "",
 
     ---@type string
-    Boolean = "◩",
+    Boolean = "",
 
     ---@type string
-    Number = "",
+    Number = "",
 
     ---@type string
-    String = "",
+    String = "",
 
     ---@type string
-    Key = "",
+    Key = "",
 
     ---@type string
-    Array = "",
+    Array = "",
 
     ---@type string
-    Object = "",
+    Object = "",
   },
 }
 
