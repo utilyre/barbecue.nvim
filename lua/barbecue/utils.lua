@@ -72,9 +72,9 @@ function U.buf_get_context(bufnr)
   end
 
   if #data == 0 then
-    return "%#NavicSeparator#"
+    return "%#NavicSeparator# "
       .. state.config.symbols.separator
-      .. "%*%#NavicText#"
+      .. " %*%#NavicText#"
       .. state.config.symbols.default_context
       .. "%*"
   end
@@ -82,14 +82,14 @@ function U.buf_get_context(bufnr)
   local context = ""
   for _, entry in ipairs(data) do
     context = context
-      .. "%#NavicSeparator#"
+      .. "%#NavicSeparator# "
       .. state.config.symbols.separator
-      .. "%*"
+      .. " %*"
       .. "%#NavicIcons"
       .. entry.type
       .. "#"
       .. state.config.kinds[entry.type]
-      .. "%*%#NavicText#"
+      .. " %*%#NavicText#"
       .. entry.name
       .. "%*"
   end

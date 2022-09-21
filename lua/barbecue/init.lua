@@ -39,14 +39,14 @@ function M.update(bufnr, winnr)
       .. utils.str_gsub(
         dirname,
         "/",
-        utils.str_escape("%*%#NavicSeparator#" .. state.config.symbols.separator .. "%*%#NavicText#"),
+        utils.str_escape("%*%#NavicSeparator# " .. state.config.symbols.separator .. " %*%#NavicText#"),
         2
       )
       .. "%*"
       .. ((icon == nil or highlight == nil) and "" or ("%#" .. highlight .. "#" .. icon .. " %*"))
       .. "%#NavicText#"
       .. basename
-      .. (vim.bo[bufnr].modified and state.config.symbols.modified or "")
+      .. (vim.bo[bufnr].modified and " " .. state.config.symbols.modified or "")
       .. "%*"
       .. context
 
