@@ -32,20 +32,6 @@ function U.buf_excludes(bufnr)
   return not vim.tbl_contains(state.config.include_buftypes, buftype)
 end
 
----Returns parent windows of the given buffer
----@param bufnr number
----@return table
-function U.buf_get_wins(bufnr)
-  local wins = vim.api.nvim_list_wins()
-
-  for i, win in ipairs(wins) do
-    if bufnr ~= vim.api.nvim_win_get_buf(win) then
-      table.remove(wins, i)
-    end
-  end
-
-  return wins
-end
 ---Returns all the information about the current buffer
 ---@param bufnr number
 ---@return string dirname

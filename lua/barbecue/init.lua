@@ -6,15 +6,13 @@ local M = {}
 
 ---Updates the winbar
 ---@param bufnr? number
-function M.update(bufnr)
-  -- Uses the current buffer if a specific buffer is not given
+---@param winnr? number
+function M.update(bufnr, winnr)
   bufnr = bufnr or vim.api.nvim_get_current_buf()
+  winnr = winnr or vim.api.nvim_get_current_win()
 
-  local winnrs = utils.buf_get_wins(bufnr)
   if utils.buf_excludes(bufnr) then
-    for _, winnr in ipairs(winnrs) do
-      vim.wo[winnr].winbar = nil
-    end
+    vim.wo[winnr].winbar = nil
     return
   end
 
@@ -22,14 +20,11 @@ function M.update(bufnr)
     if not vim.api.nvim_buf_is_valid(bufnr) then
       return
     end
-    for _, winnr in ipairs(winnrs) do
-      if not vim.api.nvim_win_is_valid(winnr) then
-        return
-      end
-
-      if vim.api.nvim_win_get_buf(winnr) ~= bufnr then
-        return
-      end
+    if not vim.api.nvim_win_is_valid(winnr) then
+      return
+    end
+    if bufnr ~= vim.api.nvim_win_get_buf(winnr) then
+      return
     end
 
     local dirname, basename, highlight, icon = utils.buf_get_metadata(bufnr)
@@ -63,9 +58,7 @@ function M.update(bufnr)
       winbar = winbar .. "%=" .. custom_section
     end
 
-    for _, winnr in ipairs(winnrs) do
-      vim.wo[winnr].winbar = winbar
-    end
+    vim.wo[winnr].winbar = winbar
   end)
 end
 
