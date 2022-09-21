@@ -218,13 +218,13 @@ vim.api.nvim_create_autocmd({
   "CursorMovedI",
   "TextChanged",
   "TextChangedI",
-  -- Add more events here
+  -- add more events here
 }, {
   group = vim.api.nvim_create_augroup("barbecue", {}),
   callback = function(a)
     require("barbecue").update(a.buf)
 
-    -- Maybe a bit more logic here
+    -- maybe a bit more logic here
   end,
 })
 ```

@@ -3,7 +3,7 @@ local state = require("barbecue.state")
 
 local U = {}
 
----Escapes the given string from lua regex
+---escapes the given string from lua regex
 ---@param str string
 ---@return string
 function U.str_escape(str)
@@ -11,7 +11,7 @@ function U.str_escape(str)
   return escaped
 end
 
----Subsitutes string within range
+---subsitutes string within range
 ---@param str string
 ---@param patt string
 ---@param repl string
@@ -24,7 +24,7 @@ function U.str_gsub(str, patt, repl, from, to)
   return str:sub(1, from - 1) .. str:sub(from, to):gsub(patt, repl) .. str:sub(to + 1, str:len())
 end
 
----Returns all the information about the current buffer
+---returns all the information about the current buffer
 ---@param bufnr number
 ---@return string dirname
 ---@return string basename
@@ -33,18 +33,18 @@ end
 function U.buf_get_metadata(bufnr)
   local filename = vim.api.nvim_buf_get_name(bufnr)
 
-  -- Gets the current buffer dirname with trailing slash
+  -- gets the current buffer dirname with trailing slash
   local dirname = vim.fn.fnamemodify(filename, state.config.modifiers.dirname .. ":h") .. "/"
-  -- Treats the first slash as directory instead of separator
+  -- treats the first slash as directory instead of separator
   if dirname ~= "//" and dirname:sub(1, 1) == "/" then
     dirname = "/" .. dirname
   end
-  -- Won't show the dirname if the file is in the current working directory
+  -- won't show the dirname if the file is in the current working directory
   if dirname == "./" then
     dirname = ""
   end
 
-  -- Obtains the current buffer icon and highlight group via web-devicons (optional)
+  -- obtains the current buffer icon and highlight group via web-devicons (optional)
   local devicons_ok, devicons = pcall(require, "nvim-web-devicons")
   local icon, highlight = nil, nil
   if devicons_ok then
@@ -52,13 +52,13 @@ function U.buf_get_metadata(bufnr)
     icon, highlight = devicons.get_icon_by_filetype(filetype)
   end
 
-  -- Gets the current buffer basename
+  -- gets the current buffer basename
   local basename = vim.fn.fnamemodify(filename, state.config.modifiers.basename .. ":t")
 
   return dirname, basename, highlight, icon
 end
 
----Returns the current lsp context
+---returns the current lsp context
 ---@param bufnr number
 ---@return string
 function U.buf_get_context(bufnr)

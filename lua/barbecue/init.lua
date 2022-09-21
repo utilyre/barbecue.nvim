@@ -4,7 +4,7 @@ local utils = require("barbecue.utils")
 
 local M = {}
 
----Updates the winbar
+---updates the winbar
 ---@param bufnr? number
 ---@param winnr? number
 function M.update(bufnr, winnr)
@@ -59,12 +59,12 @@ function M.update(bufnr, winnr)
   end)
 end
 
----Configures and starts the plugin
+---configures and starts the plugin
 ---@param config table
 function M.setup(config)
   state.config = vim.tbl_deep_extend("force", state.default_config, config or {})
 
-  -- Resorts to built-in and nvim-cmp highlight groups if nvim-navic highlight groups are not defined
+  -- resorts to built-in and nvim-cmp highlight groups if nvim-navic highlight groups are not defined
   for from, to in pairs(state.default_highlights) do
     vim.api.nvim_set_hl(0, from, {
       link = to,
