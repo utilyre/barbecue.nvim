@@ -11,7 +11,11 @@ function M.update(bufnr, winnr)
   bufnr = bufnr or vim.api.nvim_get_current_buf()
   winnr = winnr or vim.api.nvim_get_current_win()
 
-  if not vim.tbl_contains(state.config.include_buftypes, vim.bo[bufnr].buftype) then
+  if
+    not vim.tbl_contains(state.config.include_buftypes, vim.bo[bufnr].buftype)
+    or vim.tbl_contains(state.config.exclude_filetypes, vim.bo[bufnr].filetype)
+    or vim.api.nvim_win_get_config(winnr).relative ~= ""
+  then
     vim.wo[winnr].winbar = nil
     return
   end

@@ -92,6 +92,10 @@ to (and should not) call its setup function.
     ---@type table
     include_buftypes = { "" },
 
+    ---filetypes not to enable winbar in
+    ---@type table
+    exclude_filetypes = { "toggleterm" },
+
     ---returns a string to be shown at the end of winbar
     ---@param bufnr number
     ---@return string
