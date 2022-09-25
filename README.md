@@ -4,7 +4,7 @@ This is a vscode like winbar that uses
 [nvim-navic](https://github.com/SmiteshP/nvim-navic) in order to get lsp
 context from your language server.
 
-[![preview](./preview.jpg)](./preview.mp4)
+![preview](./preview.gif)
 
 ## 📦 Dependencies
 
