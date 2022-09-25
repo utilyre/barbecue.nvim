@@ -2,8 +2,8 @@
 
 <p align="center">
   This is a vscode like winbar that uses
-  [nvim-navic](https://github.com/SmiteshP/nvim-navic) in order to get lsp
-  context from your language server.
+  <a href="https://github.com/SmiteshP/nvim-navic">nvim-navic</a>
+  in order to get lsp context from your language server.
 </p>
 
 ![preview](./preview.gif)
