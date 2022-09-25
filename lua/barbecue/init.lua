@@ -17,13 +17,11 @@ function M.update(bufnr, winnr)
   end
 
   vim.schedule(function()
-    if not vim.api.nvim_buf_is_valid(bufnr) then
-      return
-    end
-    if not vim.api.nvim_win_is_valid(winnr) then
-      return
-    end
-    if bufnr ~= vim.api.nvim_win_get_buf(winnr) then
+    if
+      not vim.api.nvim_buf_is_valid(bufnr)
+      or not vim.api.nvim_win_is_valid(winnr)
+      or bufnr ~= vim.api.nvim_win_get_buf(winnr)
+    then
       return
     end
 
