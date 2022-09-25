@@ -4,6 +4,8 @@ This is a vscode like winbar that uses
 [nvim-navic](https://github.com/SmiteshP/nvim-navic) in order to get lsp
 context from your language server.
 
+[preview](./preview.mp4)
+
 ## 📦 Dependencies
 
 - [NVIM nightly](https://github.com/neovim/neovim/releases/tag/nightly): For winbar support.
