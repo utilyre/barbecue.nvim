@@ -271,5 +271,5 @@ either supports nvim-navic itself or nvim-cmp.
 
 ## 📓 Todo
 
-- [ ] Add a preview gif in the readme.
+- [x] Add a preview gif in the readme.
 - [ ] Add `barbecue.nvim` help tag.
