@@ -1,8 +1,10 @@
-# 🍡 Barbecue
+<h1 align="center">Barbecue</h1>
 
-This is a vscode like winbar that uses
-[nvim-navic](https://github.com/SmiteshP/nvim-navic) in order to get lsp
-context from your language server.
+<p align="center">
+  This is a vscode like winbar that uses
+  [nvim-navic](https://github.com/SmiteshP/nvim-navic) in order to get lsp
+  context from your language server.
+</p>
 
 ![preview](./preview.gif)
 
