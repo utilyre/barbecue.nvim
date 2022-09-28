@@ -51,8 +51,8 @@ function M.update(bufnr, winnr)
       .. context
       .. "%#NavicText#"
 
-    local ok, custom_section = pcall(state.config.custom_section, bufnr)
-    if ok then
+    local custom_section = state.config.custom_section(bufnr)
+    if type(custom_section) == "string" then
       winbar = winbar .. "%=" .. custom_section
     end
 
