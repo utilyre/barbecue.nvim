@@ -74,9 +74,8 @@ function U.buf_get_context(bufnr)
   if #data == 0 then
     return "%#NavicSeparator# "
       .. state.config.symbols.separator
-      .. " %*%#NavicText#"
+      .. " %#NavicText#"
       .. state.config.symbols.default_context
-      .. "%*"
   end
 
   local context = ""
@@ -84,14 +83,12 @@ function U.buf_get_context(bufnr)
     context = context
       .. "%#NavicSeparator# "
       .. state.config.symbols.separator
-      .. " %*"
-      .. "%#NavicIcons"
+      .. " %#NavicIcons"
       .. entry.type
       .. "#"
       .. state.config.kinds[entry.type]
-      .. " %*%#NavicText#"
+      .. " %#NavicText#"
       .. entry.name
-      .. "%*"
   end
 
   return context

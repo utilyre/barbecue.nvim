@@ -36,25 +36,24 @@ function M.update(bufnr, winnr)
       return
     end
 
-    local winbar = state.config.symbols.prefix
-      .. "%#NavicText#"
+    local winbar = "%#NavicText#"
+      .. state.config.symbols.prefix
       .. utils.str_gsub(
         dirname,
         "/",
-        utils.str_escape("%*%#NavicSeparator# " .. state.config.symbols.separator .. " %*%#NavicText#"),
+        utils.str_escape("%#NavicSeparator# " .. state.config.symbols.separator .. " %#NavicText#"),
         2
       )
-      .. "%*"
-      .. ((icon == nil or highlight == nil) and "" or ("%#" .. highlight .. "#" .. icon .. " %*"))
+      .. ((icon == nil or highlight == nil) and "" or ("%#" .. highlight .. "#" .. icon .. " "))
       .. "%#NavicText#"
       .. basename
       .. (vim.bo[bufnr].modified and " " .. state.config.symbols.modified or "")
-      .. "%*"
       .. context
+      .. "%#NavicText#"
 
     local ok, custom_section = pcall(state.config.custom_section, bufnr)
     if ok then
-      winbar = winbar .. "%=%#NavicText#" .. custom_section .. "%*"
+      winbar = winbar .. "%=" .. custom_section
     end
 
     vim.wo[winnr].winbar = winbar
