@@ -10,7 +10,7 @@
 
 ## 📦 Dependencies
 
-- [NVIM nightly](https://github.com/neovim/neovim/releases/tag/nightly): For winbar support.
+- [Nvim v0.8.0](https://github.com/neovim/neovim/releases/tag/v0.8.0): For winbar support.
 - [lspconfig](https://github.com/neovim/nvim-lspconfig): Needed by nvim-navic.
 - [nvim-navic](https://github.com/smiteshp/nvim-navic): Used to get lsp context information.
 - [nvim-web-devicons](https://github.com/kyazdani42/nvim-web-devicons): Install to optionally show file icon.
