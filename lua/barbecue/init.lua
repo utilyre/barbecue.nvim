@@ -29,7 +29,8 @@ function M.update(bufnr, winnr)
       return
     end
 
-    local dirname, basename, highlight, icon = utils.buf_get_metadata(bufnr)
+    local dirname, basename = utils.buf_get_filename(bufnr)
+    local icon, highlight = utils.buf_get_icon(bufnr)
     local context = utils.buf_get_context(bufnr)
 
     if basename == "" then
@@ -44,6 +45,9 @@ function M.update(bufnr, winnr)
         utils.str_escape("%#NavicSeparator# " .. state.config.symbols.separator .. " %#NavicText#"),
         2
       )
+      .. " %#NavicSeparator#"
+      .. state.config.symbols.separator
+      .. " "
       .. ((icon == nil or highlight == nil) and "" or ("%#" .. highlight .. "#" .. icon .. " "))
       .. "%#NavicText#"
       .. basename

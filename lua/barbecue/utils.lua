@@ -24,38 +24,41 @@ function U.str_gsub(str, patt, repl, from, to)
   return str:sub(1, from - 1) .. str:sub(from, to):gsub(patt, repl) .. str:sub(to + 1, str:len())
 end
 
----returns all the information about the current buffer
+---returns dirname and basename of the given buffer
 ---@param bufnr number
 ---@return string dirname
 ---@return string basename
----@return string highlight
----@return string icon
-function U.buf_get_metadata(bufnr)
+function U.buf_get_filename(bufnr)
   local filename = vim.api.nvim_buf_get_name(bufnr)
 
-  -- gets the current buffer dirname with trailing slash
-  local dirname = vim.fn.fnamemodify(filename, state.config.modifiers.dirname .. ":h") .. "/"
-  -- treats the first slash as directory instead of separator
-  if dirname ~= "//" and dirname:sub(1, 1) == "/" then
+  local dirname = vim.fn.fnamemodify(filename, state.config.modifiers.dirname .. ":h")
+  -- treats the first slash as a directory instead of a separator
+  if dirname ~= "/" and dirname:sub(1, 1) == "/" then
     dirname = "/" .. dirname
   end
   -- won't show the dirname if the file is in the current working directory
-  if dirname == "./" then
+  if dirname == "." then
     dirname = ""
   end
 
-  -- obtains the current buffer icon and highlight group via web-devicons (optional)
-  local devicons_ok, devicons = pcall(require, "nvim-web-devicons")
-  local icon, highlight = nil, nil
-  if devicons_ok then
-    local filetype = vim.bo[bufnr].filetype
-    icon, highlight = devicons.get_icon_by_filetype(filetype)
-  end
-
-  -- gets the current buffer basename
   local basename = vim.fn.fnamemodify(filename, state.config.modifiers.basename .. ":t")
 
-  return dirname, basename, highlight, icon
+  return dirname, basename
+end
+
+---returns devicon and its corresponding highlight group of the given buffer
+---@param bufnr number
+---@return string|nil icon
+---@return string|nil highlight
+function U.buf_get_icon(bufnr)
+  if package.loaded["nvim-web-devicons"] == nil then
+    return nil, nil
+  end
+
+  local devicons = require("nvim-web-devicons")
+  local icon, highlight = devicons.get_icon_by_filetype(vim.bo[bufnr].filetype)
+
+  return icon, highlight
 end
 
 ---returns the current lsp context
