@@ -52,7 +52,7 @@ function M.update(bufnr, winnr)
       .. "%#NavicText#"
 
     local custom_section = state.config.custom_section(bufnr)
-    if type(custom_section) == "string" then
+    if vim.tbl_contains({ "number", "string" }, type(custom_section)) then
       winbar = winbar .. "%=" .. custom_section
     end
 
