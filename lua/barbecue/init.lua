@@ -45,9 +45,6 @@ function M.update(bufnr, winnr)
         utils.str_escape("%#NavicSeparator# " .. state.config.symbols.separator .. " %#NavicText#"),
         2
       )
-      .. " %#NavicSeparator#"
-      .. state.config.symbols.separator
-      .. " "
       .. ((icon == nil or highlight == nil) and "" or ("%#" .. highlight .. "#" .. icon .. " "))
       .. "%#NavicText#"
       .. basename

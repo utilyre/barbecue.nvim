@@ -31,13 +31,13 @@ end
 function U.buf_get_filename(bufnr)
   local filename = vim.api.nvim_buf_get_name(bufnr)
 
-  local dirname = vim.fn.fnamemodify(filename, state.config.modifiers.dirname .. ":h")
+  local dirname = vim.fn.fnamemodify(filename, state.config.modifiers.dirname .. ":h") .. "/"
   -- treats the first slash as a directory instead of a separator
-  if dirname ~= "/" and dirname:sub(1, 1) == "/" then
+  if dirname ~= "//" and dirname:sub(1, 1) == "/" then
     dirname = "/" .. dirname
   end
   -- won't show the dirname if the file is in the current working directory
-  if dirname == "." then
+  if dirname == "./" then
     dirname = ""
   end
 
