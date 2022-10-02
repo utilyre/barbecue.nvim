@@ -51,13 +51,12 @@ end
 ---@return string|nil icon
 ---@return string|nil highlight
 function U.buf_get_icon(bufnr)
-  if package.loaded["nvim-web-devicons"] == nil then
+  local ok, devicons = pcall(require, "nvim-web-devicons")
+  if not ok then
     return nil, nil
   end
 
-  local devicons = require("nvim-web-devicons")
   local icon, highlight = devicons.get_icon_by_filetype(vim.bo[bufnr].filetype)
-
   return icon, highlight
 end
 
