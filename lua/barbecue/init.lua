@@ -48,7 +48,7 @@ function M.update(bufnr, winnr)
       .. ((icon == nil or highlight == nil) and "" or ("%#" .. highlight .. "#" .. icon .. " "))
       .. "%#NavicText#"
       .. basename
-      .. (vim.bo[bufnr].modified and " " .. G.config.symbols.modified or "")
+      .. (vim.bo[bufnr].modified and " %#BarbecueMod#" .. G.config.symbols.modified or "")
       .. context
       .. "%#NavicText#"
 

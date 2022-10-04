@@ -249,6 +249,7 @@ It's basically the same as nvim-navic.
 **NOTE**: You don't need to worry about these as long as your colorscheme
 either supports nvim-navic itself or nvim-cmp.
 
+- `BarbecueMod`
 - `NavicIconsFile`
 - `NavicIconsModule`
 - `NavicIconsNamespace`

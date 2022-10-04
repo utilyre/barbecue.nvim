@@ -3,6 +3,9 @@ local G = {}
 G.defaults = {
   HIGHLIGHTS = {
     ---@type string
+    BarbecueMod = "BufferVisibleMod",
+
+    ---@type string
     NavicText = "Normal",
 
     ---@type string
