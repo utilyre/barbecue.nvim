@@ -64,10 +64,10 @@ end
 ---configures and starts the plugin
 ---@param config table
 function M.setup(config)
-  G.config = vim.tbl_deep_extend("force", G.default_config, config or {})
+  G.config = vim.tbl_deep_extend("force", G.defaults.CONFIG, config or {})
 
   -- resorts to built-in and nvim-cmp highlight groups if nvim-navic highlight groups are not defined
-  for from, to in pairs(G.default_highlights) do
+  for from, to in pairs(G.defaults.HIGHLIGHTS) do
     vim.api.nvim_set_hl(0, from, {
       link = to,
       default = true,

@@ -1,220 +1,222 @@
 local G = {}
 
-G.default_config = {
-  ---whether to create winbar updater autocmd
-  ---@type boolean
-  create_autocmd = true,
-
-  ---buftypes to enable winbar in
-  ---@type table
-  include_buftypes = { "" },
-
-  ---filetypes not to enable winbar in
-  ---@type table
-  exclude_filetypes = { "toggleterm" },
-
-  ---returns a string to be shown at the end of winbar
-  ---@param bufnr number
-  ---@return string
-  custom_section = function(bufnr)
-    return ""
-  end,
-
-  ---:help filename-modifiers
-  modifiers = {
+G.defaults = {
+  HIGHLIGHTS = {
     ---@type string
-    dirname = ":~:.",
+    NavicText = "Normal",
 
     ---@type string
-    basename = "",
+    NavicSeparator = "Conceal",
+
+    ---@type string
+    NavicIconsFile = "CmpItemKindFile",
+
+    ---@type string
+    NavicIconsPackage = "CmpItemKindFolder",
+
+    ---@type string
+    NavicIconsModule = "CmpItemKindModule",
+
+    ---@type string
+    NavicIconsNamespace = "CmpItemKindModule",
+
+    ---@type string
+    NavicIconsClass = "CmpItemKindClass",
+
+    ---@type string
+    NavicIconsConstructor = "CmpItemKindConstructor",
+
+    ---@type string
+    NavicIconsField = "CmpItemKindField",
+
+    ---@type string
+    NavicIconsProperty = "CmpItemKindProperty",
+
+    ---@type string
+    NavicIconsMethod = "CmpItemKindMethod",
+
+    ---@type string
+    NavicIconsStruct = "CmpItemKindStruct",
+
+    ---@type string
+    NavicIconsEvent = "CmpItemKindEvent",
+
+    ---@type string
+    NavicIconsInterface = "CmpItemKindInterface",
+
+    ---@type string
+    NavicIconsEnum = "CmpItemKindEnum",
+
+    ---@type string
+    NavicIconsEnumMember = "CmpItemKindEnumMember",
+
+    ---@type string
+    NavicIconsConstant = "CmpItemKindConstant",
+
+    ---@type string
+    NavicIconsFunction = "CmpItemKindFunction",
+
+    ---@type string
+    NavicIconsTypeParameter = "CmpItemKindTypeParameter",
+
+    ---@type string
+    NavicIconsVariable = "CmpItemKindVariable",
+
+    ---@type string
+    NavicIconsOperator = "CmpItemKindOperator",
+
+    ---@type string
+    NavicIconsNull = "CmpItemKindValue",
+
+    ---@type string
+    NavicIconsBoolean = "CmpItemKindValue",
+
+    ---@type string
+    NavicIconsNumber = "CmpItemKindValue",
+
+    ---@type string
+    NavicIconsString = "CmpItemKindValue",
+
+    ---@type string
+    NavicIconsKey = "CmpItemKindValue",
+
+    ---@type string
+    NavicIconsArray = "CmpItemKindValue",
+
+    ---@type string
+    NavicIconsObject = "CmpItemKindValue",
   },
 
-  symbols = {
-    ---string to be shown at the start of winbar
-    ---@type string
-    prefix = " ",
+  CONFIG = {
+    ---whether to create winbar updater autocmd
+    ---@type boolean
+    create_autocmd = true,
 
-    ---entry separator
-    ---@type string
-    separator = "",
+    ---buftypes to enable winbar in
+    ---@type table
+    include_buftypes = { "" },
 
-    ---string to be shown when buffer is modified
-    ---@type string
-    modified = "",
+    ---filetypes not to enable winbar in
+    ---@type table
+    exclude_filetypes = { "toggleterm" },
 
-    ---string to be shown when context is available but empty
-    ---@type string
-    default_context = "…",
-  },
+    ---returns a string to be shown at the end of winbar
+    ---@param bufnr number
+    ---@return string
+    custom_section = function(bufnr)
+      return ""
+    end,
 
-  ---icons for different context entry kinds
-  kinds = {
-    ---@type string
-    File = "",
+    ---:help filename-modifiers
+    modifiers = {
+      ---@type string
+      dirname = ":~:.",
 
-    ---@type string
-    Package = "",
+      ---@type string
+      basename = "",
+    },
 
-    ---@type string
-    Module = "",
+    symbols = {
+      ---string to be shown at the start of winbar
+      ---@type string
+      prefix = " ",
 
-    ---@type string
-    Namespace = "",
+      ---entry separator
+      ---@type string
+      separator = "",
 
-    ---@type string
-    Class = "",
+      ---string to be shown when buffer is modified
+      ---@type string
+      modified = "",
 
-    ---@type string
-    Constructor = "",
+      ---string to be shown when context is available but empty
+      ---@type string
+      default_context = "…",
+    },
 
-    ---@type string
-    Field = "",
+    ---icons for different context entry kinds
+    kinds = {
+      ---@type string
+      File = "",
 
-    ---@type string
-    Property = "",
+      ---@type string
+      Package = "",
 
-    ---@type string
-    Method = "",
+      ---@type string
+      Module = "",
 
-    ---@type string
-    Struct = "",
+      ---@type string
+      Namespace = "",
 
-    ---@type string
-    Event = "",
+      ---@type string
+      Class = "",
 
-    ---@type string
-    Interface = "",
+      ---@type string
+      Constructor = "",
 
-    ---@type string
-    Enum = "",
+      ---@type string
+      Field = "",
 
-    ---@type string
-    EnumMember = "",
+      ---@type string
+      Property = "",
 
-    ---@type string
-    Constant = "",
+      ---@type string
+      Method = "",
 
-    ---@type string
-    Function = "",
+      ---@type string
+      Struct = "",
 
-    ---@type string
-    TypeParameter = "",
+      ---@type string
+      Event = "",
 
-    ---@type string
-    Variable = "",
+      ---@type string
+      Interface = "",
 
-    ---@type string
-    Operator = "",
+      ---@type string
+      Enum = "",
 
-    ---@type string
-    Null = "",
+      ---@type string
+      EnumMember = "",
 
-    ---@type string
-    Boolean = "",
+      ---@type string
+      Constant = "",
 
-    ---@type string
-    Number = "",
+      ---@type string
+      Function = "",
 
-    ---@type string
-    String = "",
+      ---@type string
+      TypeParameter = "",
 
-    ---@type string
-    Key = "",
+      ---@type string
+      Variable = "",
 
-    ---@type string
-    Array = "",
+      ---@type string
+      Operator = "",
 
-    ---@type string
-    Object = "",
+      ---@type string
+      Null = "",
+
+      ---@type string
+      Boolean = "",
+
+      ---@type string
+      Number = "",
+
+      ---@type string
+      String = "",
+
+      ---@type string
+      Key = "",
+
+      ---@type string
+      Array = "",
+
+      ---@type string
+      Object = "",
+    },
   },
 }
 
-G.default_highlights = {
-  ---@type string
-  NavicText = "Normal",
-
-  ---@type string
-  NavicSeparator = "Conceal",
-
-  ---@type string
-  NavicIconsFile = "CmpItemKindFile",
-
-  ---@type string
-  NavicIconsPackage = "CmpItemKindFolder",
-
-  ---@type string
-  NavicIconsModule = "CmpItemKindModule",
-
-  ---@type string
-  NavicIconsNamespace = "CmpItemKindModule",
-
-  ---@type string
-  NavicIconsClass = "CmpItemKindClass",
-
-  ---@type string
-  NavicIconsConstructor = "CmpItemKindConstructor",
-
-  ---@type string
-  NavicIconsField = "CmpItemKindField",
-
-  ---@type string
-  NavicIconsProperty = "CmpItemKindProperty",
-
-  ---@type string
-  NavicIconsMethod = "CmpItemKindMethod",
-
-  ---@type string
-  NavicIconsStruct = "CmpItemKindStruct",
-
-  ---@type string
-  NavicIconsEvent = "CmpItemKindEvent",
-
-  ---@type string
-  NavicIconsInterface = "CmpItemKindInterface",
-
-  ---@type string
-  NavicIconsEnum = "CmpItemKindEnum",
-
-  ---@type string
-  NavicIconsEnumMember = "CmpItemKindEnumMember",
-
-  ---@type string
-  NavicIconsConstant = "CmpItemKindConstant",
-
-  ---@type string
-  NavicIconsFunction = "CmpItemKindFunction",
-
-  ---@type string
-  NavicIconsTypeParameter = "CmpItemKindTypeParameter",
-
-  ---@type string
-  NavicIconsVariable = "CmpItemKindVariable",
-
-  ---@type string
-  NavicIconsOperator = "CmpItemKindOperator",
-
-  ---@type string
-  NavicIconsNull = "CmpItemKindValue",
-
-  ---@type string
-  NavicIconsBoolean = "CmpItemKindValue",
-
-  ---@type string
-  NavicIconsNumber = "CmpItemKindValue",
-
-  ---@type string
-  NavicIconsString = "CmpItemKindValue",
-
-  ---@type string
-  NavicIconsKey = "CmpItemKindValue",
-
-  ---@type string
-  NavicIconsArray = "CmpItemKindValue",
-
-  ---@type string
-  NavicIconsObject = "CmpItemKindValue",
-}
-
-G.config = G.default_config
+G.config = G.defaults.CONFIG
 
 return G
