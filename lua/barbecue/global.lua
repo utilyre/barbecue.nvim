@@ -149,6 +149,9 @@ G.defaults = {
       Namespace = "",
 
       ---@type string
+      Macro = "",
+
+      ---@type string
       Class = "",
 
       ---@type string

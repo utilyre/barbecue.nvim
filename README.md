@@ -145,6 +145,9 @@ to (and should not) call its setup function.
       Namespace = "",
 
       ---@type string
+      Macro = "",
+
+      ---@type string
       Class = "",
 
       ---@type string
