@@ -1,6 +1,6 @@
 local navic = require("nvim-navic")
-local state = require("barbecue.state")
 
+local G = require("barbecue.global")
 local U = {}
 
 ---escapes the given string from lua regex
@@ -31,7 +31,7 @@ end
 function U.buf_get_filename(bufnr)
   local filename = vim.api.nvim_buf_get_name(bufnr)
 
-  local dirname = vim.fn.fnamemodify(filename, state.config.modifiers.dirname .. ":h") .. "/"
+  local dirname = vim.fn.fnamemodify(filename, G.config.modifiers.dirname .. ":h") .. "/"
   -- treats the first slash as a directory instead of a separator
   if dirname ~= "//" and dirname:sub(1, 1) == "/" then
     dirname = "/" .. dirname
@@ -41,7 +41,7 @@ function U.buf_get_filename(bufnr)
     dirname = ""
   end
 
-  local basename = vim.fn.fnamemodify(filename, state.config.modifiers.basename .. ":t")
+  local basename = vim.fn.fnamemodify(filename, G.config.modifiers.basename .. ":t")
 
   return dirname, basename
 end
@@ -74,21 +74,18 @@ function U.buf_get_context(bufnr)
   end
 
   if #data == 0 then
-    return "%#NavicSeparator# "
-      .. state.config.symbols.separator
-      .. " %#NavicText#"
-      .. state.config.symbols.default_context
+    return "%#NavicSeparator# " .. G.config.symbols.separator .. " %#NavicText#" .. G.config.symbols.default_context
   end
 
   local context = ""
   for _, entry in ipairs(data) do
     context = context
       .. "%#NavicSeparator# "
-      .. state.config.symbols.separator
+      .. G.config.symbols.separator
       .. " %#NavicIcons"
       .. entry.type
       .. "#"
-      .. state.config.kinds[entry.type]
+      .. G.config.kinds[entry.type]
       .. " %#NavicText#"
       .. entry.name
   end

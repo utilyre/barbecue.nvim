@@ -1,7 +1,7 @@
 local navic = require("nvim-navic")
-local state = require("barbecue.state")
-local utils = require("barbecue.utils")
 
+local G = require("barbecue.global")
+local U = require("barbecue.utils")
 local M = {}
 
 ---updates the winbar
@@ -12,8 +12,8 @@ function M.update(bufnr, winnr)
   winnr = winnr or vim.api.nvim_get_current_win()
 
   if
-    not vim.tbl_contains(state.config.include_buftypes, vim.bo[bufnr].buftype)
-    or vim.tbl_contains(state.config.exclude_filetypes, vim.bo[bufnr].filetype)
+    not vim.tbl_contains(G.config.include_buftypes, vim.bo[bufnr].buftype)
+    or vim.tbl_contains(G.config.exclude_filetypes, vim.bo[bufnr].filetype)
     or vim.api.nvim_win_get_config(winnr).relative ~= ""
   then
     vim.wo[winnr].winbar = nil
@@ -29,30 +29,30 @@ function M.update(bufnr, winnr)
       return
     end
 
-    local dirname, basename = utils.buf_get_filename(bufnr)
-    local icon, highlight = utils.buf_get_icon(bufnr)
-    local context = utils.buf_get_context(bufnr)
+    local dirname, basename = U.buf_get_filename(bufnr)
+    local icon, highlight = U.buf_get_icon(bufnr)
+    local context = U.buf_get_context(bufnr)
 
     if basename == "" then
       return
     end
 
     local winbar = "%#NavicText#"
-      .. state.config.symbols.prefix
-      .. utils.str_gsub(
+      .. G.config.symbols.prefix
+      .. U.str_gsub(
         dirname,
         "/",
-        utils.str_escape("%#NavicSeparator# " .. state.config.symbols.separator .. " %#NavicText#"),
+        U.str_escape("%#NavicSeparator# " .. G.config.symbols.separator .. " %#NavicText#"),
         2
       )
       .. ((icon == nil or highlight == nil) and "" or ("%#" .. highlight .. "#" .. icon .. " "))
       .. "%#NavicText#"
       .. basename
-      .. (vim.bo[bufnr].modified and " " .. state.config.symbols.modified or "")
+      .. (vim.bo[bufnr].modified and " " .. G.config.symbols.modified or "")
       .. context
       .. "%#NavicText#"
 
-    local custom_section = state.config.custom_section(bufnr)
+    local custom_section = G.config.custom_section(bufnr)
     if vim.tbl_contains({ "number", "string" }, type(custom_section)) then
       winbar = winbar .. "%=" .. custom_section
     end
@@ -64,10 +64,10 @@ end
 ---configures and starts the plugin
 ---@param config table
 function M.setup(config)
-  state.config = vim.tbl_deep_extend("force", state.default_config, config or {})
+  G.config = vim.tbl_deep_extend("force", G.default_config, config or {})
 
   -- resorts to built-in and nvim-cmp highlight groups if nvim-navic highlight groups are not defined
-  for from, to in pairs(state.default_highlights) do
+  for from, to in pairs(G.default_highlights) do
     vim.api.nvim_set_hl(0, from, {
       link = to,
       default = true,
@@ -76,7 +76,7 @@ function M.setup(config)
 
   navic.setup()
 
-  if state.config.create_autocmd then
+  if G.config.create_autocmd then
     vim.api.nvim_create_autocmd({
       "BufWinEnter",
       "BufWritePost",

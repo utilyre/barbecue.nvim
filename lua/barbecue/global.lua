@@ -1,6 +1,6 @@
-local S = {}
+local G = {}
 
-S.default_config = {
+G.default_config = {
   ---whether to create winbar updater autocmd
   ---@type boolean
   create_autocmd = true,
@@ -129,7 +129,7 @@ S.default_config = {
   },
 }
 
-S.default_highlights = {
+G.default_highlights = {
   ---@type string
   NavicText = "Normal",
 
@@ -215,6 +215,6 @@ S.default_highlights = {
   NavicIconsObject = "CmpItemKindValue",
 }
 
-S.config = S.default_config
+G.config = G.default_config
 
-return S
+return G
