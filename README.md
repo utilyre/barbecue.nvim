@@ -6,7 +6,7 @@
   in order to get lsp context from your language server.
 </p>
 
-![preview](./preview.gif)
+![preview](https://user-images.githubusercontent.com/91974155/194353165-84489d2a-10f9-4023-ab70-eb23d00c2445.gif)
 
 ## 📦 Dependencies
 
