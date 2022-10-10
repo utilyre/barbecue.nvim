@@ -64,9 +64,9 @@ several things you should be aware of.
 
 ### Commands
 
-- `:BarbecueHide`: Hides winbar on all windows.
-- `:BarbecueShow`: Shows winbar on all windows.
-- `:BarbecueToggle`: Toggles winbar on all windows.
+- `:Barbecue hide`: Hides winbar on all windows.
+- `:Barbecue show`: Shows winbar on all windows.
+- `:Barbecue toggle`: Toggles winbar on all windows.
 
 ### Autocmd
 
