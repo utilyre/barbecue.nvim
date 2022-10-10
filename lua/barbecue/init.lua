@@ -125,8 +125,8 @@ function M.setup(config)
         return {}
       end
 
-      return vim.tbl_filter(function(command)
-        return vim.startswith(command, args[2])
+      return vim.tbl_filter(function(subcommand)
+        return vim.startswith(subcommand, args[2])
       end, { "show", "hide", "toggle" })
     end,
   })
