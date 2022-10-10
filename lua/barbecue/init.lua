@@ -96,18 +96,36 @@ function M.setup(config)
     })
   end
 
-  vim.api.nvim_create_user_command("BarbecueHide", function()
-    M.toggle(false)
-    M.update()
-  end, {})
-  vim.api.nvim_create_user_command("BarbecueShow", function()
-    M.toggle(true)
-    M.update()
-  end, {})
-  vim.api.nvim_create_user_command("BarbecueToggle", function()
-    M.toggle()
-    M.update()
-  end, {})
+  vim.api.nvim_create_user_command("Barbecue", function(params)
+    if #params.fargs < 1 then
+      return
+    end
+
+    local action = params.fargs[1]
+    if action == "hide" then
+      M.toggle(false)
+    elseif action == "show" then
+      M.toggle(true)
+    elseif action == "toggle" then
+      M.toggle()
+    end
+
+    for _, winnr in ipairs(vim.api.nvim_list_wins()) do
+      M.update(winnr)
+    end
+  end, {
+    nargs = "*",
+    complete = function(_, line)
+      local args = vim.split(line, "%s+")
+      if #args ~= 2 then
+        return {}
+      end
+
+      return vim.tbl_filter(function(command)
+        return vim.startswith(command, args[2])
+      end, { "show", "hide", "toggle" })
+    end,
+  })
 end
 
 ---toggles all the winbars
