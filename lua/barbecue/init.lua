@@ -92,6 +92,19 @@ function M.setup(config)
       end,
     })
   end
+
+  vim.api.nvim_create_user_command("BarbecueHide", function()
+    M.toggle(false)
+    M.update()
+  end, {})
+  vim.api.nvim_create_user_command("BarbecueShow", function()
+    M.toggle(true)
+    M.update()
+  end, {})
+  vim.api.nvim_create_user_command("BarbecueToggle", function()
+    M.toggle()
+    M.update()
+  end, {})
 end
 
 ---toggles all the winbars
