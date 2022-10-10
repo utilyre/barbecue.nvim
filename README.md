@@ -84,7 +84,11 @@ vim.api.nvim_create_autocmd({
 }, {
   group = vim.api.nvim_create_augroup("barbecue", {}),
   callback = function(a)
-    require("barbecue").update(a.buf)
+    for _, winnr in ipairs(vim.api.nvim_list_wins()) do
+      if a.buf == vim.api.nvim_win_get_buf(winnr) then
+        M.update(winnr)
+      end
+    end
 
     -- maybe a bit more logic here
   end,

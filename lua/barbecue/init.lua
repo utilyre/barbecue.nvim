@@ -5,11 +5,10 @@ local U = require("barbecue.utils")
 local M = {}
 
 ---updates the winbar
----@param bufnr number?
 ---@param winnr number?
-function M.update(bufnr, winnr)
-  bufnr = bufnr or vim.api.nvim_get_current_buf()
+function M.update(winnr)
   winnr = winnr or vim.api.nvim_get_current_win()
+  local bufnr = vim.api.nvim_win_get_buf(winnr)
 
   if
     not G.is_shown
@@ -88,7 +87,11 @@ function M.setup(config)
     }, {
       group = vim.api.nvim_create_augroup("barbecue", {}),
       callback = function(a)
-        M.update(a.buf)
+        for _, winnr in ipairs(vim.api.nvim_list_wins()) do
+          if a.buf == vim.api.nvim_win_get_buf(winnr) then
+            M.update(winnr)
+          end
+        end
       end,
     })
   end
