@@ -33,7 +33,8 @@ use {
 }
 ```
 
-Then attach nvim-navic to any language server you want barbecue to work with (e.g. tsserver)
+Then attach nvim-navic to any language server you want barbecue to work with
+(e.g. tsserver)
 
 ```lua
 local lspconfig = require("lspconfig")
@@ -58,7 +59,8 @@ lspconfig.tsserver.setup({
 
 ## 🚀 Usage
 
-Barbecue will work right after [installation](#-installation), but there are several things you should be aware of.
+Barbecue will work right after [installation](#-installation), but there are
+several things you should be aware of.
 
 ### Commands
 
