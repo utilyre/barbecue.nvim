@@ -225,4 +225,6 @@ G.defaults = {
 
 G.config = G.defaults.CONFIG
 
+G.is_shown = true
+
 return G
