@@ -5,8 +5,8 @@ local U = require("barbecue.utils")
 local M = {}
 
 ---updates the winbar
----@param bufnr? number
----@param winnr? number
+---@param bufnr number?
+---@param winnr number?
 function M.update(bufnr, winnr)
   bufnr = bufnr or vim.api.nvim_get_current_buf()
   winnr = winnr or vim.api.nvim_get_current_win()

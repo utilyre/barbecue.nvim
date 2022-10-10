@@ -15,8 +15,8 @@ end
 ---@param str string
 ---@param patt string
 ---@param repl string
----@param from integer?
----@param to integer?
+---@param from number?
+---@param to number?
 ---@return string
 function U.str_gsub(str, patt, repl, from, to)
   from = from or 1
