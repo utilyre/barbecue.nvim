@@ -19,8 +19,6 @@
 
 Install barbecue and its dependencies
 
-- With packer
-
 ```lua
 use {
   "utilyre/barbecue.nvim",
@@ -29,27 +27,13 @@ use {
     "smiteshp/nvim-navic",
     "kyazdani42/nvim-web-devicons", -- optional
   },
+  config = function()
+    require("barbecue").setup()
+  end,
 }
 ```
 
-- With vim-plug
-
-```vim
-Plug 'utilyre/barbecue.nvim'
-
-Plug 'neovim/nvim-lspconfig'
-Plug 'smiteshp/nvim-navic'
-Plug 'kyazdani42/nvim-web-devicons' " optional
-```
-
-Then call the setup function from somewhere in your config
-
-```lua
-local barbecue = require("barbecue")
-barbecue.setup()
-```
-
-At last, attach nvim-navic to any language server you want to (e.g. tsserver)
+Then attach nvim-navic to any language server you want barbecue to work with (e.g. tsserver)
 
 ```lua
 local lspconfig = require("lspconfig")
@@ -61,7 +45,7 @@ lspconfig.tsserver.setup({
   on_attach = function(client, bufnr)
     -- ...
 
-    if client.server_capabilities.documentSymbolProvider then
+    if client.server_capabilities["documentSymbolProvider"] then
       navic.attach(client, bufnr)
     end
 
@@ -69,6 +53,41 @@ lspconfig.tsserver.setup({
   end,
 
   -- ...
+})
+```
+
+## 🚀 Usage
+
+Barbecue will work right after [installation](#-installation), but there are several things you should be aware of.
+
+### Commands
+
+- `:BarbecueHide`: Hides winbar on all windows.
+- `:BarbecueShow`: Shows winbar on all windows.
+- `:BarbecueToggle`: Toggles winbar on all windows.
+
+### Autocmd
+
+In order to customize the autocmd behavior, you need to override `barbecue`
+augroup (or ideally set `create_autocmd` to false and completely handle it
+yourself) like so
+
+```lua
+vim.api.nvim_create_autocmd({
+  "BufWinEnter",
+  "BufWritePost",
+  "CursorMoved",
+  "CursorMovedI",
+  "TextChanged",
+  "TextChangedI",
+  -- add more events here
+}, {
+  group = vim.api.nvim_create_augroup("barbecue", {}),
+  callback = function(a)
+    require("barbecue").update(a.buf)
+
+    -- maybe a bit more logic here
+  end,
 })
 ```
 
@@ -216,31 +235,6 @@ to (and should not) call its setup function.
   })
   ```
 </details>
-
----
-
-In order to customize the autocmd behavior, you need to override `barbecue`
-augroup (or ideally set `create_autocmd` to false and completely handle it
-yourself) like so
-
-```lua
-vim.api.nvim_create_autocmd({
-  "BufWinEnter",
-  "BufWritePost",
-  "CursorMoved",
-  "CursorMovedI",
-  "TextChanged",
-  "TextChangedI",
-  -- add more events here
-}, {
-  group = vim.api.nvim_create_augroup("barbecue", {}),
-  callback = function(a)
-    require("barbecue").update(a.buf)
-
-    -- maybe a bit more logic here
-  end,
-})
-```
 
 ## 🎨 Highlight Groups
 
