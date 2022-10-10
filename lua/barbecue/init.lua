@@ -108,6 +108,10 @@ function M.setup(config)
       M.toggle(true)
     elseif action == "toggle" then
       M.toggle()
+    else
+      vim.notify(("'%s' is not a subcommand"):format(action), vim.log.levels.ERROR, {
+        title = "barbecue.nvim",
+      })
     end
 
     for _, winnr in ipairs(vim.api.nvim_list_wins()) do
