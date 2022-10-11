@@ -61,6 +61,19 @@ function M.update(winnr)
   end)
 end
 
+---toggles all the winbars
+---@param shown boolean?
+function M.toggle(shown)
+  if shown == nil then
+    shown = not G.is_shown
+  end
+
+  G.is_shown = shown
+  for _, winnr in ipairs(vim.api.nvim_list_wins()) do
+    M.update(winnr)
+  end
+end
+
 ---configures and starts the plugin
 ---@param config table
 function M.setup(config)
@@ -126,19 +139,6 @@ function M.setup(config)
       end, { "show", "hide", "toggle" })
     end,
   })
-end
-
----toggles all the winbars
----@param shown boolean?
-function M.toggle(shown)
-  if shown == nil then
-    shown = not G.is_shown
-  end
-
-  G.is_shown = shown
-  for _, winnr in ipairs(vim.api.nvim_list_wins()) do
-    M.update(winnr)
-  end
 end
 
 return M
