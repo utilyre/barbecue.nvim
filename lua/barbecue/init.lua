@@ -113,10 +113,6 @@ function M.setup(config)
         title = "barbecue.nvim",
       })
     end
-
-    for _, winnr in ipairs(vim.api.nvim_list_wins()) do
-      M.update(winnr)
-    end
   end, {
     nargs = "*",
     complete = function(_, line)
@@ -140,6 +136,9 @@ function M.toggle(shown)
   end
 
   G.is_shown = shown
+  for _, winnr in ipairs(vim.api.nvim_list_wins()) do
+    M.update(winnr)
+  end
 end
 
 return M
