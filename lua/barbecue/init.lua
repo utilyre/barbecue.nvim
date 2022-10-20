@@ -61,6 +61,21 @@ function M.update(winnr)
   end)
 end
 
+function M.on_click(index, _, button)
+  if button ~= "l" then
+    return
+  end
+
+  local winnr = vim.api.nvim_get_current_win()
+  local bufnr = vim.api.nvim_win_get_buf(winnr)
+
+  local entry = navic.get_data(bufnr)[index]
+  vim.api.nvim_win_set_cursor(winnr, {
+    entry.scope.start.line,
+    entry.scope.start.character,
+  })
+end
+
 ---toggles all the winbars
 ---@param shown boolean?
 function M.toggle(shown)

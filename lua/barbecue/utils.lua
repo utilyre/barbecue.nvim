@@ -78,16 +78,20 @@ function U.buf_get_context(bufnr)
   end
 
   local context = ""
-  for _, entry in ipairs(data) do
+  for i, entry in ipairs(data) do
     context = context
       .. "%#NavicSeparator# "
       .. G.config.symbols.separator
-      .. " %#NavicIcons"
+      .. " %"
+      .. i
+      .. "@v:lua.require'barbecue'.on_click@"
+      .. "%#NavicIcons"
       .. entry.type
       .. "#"
       .. G.config.kinds[entry.type]
       .. " %#NavicText#"
       .. entry.name
+      .. "%X"
   end
 
   return context
