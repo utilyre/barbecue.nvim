@@ -61,7 +61,12 @@ function M.update(winnr)
   end)
 end
 
-function M.on_click(index, _, button)
+---Handles mouse click on entries
+---@param index number
+---@param clicks number
+---@param button string
+---@param modifiers string
+function M.on_click(index, clicks, button, modifiers)
   if button ~= "l" then
     return
   end
