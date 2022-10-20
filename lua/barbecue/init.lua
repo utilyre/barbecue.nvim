@@ -69,7 +69,12 @@ function M.on_click(index, _, button)
   local winnr = vim.api.nvim_get_current_win()
   local bufnr = vim.api.nvim_win_get_buf(winnr)
 
-  local entry = navic.get_data(bufnr)[index]
+  local data = navic.get_data(bufnr)
+  if index > #data then
+    return
+  end
+
+  local entry = data[index]
   vim.api.nvim_win_set_cursor(winnr, {
     entry.scope.start.line,
     entry.scope.start.character,
