@@ -1,230 +1,115 @@
 local G = {}
 
 G.defaults = {
+  ---default highlight mappings
+  ---@type table<string, string>
   HIGHLIGHTS = {
-    ---@type string
     BarbecueMod = "BufferVisibleMod",
-
-    ---@type string
     NavicText = "Normal",
-
-    ---@type string
     NavicSeparator = "Conceal",
-
-    ---@type string
     NavicIconsFile = "CmpItemKindFile",
-
-    ---@type string
     NavicIconsPackage = "CmpItemKindFolder",
-
-    ---@type string
     NavicIconsModule = "CmpItemKindModule",
-
-    ---@type string
     NavicIconsNamespace = "CmpItemKindModule",
-
-    ---@type string
     NavicIconsClass = "CmpItemKindClass",
-
-    ---@type string
     NavicIconsConstructor = "CmpItemKindConstructor",
-
-    ---@type string
     NavicIconsField = "CmpItemKindField",
-
-    ---@type string
     NavicIconsProperty = "CmpItemKindProperty",
-
-    ---@type string
     NavicIconsMethod = "CmpItemKindMethod",
-
-    ---@type string
     NavicIconsStruct = "CmpItemKindStruct",
-
-    ---@type string
     NavicIconsEvent = "CmpItemKindEvent",
-
-    ---@type string
     NavicIconsInterface = "CmpItemKindInterface",
-
-    ---@type string
     NavicIconsEnum = "CmpItemKindEnum",
-
-    ---@type string
     NavicIconsEnumMember = "CmpItemKindEnumMember",
-
-    ---@type string
     NavicIconsConstant = "CmpItemKindConstant",
-
-    ---@type string
     NavicIconsFunction = "CmpItemKindFunction",
-
-    ---@type string
     NavicIconsTypeParameter = "CmpItemKindTypeParameter",
-
-    ---@type string
     NavicIconsVariable = "CmpItemKindVariable",
-
-    ---@type string
     NavicIconsOperator = "CmpItemKindOperator",
-
-    ---@type string
     NavicIconsNull = "CmpItemKindValue",
-
-    ---@type string
     NavicIconsBoolean = "CmpItemKindValue",
-
-    ---@type string
     NavicIconsNumber = "CmpItemKindValue",
-
-    ---@type string
     NavicIconsString = "CmpItemKindValue",
-
-    ---@type string
     NavicIconsKey = "CmpItemKindValue",
-
-    ---@type string
     NavicIconsArray = "CmpItemKindValue",
-
-    ---@type string
     NavicIconsObject = "CmpItemKindValue",
   },
 
+  ---@class BarbecueConfig
   CONFIG = {
     ---whether to create winbar updater autocmd
     ---@type boolean
     create_autocmd = true,
 
     ---buftypes to enable winbar in
-    ---@type table
+    ---@type table<string>
     include_buftypes = { "" },
 
     ---filetypes not to enable winbar in
-    ---@type table
+    ---@type table<string>
     exclude_filetypes = { "toggleterm" },
 
     ---returns a string to be shown at the end of winbar
-    ---@param bufnr number
-    ---@return string
-    custom_section = function(bufnr)
+    ---@type function(bufnr: number): string
+    custom_section = function()
       return ""
     end,
 
     ---:help filename-modifiers
+    ---@type table<string, string>
     modifiers = {
-      ---@type string
       dirname = ":~:.",
-
-      ---@type string
       basename = "",
     },
 
+    ---icons used by barbecue
+    ---@type table<string, string>
     symbols = {
-      ---string to be shown at the start of winbar
-      ---@type string
       prefix = " ",
-
-      ---entry separator
-      ---@type string
       separator = "",
-
-      ---string to be shown when buffer is modified
-      ---@type string
       modified = "",
-
-      ---string to be shown when context is available but empty
-      ---@type string
       default_context = "…",
     },
 
     ---icons for different context entry kinds
+    ---@type table<string, string>
     kinds = {
-      ---@type string
       File = "",
-
-      ---@type string
       Package = "",
-
-      ---@type string
       Module = "",
-
-      ---@type string
       Namespace = "",
-
-      ---@type string
       Macro = "",
-
-      ---@type string
       Class = "",
-
-      ---@type string
       Constructor = "",
-
-      ---@type string
       Field = "",
-
-      ---@type string
       Property = "",
-
-      ---@type string
       Method = "",
-
-      ---@type string
       Struct = "",
-
-      ---@type string
       Event = "",
-
-      ---@type string
       Interface = "",
-
-      ---@type string
       Enum = "",
-
-      ---@type string
       EnumMember = "",
-
-      ---@type string
       Constant = "",
-
-      ---@type string
       Function = "",
-
-      ---@type string
       TypeParameter = "",
-
-      ---@type string
       Variable = "",
-
-      ---@type string
       Operator = "",
-
-      ---@type string
       Null = "",
-
-      ---@type string
       Boolean = "",
-
-      ---@type string
       Number = "",
-
-      ---@type string
       String = "",
-
-      ---@type string
       Key = "",
-
-      ---@type string
       Array = "",
-
-      ---@type string
       Object = "",
     },
   },
 }
 
+---@type BarbecueConfig
 G.config = G.defaults.CONFIG
 
+---whether winbar is shown
+---@type boolean
 G.is_shown = true
 
 return G
