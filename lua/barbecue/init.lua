@@ -127,7 +127,6 @@ function M.setup(config)
       "BufWinEnter",
       "BufWritePost",
       "CursorMoved",
-      "CursorMovedI",
       "TextChanged",
       "TextChangedI",
     }, {

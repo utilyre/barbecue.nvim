@@ -79,7 +79,6 @@ vim.api.nvim_create_autocmd({
   "BufWinEnter",
   "BufWritePost",
   "CursorMoved",
-  "CursorMovedI",
   "TextChanged",
   "TextChangedI",
   -- add more events here
