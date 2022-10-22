@@ -108,7 +108,7 @@ function M.toggle(shown)
 end
 
 ---configures and starts the plugin
----@param config table
+---@param config BarbecueConfig
 function M.setup(config)
   G.config = vim.tbl_deep_extend("force", G.defaults.CONFIG, config or {})
 
