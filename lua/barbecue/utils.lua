@@ -90,7 +90,7 @@ function U.buf_get_context(bufnr)
       .. "#"
       .. G.config.kinds[entry.type]
       .. " %#NavicText#"
-      .. entry.name
+      .. entry.name:gsub("%%", "%%%%")
       .. "%X"
   end
 

@@ -40,7 +40,7 @@ function M.update(winnr)
     local winbar = "%#NavicText#"
       .. G.config.symbols.prefix
       .. U.str_gsub(
-        dirname,
+        dirname:gsub("%%", "%%%%"),
         "/",
         U.str_escape("%#NavicSeparator# " .. G.config.symbols.separator .. " %#NavicText#"),
         2
@@ -48,7 +48,7 @@ function M.update(winnr)
       .. "%0@v:lua.require'barbecue'.on_click@"
       .. ((icon == nil or highlight == nil) and "" or ("%#" .. highlight .. "#" .. icon .. " "))
       .. "%#NavicText#"
-      .. basename
+      .. basename:gsub("%%", "%%%%")
       .. "%X"
       .. (vim.bo[bufnr].modified and " %#BarbecueMod#" .. G.config.symbols.modified or "")
       .. context
