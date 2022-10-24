@@ -10,10 +10,10 @@ https://user-images.githubusercontent.com/91974155/197051920-0e89203e-1f0c-4f3c-
 
 ## 📦 Dependencies
 
-- [Nvim v0.8.0](https://github.com/neovim/neovim/releases/tag/v0.8.0): For winbar support.
-- [lspconfig](https://github.com/neovim/nvim-lspconfig): Needed by nvim-navic.
-- [nvim-navic](https://github.com/smiteshp/nvim-navic): Used to get lsp context information.
-- [nvim-web-devicons](https://github.com/kyazdani42/nvim-web-devicons): Install to optionally show file icon.
+- [NVIM v0.8+](https://github.com/neovim/neovim/releases/latest): Winbar support.
+- [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig): Dependency of nvim-navic.
+- [nvim-navic](https://github.com/smiteshp/nvim-navic): LSP `textDocument/documentSymbol` provider.
+- [nvim-web-devicons](https://github.com/kyazdani42/nvim-web-devicons): File icon provider. (optional)
 
 ## 📬 Installation
 
