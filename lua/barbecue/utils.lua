@@ -11,7 +11,7 @@ function U.str_escape(str)
   return escaped
 end
 
----subsitutes string within range
+---substitutes string within range
 ---@param str string
 ---@param patt string
 ---@param repl string
