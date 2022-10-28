@@ -179,40 +179,41 @@ to (and should not) call its setup function.
 
 ## 🎨 Highlight Groups
 
-It's basically the same as nvim-navic.
+<details>
+  <summary>Click to see highlight groups</summary>
 
-**NOTE**: You don't need to worry about these as long as your colorscheme
-either supports nvim-navic itself or nvim-cmp.
-
-- `BarbecueMod`
-- `NavicIconsFile`
-- `NavicIconsModule`
-- `NavicIconsNamespace`
-- `NavicIconsPackage`
-- `NavicIconsClass`
-- `NavicIconsMethod`
-- `NavicIconsProperty`
-- `NavicIconsField`
-- `NavicIconsConstructor`
-- `NavicIconsEnum`
-- `NavicIconsInterface`
-- `NavicIconsFunction`
-- `NavicIconsVariable`
-- `NavicIconsConstant`
-- `NavicIconsString`
-- `NavicIconsNumber`
-- `NavicIconsBoolean`
-- `NavicIconsArray`
-- `NavicIconsObject`
-- `NavicIconsKey`
-- `NavicIconsNull`
-- `NavicIconsEnumMember`
-- `NavicIconsStruct`
-- `NavicIconsEvent`
-- `NavicIconsOperator`
-- `NavicIconsTypeParameter`
-- `NavicText`
-- `NavicSeparator`
+  | Highlight Group             | Default Group              |
+  | --------------------------- | -------------------------- |
+  | **BarbecueMod**             | _BufferVisibleMod_         |
+  | **NavicIconsFile**          | _CmpItemKindFile_          |
+  | **NavicIconsModule**        | _CmpItemKindModule_        |
+  | **NavicIconsNamespace**     | _CmpItemKindModule_        |
+  | **NavicIconsPackage**       | _CmpItemKindFolder_        |
+  | **NavicIconsClass**         | _CmpItemKindClass_         |
+  | **NavicIconsMethod**        | _CmpItemKindMethod_        |
+  | **NavicIconsProperty**      | _CmpItemKindProperty_      |
+  | **NavicIconsField**         | _CmpItemKindField_         |
+  | **NavicIconsConstructor**   | _CmpItemKindConstructor_   |
+  | **NavicIconsEnum**          | _CmpItemKindEnum_          |
+  | **NavicIconsInterface**     | _CmpItemKindInterface_     |
+  | **NavicIconsFunction**      | _CmpItemKindFunction_      |
+  | **NavicIconsVariable**      | _CmpItemKindVariable_      |
+  | **NavicIconsConstant**      | _CmpItemKindConstant_      |
+  | **NavicIconsString**        | _CmpItemKindValue_         |
+  | **NavicIconsNumber**        | _CmpItemKindValue_         |
+  | **NavicIconsBoolean**       | _CmpItemKindValue_         |
+  | **NavicIconsArray**         | _CmpItemKindValue_         |
+  | **NavicIconsObject**        | _CmpItemKindValue_         |
+  | **NavicIconsKey**           | _CmpItemKindValue_         |
+  | **NavicIconsNull**          | _CmpItemKindValue_         |
+  | **NavicIconsEnumMember**    | _CmpItemKindEnumMember_    |
+  | **NavicIconsStruct**        | _CmpItemKindStruct_        |
+  | **NavicIconsEvent**         | _CmpItemKindEvent_         |
+  | **NavicIconsOperator**      | _CmpItemKindOperator_      |
+  | **NavicIconsTypeParameter** | _CmpItemKindTypeParameter_ |
+  | **NavicText**               | _Normal_                   |
+  | **NavicSeparator**          | _Conceal_                  |
+</details>
 
 ## 📓 Todo
 
