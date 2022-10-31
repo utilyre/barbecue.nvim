@@ -70,9 +70,10 @@ function U.buf_get_icon(bufnr)
 end
 
 ---returns the current lsp context
+---@param winnr number
 ---@param bufnr number
 ---@return string
-function U.buf_get_context(bufnr)
+function U.buf_get_context(winnr, bufnr)
   if not navic.is_available() then
     return ""
   end
@@ -87,13 +88,17 @@ function U.buf_get_context(bufnr)
   end
 
   local context = ""
-  for i, entry in ipairs(data) do
+  for _, entry in ipairs(data) do
     context = context
       .. "%#NavicSeparator# "
       .. G.config.symbols.separator
-      .. " %"
-      .. i
-      .. "@v:lua.require'barbecue'.on_click@"
+      .. " %@v:lua.require'barbecue.mouse'._"
+      .. winnr
+      .. "_"
+      .. entry.scope.start.line
+      .. "_"
+      .. entry.scope.start.character
+      .. "@"
       .. "%#NavicIcons"
       .. entry.type
       .. "#"

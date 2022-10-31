@@ -31,7 +31,7 @@ function M.update(winnr)
 
     local dirname, basename = U.buf_get_filename(bufnr)
     local icon, highlight = U.buf_get_icon(bufnr)
-    local context = U.buf_get_context(bufnr)
+    local context = U.buf_get_context(winnr, bufnr)
 
     if basename == "" then
       return
@@ -45,7 +45,9 @@ function M.update(winnr)
         U.str_escape("%#NavicSeparator# " .. G.config.symbols.separator .. " %#NavicText#"),
         2
       )
-      .. "%0@v:lua.require'barbecue'.on_click@"
+      .. "%@v:lua.require'barbecue.mouse'._"
+      .. winnr
+      .. "_1_0@"
       .. ((icon == nil or highlight == nil) and "" or ("%#" .. highlight .. "#" .. icon .. " "))
       .. "%#NavicText#"
       .. U.exp_escape(basename)
@@ -61,37 +63,6 @@ function M.update(winnr)
 
     vim.wo[winnr].winbar = winbar
   end)
-end
-
----Handles mouse click on entries
----@param index number
----@param clicks number
----@param button string
----@param modifiers string
-function M.on_click(index, clicks, button, modifiers)
-  if button ~= "l" then
-    return
-  end
-
-  local winnr = vim.api.nvim_get_current_win()
-  local bufnr = vim.api.nvim_win_get_buf(winnr)
-
-  -- Puts the cursor on the beginning of window
-  if index == 0 then
-    vim.api.nvim_win_set_cursor(winnr, { 1, 0 })
-    return
-  end
-
-  local data = navic.get_data(bufnr)
-  if index > #data then
-    return
-  end
-
-  local entry = data[index]
-  vim.api.nvim_win_set_cursor(winnr, {
-    entry.scope.start.line,
-    entry.scope.start.character,
-  })
 end
 
 ---toggles all the winbars
