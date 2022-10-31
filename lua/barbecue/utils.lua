@@ -24,6 +24,15 @@ function U.str_gsub(str, patt, repl, from, to)
   return str:sub(1, from - 1) .. str:sub(from, to):gsub(patt, repl) .. str:sub(to + 1, str:len())
 end
 
+---escapes the given string from winbar expansion
+---@param str string
+---@return string
+function U.exp_escape(str)
+  str = str:gsub("%%", "%%%%")
+  str = str:gsub("\n", " ")
+  return str
+end
+
 ---returns dirname and basename of the given buffer
 ---@param bufnr number
 ---@return string dirname
@@ -90,7 +99,7 @@ function U.buf_get_context(bufnr)
       .. "#"
       .. G.config.kinds[entry.type]
       .. " %#NavicText#"
-      .. entry.name:gsub("%%", "%%%%")
+      .. U.exp_escape(entry.name)
       .. "%X"
   end
 
