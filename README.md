@@ -37,17 +37,14 @@ Then attach nvim-navic to any language server you want barbecue to work with
 (e.g. tsserver)
 
 ```lua
-local lspconfig = require("lspconfig")
-local navic = require("nvim-navic")
-
-lspconfig.tsserver.setup({
+require("lspconfig").tsserver.setup({
   -- ...
 
   on_attach = function(client, bufnr)
     -- ...
 
     if client.server_capabilities["documentSymbolProvider"] then
-      navic.attach(client, bufnr)
+      require("nvim-navic").attach(client, bufnr)
     end
 
     -- ...
@@ -87,7 +84,7 @@ vim.api.nvim_create_autocmd({
   callback = function(a)
     for _, winnr in ipairs(vim.api.nvim_list_wins()) do
       if a.buf == vim.api.nvim_win_get_buf(winnr) then
-        M.update(winnr)
+        require("barbecue.ui").update(winnr)
       end
     end
 
@@ -105,9 +102,7 @@ to (and should not) call its setup function.
   <summary>Click to see default config</summary>
 
   ```lua
-  local barbecue = require("barbecue")
-
-  barbecue.setup({
+  {
     ---whether to create winbar updater autocmd
     ---@type boolean
     create_autocmd = true,
@@ -173,7 +168,7 @@ to (and should not) call its setup function.
       Array = "",
       Object = "",
     },
-  })
+  }
   ```
 </details>
 
