@@ -1,4 +1,3 @@
-local navic = require("nvim-navic")
 local global = require("barbecue.global")
 local ui = require("barbecue.ui")
 
@@ -36,8 +35,6 @@ function M.setup(config)
       default = true,
     })
   end
-
-  navic.setup()
 
   if global.config.create_autocmd then
     vim.api.nvim_create_autocmd({
