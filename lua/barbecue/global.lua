@@ -108,8 +108,4 @@ M.defaults = {
 ---@type BarbecueConfig
 M.config = M.defaults.CONFIG
 
----whether winbar is shown
----@type boolean
-M.is_shown = true
-
 return M
