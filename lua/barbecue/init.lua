@@ -1,7 +1,7 @@
 local navic = require("nvim-navic")
+local global = require("barbecue.global")
+local utils = require("barbecue.utils")
 
-local G = require("barbecue.global")
-local U = require("barbecue.utils")
 local M = {}
 
 ---updates the winbar
@@ -11,9 +11,9 @@ function M.update(winnr)
   local bufnr = vim.api.nvim_win_get_buf(winnr)
 
   if
-    not G.is_shown
-    or not vim.tbl_contains(G.config.include_buftypes, vim.bo[bufnr].buftype)
-    or vim.tbl_contains(G.config.exclude_filetypes, vim.bo[bufnr].filetype)
+    not global.is_shown
+    or not vim.tbl_contains(global.config.include_buftypes, vim.bo[bufnr].buftype)
+    or vim.tbl_contains(global.config.exclude_filetypes, vim.bo[bufnr].filetype)
     or vim.api.nvim_win_get_config(winnr).relative ~= ""
   then
     vim.wo[winnr].winbar = nil
@@ -29,20 +29,20 @@ function M.update(winnr)
       return
     end
 
-    local dirname, basename = U.buf_get_filename(bufnr)
-    local icon, highlight = U.buf_get_icon(bufnr)
-    local context = U.buf_get_context(winnr, bufnr)
+    local dirname, basename = utils.buf_get_filename(bufnr)
+    local icon, highlight = utils.buf_get_icon(bufnr)
+    local context = utils.buf_get_context(winnr, bufnr)
 
     if basename == "" then
       return
     end
 
     local winbar = "%#NavicText#"
-      .. G.config.symbols.prefix
-      .. U.str_gsub(
-        U.exp_escape(dirname),
+      .. global.config.symbols.prefix
+      .. utils.str_gsub(
+        utils.exp_escape(dirname),
         "/",
-        U.str_escape("%#NavicSeparator# " .. G.config.symbols.separator .. " %#NavicText#"),
+        utils.str_escape("%#NavicSeparator# " .. global.config.symbols.separator .. " %#NavicText#"),
         2
       )
       .. "%@v:lua.require'barbecue.mouse'.navigate_"
@@ -50,13 +50,13 @@ function M.update(winnr)
       .. "_1_0@"
       .. ((icon == nil or highlight == nil) and "" or ("%#" .. highlight .. "#" .. icon .. " "))
       .. "%#NavicText#"
-      .. U.exp_escape(basename)
+      .. utils.exp_escape(basename)
       .. "%X"
-      .. (vim.bo[bufnr].modified and " %#BarbecueMod#" .. G.config.symbols.modified or "")
+      .. (vim.bo[bufnr].modified and " %#BarbecueMod#" .. global.config.symbols.modified or "")
       .. context
       .. "%#NavicText#"
 
-    local custom_section = G.config.custom_section(bufnr)
+    local custom_section = global.config.custom_section(bufnr)
     if vim.tbl_contains({ "number", "string" }, type(custom_section)) then
       winbar = winbar .. "%=" .. custom_section
     end
@@ -69,10 +69,10 @@ end
 ---@param shown boolean?
 function M.toggle(shown)
   if shown == nil then
-    shown = not G.is_shown
+    shown = not global.is_shown
   end
 
-  G.is_shown = shown
+  global.is_shown = shown
   for _, winnr in ipairs(vim.api.nvim_list_wins()) do
     M.update(winnr)
   end
@@ -81,10 +81,10 @@ end
 ---configures and starts the plugin
 ---@param config BarbecueConfig
 function M.setup(config)
-  G.config = vim.tbl_deep_extend("force", G.defaults.CONFIG, config or {})
+  global.config = vim.tbl_deep_extend("force", global.defaults.CONFIG, config or {})
 
   -- resorts to built-in and nvim-cmp highlight groups if nvim-navic highlight groups are not defined
-  for from, to in pairs(G.defaults.HIGHLIGHTS) do
+  for from, to in pairs(global.defaults.HIGHLIGHTS) do
     vim.api.nvim_set_hl(0, from, {
       link = to,
       default = true,
@@ -93,7 +93,7 @@ function M.setup(config)
 
   navic.setup()
 
-  if G.config.create_autocmd then
+  if global.config.create_autocmd then
     vim.api.nvim_create_autocmd({
       "BufWinEnter",
       "BufWritePost",

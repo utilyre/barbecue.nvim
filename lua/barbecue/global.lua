@@ -1,6 +1,6 @@
-local G = {}
+local M = {}
 
-G.defaults = {
+M.defaults = {
   ---default highlight mappings
   ---@type table<string, string>
   HIGHLIGHTS = {
@@ -106,10 +106,10 @@ G.defaults = {
 }
 
 ---@type BarbecueConfig
-G.config = G.defaults.CONFIG
+M.config = M.defaults.CONFIG
 
 ---whether winbar is shown
 ---@type boolean
-G.is_shown = true
+M.is_shown = true
 
-return G
+return M
