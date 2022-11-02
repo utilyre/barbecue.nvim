@@ -71,9 +71,7 @@ function M.setup(config)
     elseif action == "toggle" then
       ui.toggle()
     else
-      vim.notify(("'%s' is not a subcommand"):format(action), vim.log.levels.ERROR, {
-        title = "barbecue.nvim",
-      })
+      vim.notify(("'%s' is not a subcommand"):format(action), vim.log.levels.ERROR)
     end
   end, {
     nargs = "*",
