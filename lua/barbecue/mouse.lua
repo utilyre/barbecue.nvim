@@ -1,6 +1,23 @@
-local on_click = setmetatable({}, {
-  __index = function(_, key)
-    local parts = vim.split(key, "_")
+local Mouse = {}
+
+Mouse.prototype = {}
+Mouse.mt = {}
+
+---navigates to position in the given window
+---@param winnr number
+---@param position table<number>
+function Mouse.prototype.navigate(winnr, position)
+  vim.api.nvim_set_current_win(winnr)
+  vim.api.nvim_win_set_cursor(winnr, position)
+end
+
+function Mouse.mt.__index(tbl, key)
+  if type(key) ~= "string" then
+    return
+  end
+
+  local parts = vim.split(key, "_")
+  if parts[1] == "navigate" and #parts == 4 then
     local winnr = tonumber(parts[2])
     local position = { tonumber(parts[3]), tonumber(parts[4]) }
 
@@ -9,10 +26,9 @@ local on_click = setmetatable({}, {
         return
       end
 
-      vim.api.nvim_set_current_win(winnr)
-      vim.api.nvim_win_set_cursor(winnr, position)
+      tbl.navigate(winnr, position)
     end
-  end,
-})
+  end
+end
 
-return on_click
+return setmetatable(Mouse.prototype, Mouse.mt)

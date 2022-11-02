@@ -45,7 +45,7 @@ function M.update(winnr)
         U.str_escape("%#NavicSeparator# " .. G.config.symbols.separator .. " %#NavicText#"),
         2
       )
-      .. "%@v:lua.require'barbecue.mouse'._"
+      .. "%@v:lua.require'barbecue.mouse'.navigate_"
       .. winnr
       .. "_1_0@"
       .. ((icon == nil or highlight == nil) and "" or ("%#" .. highlight .. "#" .. icon .. " "))

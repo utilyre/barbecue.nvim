@@ -92,7 +92,7 @@ function U.buf_get_context(winnr, bufnr)
     context = context
       .. "%#NavicSeparator# "
       .. G.config.symbols.separator
-      .. " %@v:lua.require'barbecue.mouse'._"
+      .. " %@v:lua.require'barbecue.mouse'.navigate_"
       .. winnr
       .. "_"
       .. entry.scope.start.line
