@@ -1,5 +1,6 @@
 local global = require("barbecue.global")
 local ui = require("barbecue.ui")
+local utils = require("barbecue.utils")
 
 local M = {}
 
@@ -55,21 +56,32 @@ function M.setup(config)
     })
   end
 
+  local actions = {
+    hide = function()
+      ui.toggle(false)
+    end,
+    show = function()
+      ui.toggle(true)
+    end,
+    toggle = function()
+      ui.toggle()
+    end,
+  }
+
   vim.api.nvim_create_user_command("Barbecue", function(params)
     if #params.fargs < 1 then
+      vim.notify("no subcommand is provided", vim.log.levels.ERROR)
       return
     end
 
-    local action = params.fargs[1]
-    if action == "hide" then
-      ui.toggle(false)
-    elseif action == "show" then
-      ui.toggle(true)
-    elseif action == "toggle" then
-      ui.toggle()
-    else
-      vim.notify(("'%s' is not a subcommand"):format(action), vim.log.levels.ERROR)
+    local subcommand = params.fargs[1]
+    local action = actions[subcommand]
+    if action == nil then
+      vim.notify(("'%s' is not a subcommand"):format(subcommand), vim.log.levels.ERROR)
+      return
     end
+
+    action()
   end, {
     nargs = "*",
     complete = function(_, line)
@@ -78,9 +90,14 @@ function M.setup(config)
         return {}
       end
 
-      return vim.tbl_filter(function(subcommand)
-        return vim.startswith(subcommand, args[2])
-      end, { "show", "hide", "toggle" })
+      return vim.tbl_filter(
+        function(subcommand)
+          return vim.startswith(subcommand, args[2])
+        end,
+        utils.tbl_map(actions, function(_, subcommand)
+          return subcommand
+        end)
+      )
     end,
   })
 end

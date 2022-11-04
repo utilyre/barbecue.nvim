@@ -33,6 +33,20 @@ function M.exp_escape(str)
   return str
 end
 
+---applies callback to all values of tbl
+---@param tbl table
+---@param callback function
+---@return table
+function M.tbl_map(tbl, callback)
+  local ret = {}
+  for key, value in pairs(tbl) do
+    local v, k = callback(value, key)
+    ret[k or #ret + 1] = v
+  end
+
+  return ret
+end
+
 ---returns dirname and basename of the given buffer
 ---@param bufnr number
 ---@return string dirname
