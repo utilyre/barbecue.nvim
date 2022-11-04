@@ -4,6 +4,40 @@ local utils = require("barbecue.utils")
 
 local M = {}
 
+local function create_user_command(actions)
+  local subcommands = utils.tbl_map(actions, function(_, subcommand)
+    return subcommand
+  end)
+
+  vim.api.nvim_create_user_command("Barbecue", function(params)
+    if #params.fargs < 1 then
+      vim.notify("no subcommand is provided", vim.log.levels.ERROR)
+      return
+    end
+
+    local subcommand = params.fargs[1]
+    local action = actions[subcommand]
+    if action == nil then
+      vim.notify(("'%s' is not a subcommand"):format(subcommand), vim.log.levels.ERROR)
+      return
+    end
+
+    action()
+  end, {
+    nargs = "*",
+    complete = function(_, line)
+      local args = vim.split(line, "%s+")
+      if #args ~= 2 then
+        return {}
+      end
+
+      return vim.tbl_filter(function(subcommand)
+        return vim.startswith(subcommand, args[2])
+      end, subcommands)
+    end,
+  })
+end
+
 ---@deprecated
 function M.update(winnr)
   vim.notify(
@@ -56,7 +90,7 @@ function M.setup(config)
     })
   end
 
-  local actions = {
+  create_user_command({
     hide = function()
       ui.toggle(false)
     end,
@@ -65,39 +99,6 @@ function M.setup(config)
     end,
     toggle = function()
       ui.toggle()
-    end,
-  }
-
-  vim.api.nvim_create_user_command("Barbecue", function(params)
-    if #params.fargs < 1 then
-      vim.notify("no subcommand is provided", vim.log.levels.ERROR)
-      return
-    end
-
-    local subcommand = params.fargs[1]
-    local action = actions[subcommand]
-    if action == nil then
-      vim.notify(("'%s' is not a subcommand"):format(subcommand), vim.log.levels.ERROR)
-      return
-    end
-
-    action()
-  end, {
-    nargs = "*",
-    complete = function(_, line)
-      local args = vim.split(line, "%s+")
-      if #args ~= 2 then
-        return {}
-      end
-
-      return vim.tbl_filter(
-        function(subcommand)
-          return vim.startswith(subcommand, args[2])
-        end,
-        utils.tbl_map(actions, function(_, subcommand)
-          return subcommand
-        end)
-      )
     end,
   })
 end
