@@ -1,3 +1,4 @@
+local navic = require("nvim-navic")
 local global = require("barbecue.global")
 local utils = require("barbecue.utils")
 
@@ -9,6 +10,87 @@ Ui.mt = {}
 ---whether winbars are visible
 ---@type boolean
 Ui.prototype.visible = true
+
+---returns dirname and basename of the given buffer
+---@param bufnr number
+---@return string dirname
+---@return string basename
+local function get_filename(bufnr)
+  local filename = vim.api.nvim_buf_get_name(bufnr)
+
+  local dirname = vim.fn.fnamemodify(filename, global.config.modifiers.dirname .. ":h") .. "/"
+  -- treats the first slash as a directory instead of a separator
+  if dirname ~= "//" and dirname:sub(1, 1) == "/" then
+    dirname = "/" .. dirname
+  end
+  -- won't show the dirname if the file is in the current working directory
+  if dirname == "./" then
+    dirname = ""
+  end
+
+  local basename = vim.fn.fnamemodify(filename, global.config.modifiers.basename .. ":t")
+
+  return dirname, basename
+end
+
+---returns devicon and its corresponding highlight group of the given buffer
+---@param bufnr number
+---@return string|nil icon
+---@return string|nil highlight
+local function get_icon(bufnr)
+  local ok, devicons = pcall(require, "nvim-web-devicons")
+  if not ok then
+    return nil, nil
+  end
+
+  local icon, highlight = devicons.get_icon_by_filetype(vim.bo[bufnr].filetype)
+  return icon, highlight
+end
+
+---returns the current lsp context
+---@param winnr number
+---@param bufnr number
+---@return string
+local function get_context(winnr, bufnr)
+  if not navic.is_available() then
+    return ""
+  end
+
+  local data = navic.get_data(bufnr)
+  if data == nil then
+    return ""
+  end
+
+  if #data == 0 then
+    return "%#NavicSeparator# "
+      .. global.config.symbols.separator
+      .. " %#NavicText#"
+      .. global.config.symbols.default_context
+  end
+
+  local context = ""
+  for _, entry in ipairs(data) do
+    context = context
+      .. "%#NavicSeparator# "
+      .. global.config.symbols.separator
+      .. " %@v:lua.require'barbecue.mouse'.navigate_"
+      .. winnr
+      .. "_"
+      .. entry.scope.start.line
+      .. "_"
+      .. entry.scope.start.character
+      .. "@"
+      .. "%#NavicIcons"
+      .. entry.type
+      .. "#"
+      .. global.config.kinds[entry.type]
+      .. " %#NavicText#"
+      .. utils.exp_escape(entry.name)
+      .. "%X"
+  end
+
+  return context
+end
 
 ---toggle winbars' visibility
 ---@param visible boolean?
@@ -51,9 +133,9 @@ function Ui.prototype.update(winnr)
       return
     end
 
-    local dirname, basename = utils.buf_get_filename(bufnr)
-    local icon, highlight = utils.buf_get_icon(bufnr)
-    local context = utils.buf_get_context(winnr, bufnr)
+    local dirname, basename = get_filename(bufnr)
+    local icon, highlight = get_icon(bufnr)
+    local context = get_context(winnr, bufnr)
 
     if basename == "" then
       vim.wo[winnr].winbar = nil
