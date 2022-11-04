@@ -95,9 +95,6 @@ vim.api.nvim_create_autocmd({
 
 ## 🚠 Configuration
 
-**NOTE**: nvim-navic is configured through barbecue's setup so you don't need
-to (and should not) call its setup function.
-
 <details>
   <summary>Click to see default config</summary>
 
