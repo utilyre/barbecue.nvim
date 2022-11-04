@@ -1,5 +1,5 @@
 local navic = require("nvim-navic")
-local global = require("barbecue.global")
+local Config = require("barbecue.config")
 local utils = require("barbecue.utils")
 
 local Ui = {}
@@ -16,9 +16,10 @@ Ui.prototype.visible = true
 ---@return string dirname
 ---@return string basename
 local function get_filename(bufnr)
-  local filename = vim.api.nvim_buf_get_name(bufnr)
+  local config = Config:get_instance()
 
-  local dirname = vim.fn.fnamemodify(filename, global.config.modifiers.dirname .. ":h") .. "/"
+  local filename = vim.api.nvim_buf_get_name(bufnr)
+  local dirname = vim.fn.fnamemodify(filename, config.user.modifiers.dirname .. ":h") .. "/"
   -- treats the first slash as a directory instead of a separator
   if dirname ~= "//" and dirname:sub(1, 1) == "/" then
     dirname = "/" .. dirname
@@ -28,7 +29,7 @@ local function get_filename(bufnr)
     dirname = ""
   end
 
-  local basename = vim.fn.fnamemodify(filename, global.config.modifiers.basename .. ":t")
+  local basename = vim.fn.fnamemodify(filename, config.user.modifiers.basename .. ":t")
 
   return dirname, basename
 end
@@ -52,6 +53,8 @@ end
 ---@param bufnr number
 ---@return string
 local function get_context(winnr, bufnr)
+  local config = Config:get_instance()
+
   if not navic.is_available() then
     return ""
   end
@@ -63,16 +66,16 @@ local function get_context(winnr, bufnr)
 
   if #data == 0 then
     return "%#NavicSeparator# "
-      .. global.config.symbols.separator
+      .. config.user.symbols.separator
       .. " %#NavicText#"
-      .. global.config.symbols.default_context
+      .. config.user.symbols.default_context
   end
 
   local context = ""
   for _, entry in ipairs(data) do
     context = context
       .. "%#NavicSeparator# "
-      .. global.config.symbols.separator
+      .. config.user.symbols.separator
       .. (" %%@v:lua.require'barbecue.mouse'.navigate_%d_%d_%d@"):format(
         winnr,
         entry.scope.start.line,
@@ -81,7 +84,7 @@ local function get_context(winnr, bufnr)
       .. "%#NavicIcons"
       .. entry.type
       .. "#"
-      .. global.config.kinds[entry.type]
+      .. config.user.kinds[entry.type]
       .. " %#NavicText#"
       .. utils.exp_escape(entry.name)
       .. "%X"
@@ -106,6 +109,8 @@ end
 ---updates winbar on the given window
 ---@param winnr number?
 function Ui.prototype.update(winnr)
+  local config = Config:get_instance()
+
   winnr = winnr or vim.api.nvim_get_current_win()
   local bufnr = vim.api.nvim_win_get_buf(winnr)
 
@@ -115,8 +120,8 @@ function Ui.prototype.update(winnr)
   end
 
   if
-    not vim.tbl_contains(global.config.include_buftypes, vim.bo[bufnr].buftype)
-    or vim.tbl_contains(global.config.exclude_filetypes, vim.bo[bufnr].filetype)
+    not vim.tbl_contains(config.user.include_buftypes, vim.bo[bufnr].buftype)
+    or vim.tbl_contains(config.user.exclude_filetypes, vim.bo[bufnr].filetype)
     or vim.api.nvim_win_get_config(winnr).relative ~= ""
   then
     return
@@ -141,11 +146,11 @@ function Ui.prototype.update(winnr)
     end
 
     local winbar = "%#NavicText#"
-      .. global.config.symbols.prefix
+      .. config.user.symbols.prefix
       .. utils.str_gsub(
         utils.exp_escape(dirname),
         "/",
-        utils.str_escape("%#NavicSeparator# " .. global.config.symbols.separator .. " %#NavicText#"),
+        utils.str_escape("%#NavicSeparator# " .. config.user.symbols.separator .. " %#NavicText#"),
         2
       )
       .. ("%%@v:lua.require'barbecue.mouse'.navigate_%d_1_0@"):format(winnr)
@@ -153,11 +158,11 @@ function Ui.prototype.update(winnr)
       .. "%#NavicText#"
       .. utils.exp_escape(basename)
       .. "%X"
-      .. (vim.bo[bufnr].modified and " %#BarbecueMod#" .. global.config.symbols.modified or "")
+      .. (vim.bo[bufnr].modified and " %#BarbecueMod#" .. config.user.symbols.modified or "")
       .. context
       .. "%#NavicText#"
 
-    local custom_section = global.config.custom_section(bufnr)
+    local custom_section = config.user.custom_section(bufnr)
     if vim.tbl_contains({ "number", "string" }, type(custom_section)) then
       winbar = winbar .. "%=" .. custom_section
     end

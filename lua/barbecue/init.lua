@@ -1,4 +1,4 @@
-local global = require("barbecue.global")
+local Config = require("barbecue.config")
 local ui = require("barbecue.ui")
 local utils = require("barbecue.utils")
 
@@ -59,19 +59,19 @@ function M.toggle(shown)
 end
 
 ---configures and starts the plugin
----@param config BarbecueConfig
-function M.setup(config)
-  global.config = vim.tbl_deep_extend("force", global.defaults.CONFIG, config or {})
+---@param cfg BarbecueDefaultConfig
+function M.setup(cfg)
+  local config = Config:get_instance(cfg)
 
   -- resorts to built-in and nvim-cmp highlight groups if nvim-navic highlight groups are not defined
-  for from, to in pairs(global.defaults.HIGHLIGHTS) do
+  for from, to in pairs(config.highlights) do
     vim.api.nvim_set_hl(0, from, {
       link = to,
       default = true,
     })
   end
 
-  if global.config.create_autocmd then
+  if config.user.create_autocmd then
     vim.api.nvim_create_autocmd({
       "BufWinEnter",
       "BufWritePost",
