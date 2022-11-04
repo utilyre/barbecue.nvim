@@ -1,5 +1,7 @@
 local Mouse = {}
 
+-- TODO: create BarbecueMouse class
+
 Mouse.prototype = {}
 Mouse.mt = {}
 
@@ -31,4 +33,9 @@ function Mouse.mt.__index(tbl, key)
   end
 end
 
-return setmetatable(Mouse.prototype, Mouse.mt)
+function Mouse:new()
+  local mouse = Mouse.prototype
+  return setmetatable(mouse, Mouse.mt)
+end
+
+return Mouse:new()

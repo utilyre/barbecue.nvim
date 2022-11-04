@@ -2,6 +2,8 @@ local navic = require("nvim-navic")
 local Config = require("barbecue.config")
 local utils = require("barbecue.utils")
 
+-- TODO: create BarbecueUi class
+
 local Ui = {}
 
 Ui.prototype = {}
@@ -171,4 +173,9 @@ function Ui.prototype.update(winnr)
   end)
 end
 
-return setmetatable(Ui.prototype, Ui.mt)
+function Ui:new()
+  local ui = Ui.prototype
+  return setmetatable(ui, Ui.mt)
+end
+
+return Ui:new()
