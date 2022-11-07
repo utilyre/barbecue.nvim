@@ -1,13 +1,11 @@
-local Mouse = {}
+---@class BarbecueMouse
+---@field navigate fun(self: BarbecueMouse, winnr: number, position: { [1]: number, [2]: number }) moves the cursor to `winnr` and puts it on `position`
 
--- TODO: create BarbecueMouse class
+local Mouse = {}
 
 Mouse.prototype = {}
 Mouse.mt = {}
 
----navigates to position in the given window
----@param winnr number
----@param position table<number>
 function Mouse.prototype:navigate(winnr, position)
   vim.api.nvim_set_current_win(winnr)
   vim.api.nvim_win_set_cursor(winnr, position)
@@ -33,6 +31,8 @@ function Mouse.mt.__index(self, key)
   end
 end
 
+---creates a new instance
+---@return BarbecueMouse
 function Mouse:new()
   local mouse = Mouse.prototype
   return setmetatable(mouse, Mouse.mt)
