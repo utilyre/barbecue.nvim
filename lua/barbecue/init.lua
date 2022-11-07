@@ -8,7 +8,7 @@ local M = {}
 ---@param name string
 ---@param actions fun()[]
 local function create_user_command(name, actions)
-  local subcommands = utils.tbl_map(actions, function(_, subcommand)
+  local subcommands = utils:tbl_map(actions, function(_, subcommand)
     return subcommand
   end)
 

@@ -85,7 +85,7 @@ local function get_context(winnr, bufnr)
       .. "#"
       .. config.user.kinds[entry.type]
       .. " %#NavicText#"
-      .. utils.exp_escape(entry.name)
+      .. utils:exp_escape(entry.name)
       .. "%X"
   end
 
@@ -140,16 +140,16 @@ function Ui.prototype:update(winnr)
 
     local winbar = "%#NavicText#"
       .. config.user.symbols.prefix
-      .. utils.str_gsub(
-        utils.exp_escape(dirname),
+      .. utils:str_gsub(
+        utils:exp_escape(dirname),
         "/",
-        utils.str_escape("%#NavicSeparator# " .. config.user.symbols.separator .. " %#NavicText#"),
+        utils:str_escape("%#NavicSeparator# " .. config.user.symbols.separator .. " %#NavicText#"),
         2
       )
       .. ("%%@v:lua.require'barbecue.mouse'.navigate_%d_1_0@"):format(winnr)
       .. ((icon == nil or highlight == nil) and "" or ("%#" .. highlight .. "#" .. icon .. " "))
       .. "%#NavicText#"
-      .. utils.exp_escape(basename)
+      .. utils:exp_escape(basename)
       .. "%X"
       .. (vim.bo[bufnr].modified and " %#BarbecueMod#" .. config.user.symbols.modified or "")
       .. context
