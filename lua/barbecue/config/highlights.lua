@@ -1,4 +1,4 @@
----@class BarbecueHighlightsConfig
+---@class BarbecueHighlights
 local M = {
   BarbecueMod = "BufferVisibleMod",
   NavicText = "Normal",

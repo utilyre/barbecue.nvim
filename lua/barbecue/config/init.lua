@@ -2,7 +2,7 @@ local highlights = require("barbecue.config.highlights")
 local template = require("barbecue.config.template")
 
 ---@class BarbecueConfig
----@field highlights BarbecueHighlightsConfig
+---@field highlights BarbecueHighlights
 ---@field template BarbecueTemplateConfig
 ---@field user BarbecueTemplateConfig
 
