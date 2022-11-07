@@ -1,4 +1,4 @@
----@class BarbecueDefaultConfig
+---@class BarbecueTemplateConfig
 local M = {
   ---whether to create winbar updater autocmd
   ---@type boolean

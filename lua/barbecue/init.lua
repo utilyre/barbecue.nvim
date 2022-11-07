@@ -59,7 +59,7 @@ function M.toggle(shown)
 end
 
 ---configures and starts the plugin
----@param cfg BarbecueDefaultConfig
+---@param cfg BarbecueTemplateConfig
 function M.setup(cfg)
   config:apply(cfg)
 

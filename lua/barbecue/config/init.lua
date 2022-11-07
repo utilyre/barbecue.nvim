@@ -3,8 +3,8 @@ local default = require("barbecue.config.default")
 
 ---@class BarbecueConfig
 ---@field highlights BarbecueHighlightsConfig
----@field default BarbecueDefaultConfig
----@field user BarbecueDefaultConfig
+---@field default BarbecueTemplateConfig
+---@field user BarbecueTemplateConfig
 
 local Config = {}
 
