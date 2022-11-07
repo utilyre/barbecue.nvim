@@ -2,15 +2,16 @@ local navic = require("nvim-navic")
 local config = require("barbecue.config")
 local utils = require("barbecue.utils")
 
--- TODO: create BarbecueUi class
+---@class BarbecueUi
+---@field visible boolean whether barbecue is visible
+---@field toggle fun(self: BarbecueUi, visible: boolean?) toggles `visible`
+---@field update fun(self: BarbecueUi, winnr: number?) updates barbecue on `winnr`
 
 local Ui = {}
 
 Ui.prototype = {}
 Ui.mt = {}
 
----whether winbars are visible
----@type boolean
 Ui.prototype.visible = true
 
 ---returns dirname and basename of the given buffer
@@ -91,8 +92,6 @@ local function get_context(winnr, bufnr)
   return context
 end
 
----toggle winbars' visibility
----@param visible boolean?
 function Ui.prototype:toggle(visible)
   if visible == nil then
     visible = not self.visible
@@ -104,9 +103,6 @@ function Ui.prototype:toggle(visible)
   end
 end
 
----@async
----updates winbar on the given window
----@param winnr number?
 function Ui.prototype:update(winnr)
   winnr = winnr or vim.api.nvim_get_current_win()
   local bufnr = vim.api.nvim_win_get_buf(winnr)
@@ -168,6 +164,8 @@ function Ui.prototype:update(winnr)
   end)
 end
 
+---creates a new instance
+---@return BarbecueUi
 function Ui:new()
   local ui = Ui.prototype
   return setmetatable(ui, Ui.mt)
