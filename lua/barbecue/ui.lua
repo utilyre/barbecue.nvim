@@ -1,5 +1,5 @@
 local navic = require("nvim-navic")
-local Config = require("barbecue.config")
+local config = require("barbecue.config")
 local utils = require("barbecue.utils")
 
 -- TODO: create BarbecueUi class
@@ -18,8 +18,6 @@ Ui.prototype.visible = true
 ---@return string dirname
 ---@return string basename
 local function get_filename(bufnr)
-  local config = Config:get_instance()
-
   local filename = vim.api.nvim_buf_get_name(bufnr)
   local dirname = vim.fn.fnamemodify(filename, config.user.modifiers.dirname .. ":h") .. "/"
   -- treats the first slash as a directory instead of a separator
@@ -55,8 +53,6 @@ end
 ---@param bufnr number
 ---@return string
 local function get_context(winnr, bufnr)
-  local config = Config:get_instance()
-
   if not navic.is_available() then
     return ""
   end
@@ -111,8 +107,6 @@ end
 ---updates winbar on the given window
 ---@param winnr number?
 function Ui.prototype:update(winnr)
-  local config = Config:get_instance()
-
   winnr = winnr or vim.api.nvim_get_current_win()
   local bufnr = vim.api.nvim_win_get_buf(winnr)
 

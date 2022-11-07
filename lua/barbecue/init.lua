@@ -1,4 +1,4 @@
-local Config = require("barbecue.config")
+local config = require("barbecue.config")
 local ui = require("barbecue.ui")
 local utils = require("barbecue.utils")
 
@@ -61,7 +61,7 @@ end
 ---configures and starts the plugin
 ---@param cfg BarbecueDefaultConfig
 function M.setup(cfg)
-  local config = Config:get_instance(cfg)
+  config:apply(cfg)
 
   -- resorts to built-in and nvim-cmp highlight groups if nvim-navic highlight groups are not defined
   for from, to in pairs(config.highlights) do
