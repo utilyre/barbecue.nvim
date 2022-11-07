@@ -4,12 +4,15 @@ local utils = require("barbecue.utils")
 
 local M = {}
 
-local function create_user_command(actions)
+---creates user command named `name` and defines subcommands according to `actions`
+---@param name string
+---@param actions fun()[]
+local function create_user_command(name, actions)
   local subcommands = utils.tbl_map(actions, function(_, subcommand)
     return subcommand
   end)
 
-  vim.api.nvim_create_user_command("Barbecue", function(params)
+  vim.api.nvim_create_user_command(name, function(params)
     if #params.fargs < 1 then
       vim.notify("no subcommand is provided", vim.log.levels.ERROR)
       return
@@ -58,7 +61,7 @@ function M.toggle(shown)
   ui:toggle(shown)
 end
 
----configures and starts the plugin
+---configures and starts barbecue
 ---@param cfg BarbecueTemplateConfig
 function M.setup(cfg)
   config:apply(cfg)
@@ -90,7 +93,7 @@ function M.setup(cfg)
     })
   end
 
-  create_user_command({
+  create_user_command("Barbecue", {
     hide = function()
       ui:toggle(false)
     end,
