@@ -8,12 +8,12 @@ Mouse.mt = {}
 ---navigates to position in the given window
 ---@param winnr number
 ---@param position table<number>
-function Mouse.prototype.navigate(winnr, position)
+function Mouse.prototype:navigate(winnr, position)
   vim.api.nvim_set_current_win(winnr)
   vim.api.nvim_win_set_cursor(winnr, position)
 end
 
-function Mouse.mt.__index(tbl, key)
+function Mouse.mt.__index(self, key)
   if type(key) ~= "string" then
     return
   end
@@ -28,7 +28,7 @@ function Mouse.mt.__index(tbl, key)
         return
       end
 
-      tbl.navigate(winnr, position)
+      self:navigate(winnr, position)
     end
   end
 end

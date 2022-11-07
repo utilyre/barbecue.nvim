@@ -97,26 +97,26 @@ end
 
 ---toggle winbars' visibility
 ---@param visible boolean?
-function Ui.prototype.toggle(visible)
+function Ui.prototype:toggle(visible)
   if visible == nil then
-    visible = not Ui.prototype.visible
+    visible = not self.visible
   end
 
-  Ui.prototype.visible = visible
+  self.visible = visible
   for _, winnr in ipairs(vim.api.nvim_list_wins()) do
-    Ui.prototype.update(winnr)
+    self:update(winnr)
   end
 end
 
 ---updates winbar on the given window
 ---@param winnr number?
-function Ui.prototype.update(winnr)
+function Ui.prototype:update(winnr)
   local config = Config:get_instance()
 
   winnr = winnr or vim.api.nvim_get_current_win()
   local bufnr = vim.api.nvim_win_get_buf(winnr)
 
-  if not Ui.prototype.visible then
+  if not self.visible then
     vim.wo[winnr].winbar = nil
     return
   end

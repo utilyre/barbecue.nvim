@@ -41,21 +41,21 @@ end
 ---@deprecated
 function M.update(winnr)
   vim.notify(
-    "require(\"barbecue\").update is deprecated now, use require(\"barbecue.ui\").update instead",
+    "require(\"barbecue\").update is deprecated now, use require(\"barbecue.ui\"):update instead",
     vim.log.levels.WARN
   )
 
-  ui.update(winnr)
+  ui:update(winnr)
 end
 
 ---@deprecated
 function M.toggle(shown)
   vim.notify(
-    "require(\"barbecue\").toggle is deprecated now, use require(\"barbecue.ui\").toggle instead",
+    "require(\"barbecue\").toggle is deprecated now, use require(\"barbecue.ui\"):toggle instead",
     vim.log.levels.WARN
   )
 
-  ui.toggle(shown)
+  ui:toggle(shown)
 end
 
 ---configures and starts the plugin
@@ -83,7 +83,7 @@ function M.setup(cfg)
       callback = function(a)
         for _, winnr in ipairs(vim.api.nvim_list_wins()) do
           if a.buf == vim.api.nvim_win_get_buf(winnr) then
-            ui.update(winnr)
+            ui:update(winnr)
           end
         end
       end,
@@ -92,13 +92,13 @@ function M.setup(cfg)
 
   create_user_command({
     hide = function()
-      ui.toggle(false)
+      ui:toggle(false)
     end,
     show = function()
-      ui.toggle(true)
+      ui:toggle(true)
     end,
     toggle = function()
-      ui.toggle()
+      ui:toggle()
     end,
   })
 end
