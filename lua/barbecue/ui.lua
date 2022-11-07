@@ -104,6 +104,7 @@ function Ui.prototype:toggle(visible)
   end
 end
 
+---@async
 ---updates winbar on the given window
 ---@param winnr number?
 function Ui.prototype:update(winnr)
