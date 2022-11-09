@@ -9,6 +9,7 @@ local template = require("barbecue.config.template")
 
 local Config = {}
 
+---@type BarbecueConfig
 Config.prototype = {}
 Config.mt = {}
 

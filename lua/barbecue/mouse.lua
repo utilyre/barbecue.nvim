@@ -3,6 +3,7 @@
 
 local Mouse = {}
 
+---@type BarbecueMouse
 Mouse.prototype = {}
 Mouse.mt = {}
 

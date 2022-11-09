@@ -9,6 +9,7 @@ local utils = require("barbecue.utils")
 
 local Ui = {}
 
+---@type BarbecueUi
 Ui.prototype = {}
 Ui.mt = {}
 

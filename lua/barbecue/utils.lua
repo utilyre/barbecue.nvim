@@ -6,6 +6,7 @@
 
 local Utils = {}
 
+---@type BarbecueUtils
 Utils.prototype = {}
 Utils.mt = {}
 
