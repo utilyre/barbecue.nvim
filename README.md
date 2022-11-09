@@ -118,19 +118,29 @@ vim.api.nvim_create_autocmd({
       return ""
     end,
 
-    ---:help filename-modifiers
-    ---@type table<string, string>
     modifiers = {
+      ---filename modifiers applied to dirname
+      ---@type string
       dirname = ":~:.",
+
+      ---filename modifiers applied to basename
+      ---@type string
       basename = "",
     },
 
     ---icons used by barbecue
     ---@type table<string, string>
     symbols = {
-      prefix = " ",
+      ---entry separator
+      ---@type string
       separator = "",
+
+      ---modification indicator
+      ---@type string
       modified = "",
+
+      ---context placeholder for the root node
+      ---@type string
       default_context = "…",
     },
 
