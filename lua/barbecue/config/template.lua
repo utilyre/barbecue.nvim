@@ -36,11 +36,13 @@ local M = {
     separator = "",
 
     ---modification indicator
-    ---@type string
-    modified = "",
+    ---`false` to disable
+    ---@type boolean|string
+    modified = false,
 
     ---context placeholder for the root node
-    ---@type string
+    ---`false` to disable
+    ---@type boolean|string
     default_context = "…",
   },
 

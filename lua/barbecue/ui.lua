@@ -64,6 +64,10 @@ local function get_context(winnr, bufnr)
   end
 
   if #data == 0 then
+    if not config.user.symbols.default_context then
+      return ""
+    end
+
     return "%#NavicSeparator# "
       .. config.user.symbols.separator
       .. " %#NavicText#"
@@ -150,7 +154,7 @@ function Ui.prototype:update(winnr)
       .. "%#NavicText#"
       .. utils:exp_escape(basename)
       .. "%X"
-      .. (vim.bo[bufnr].modified and " %#BarbecueMod#" .. config.user.symbols.modified or "")
+      .. ((config.user.symbols.modified and vim.bo[bufnr].modified) and " %#BarbecueMod#" .. config.user.symbols.modified or "")
       .. context
       .. "%#NavicText#"
 
