@@ -84,7 +84,7 @@ vim.api.nvim_create_autocmd({
   callback = function(a)
     for _, winnr in ipairs(vim.api.nvim_list_wins()) do
       if a.buf == vim.api.nvim_win_get_buf(winnr) then
-        require("barbecue.ui").update(winnr)
+        require("barbecue.ui"):update(winnr)
       end
     end
 
