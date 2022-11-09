@@ -28,7 +28,6 @@ local M = {
   ---icons used by barbecue
   ---@type table<string, string>
   symbols = {
-    prefix = " ",
     separator = "",
     modified = "",
     default_context = "…",

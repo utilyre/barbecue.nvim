@@ -138,8 +138,7 @@ function Ui.prototype:update(winnr)
       return
     end
 
-    local winbar = "%#NavicText#"
-      .. config.user.symbols.prefix
+    local winbar = "%#NavicText# "
       .. utils:str_gsub(
         utils:exp_escape(dirname),
         "/",
@@ -157,7 +156,7 @@ function Ui.prototype:update(winnr)
 
     local custom_section = config.user.custom_section(bufnr)
     if vim.tbl_contains({ "number", "string" }, type(custom_section)) then
-      winbar = winbar .. "%=" .. custom_section
+      winbar = winbar .. "%=" .. custom_section .. " "
     end
 
     vim.wo[winnr].winbar = winbar
