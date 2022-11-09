@@ -22,13 +22,9 @@ local function get_filename(bufnr)
   local filename = vim.api.nvim_buf_get_name(bufnr)
   local dirname = vim.fn.fnamemodify(filename, config.user.modifiers.dirname .. ":h") .. "/"
   -- treats the first slash as a directory instead of a separator
-  if dirname ~= "//" and dirname:sub(1, 1) == "/" then
-    dirname = "/" .. dirname
-  end
+  if dirname ~= "//" and dirname:sub(1, 1) == "/" then dirname = "/" .. dirname end
   -- won't show the dirname if the file is in the current working directory
-  if dirname == "./" then
-    dirname = ""
-  end
+  if dirname == "./" then dirname = "" end
 
   local basename = vim.fn.fnamemodify(filename, config.user.modifiers.basename .. ":t")
 
@@ -41,9 +37,7 @@ end
 ---@return string|nil highlight
 local function get_icon(bufnr)
   local ok, devicons = pcall(require, "nvim-web-devicons")
-  if not ok then
-    return nil, nil
-  end
+  if not ok then return nil, nil end
 
   local icon, highlight = devicons.get_icon_by_filetype(vim.bo[bufnr].filetype)
   return icon, highlight
@@ -54,19 +48,13 @@ end
 ---@param bufnr number
 ---@return string
 local function get_context(winnr, bufnr)
-  if not navic.is_available() then
-    return ""
-  end
+  if not navic.is_available() then return "" end
 
   local data = navic.get_data(bufnr)
-  if data == nil then
-    return ""
-  end
+  if data == nil then return "" end
 
   if #data == 0 then
-    if not config.user.symbols.default_context then
-      return ""
-    end
+    if not config.user.symbols.default_context then return "" end
 
     return "%#NavicSeparator# "
       .. config.user.symbols.separator
@@ -97,9 +85,7 @@ local function get_context(winnr, bufnr)
 end
 
 function Ui.prototype:toggle(visible)
-  if visible == nil then
-    visible = not self.visible
-  end
+  if visible == nil then visible = not self.visible end
 
   self.visible = visible
   for _, winnr in ipairs(vim.api.nvim_list_wins()) do

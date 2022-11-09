@@ -12,9 +12,7 @@ function Mouse.prototype:navigate(winnr, position)
 end
 
 function Mouse.mt.__index(self, key)
-  if type(key) ~= "string" then
-    return
-  end
+  if type(key) ~= "string" then return end
 
   local parts = vim.split(key, "_")
   if parts[1] == "navigate" and #parts == 4 then
@@ -22,10 +20,7 @@ function Mouse.mt.__index(self, key)
     local position = { tonumber(parts[3]), tonumber(parts[4]) }
 
     return function(_, _, button)
-      if button ~= "l" then
-        return
-      end
-
+      if button ~= "l" then return end
       self:navigate(winnr, position)
     end
   end

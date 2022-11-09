@@ -30,9 +30,7 @@ local function create_user_command(name, actions)
     nargs = "*",
     complete = function(_, line)
       local args = vim.split(line, "%s+")
-      if #args ~= 2 then
-        return {}
-      end
+      if #args ~= 2 then return {} end
 
       return vim.tbl_filter(function(subcommand)
         return vim.startswith(subcommand, args[2])
@@ -85,9 +83,7 @@ function M.setup(cfg)
       group = vim.api.nvim_create_augroup("barbecue", {}),
       callback = function(a)
         for _, winnr in ipairs(vim.api.nvim_list_wins()) do
-          if a.buf == vim.api.nvim_win_get_buf(winnr) then
-            ui:update(winnr)
-          end
+          if a.buf == vim.api.nvim_win_get_buf(winnr) then ui:update(winnr) end
         end
       end,
     })
