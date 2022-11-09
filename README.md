@@ -1,9 +1,9 @@
 <h1 align="center">Barbecue</h1>
 
 <p align="center">
-  This is a vscode like winbar that uses
+  This is a VS Code like winbar that uses
   <a href="https://github.com/SmiteshP/nvim-navic">nvim-navic</a>
-  in order to get lsp context from your language server.
+  in order to get LSP context from your language server.
 </p>
 
 https://user-images.githubusercontent.com/91974155/197051920-0e89203e-1f0c-4f3c-af72-e7d5e13340ad.mp4
@@ -13,7 +13,7 @@ https://user-images.githubusercontent.com/91974155/197051920-0e89203e-1f0c-4f3c-
 - [NVIM v0.8+](https://github.com/neovim/neovim/releases/latest): Winbar support.
 - [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig): Dependency of nvim-navic.
 - [nvim-navic](https://github.com/smiteshp/nvim-navic): LSP `textDocument/documentSymbol` provider.
-- [nvim-web-devicons](https://github.com/kyazdani42/nvim-web-devicons): File icon provider. (optional)
+- [nvim-web-devicons](https://github.com/kyazdani42/nvim-web-devicons): File icon provider. _(optional)_
 
 ## 📬 Installation
 
