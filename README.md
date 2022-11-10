@@ -233,8 +233,3 @@ vim.api.nvim_create_autocmd({
   | **NavicText**               | _Normal_                   |
   | **NavicSeparator**          | _Conceal_                  |
 </details>
-
-## 📓 Todo
-
-- [x] Add a preview gif in the readme.
-- [ ] Add `barbecue.nvim` help tag.
