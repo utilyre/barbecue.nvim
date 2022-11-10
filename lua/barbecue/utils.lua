@@ -3,6 +3,8 @@
 ---@field str_escape fun(self: BarbecueUtils, str: string): string escapes `str` from lua regex
 ---@field str_gsub fun(self: BarbecueUtils, str: string, patt: string, repl: string, from: number?, to: number?): string substitutes `str` within `from` and `to`
 ---@field tbl_map fun(self: BarbecueUtils, tbl: table, cb: fun(value: any, key: any)): table applies `cb` to all values of `tbl`
+---@field tbl_insert_unique fun(self: BarbecueUtils, tbl: table, value: any)
+---@field tbl_remove_by_value fun(self: BarbecueUtils, tbl: table, value: any)
 
 local Utils = {}
 
@@ -35,6 +37,20 @@ function Utils.prototype:tbl_map(tbl, cb)
   end
 
   return ret
+end
+
+function Utils.prototype:tbl_insert_unique(tbl, value)
+  if vim.tbl_contains(tbl, value) then return end
+  table.insert(tbl, value)
+end
+
+function Utils.prototype:tbl_remove_by_value(tbl, value)
+  for i, v in ipairs(tbl) do
+    if v == value then
+      table.remove(tbl, i)
+      return
+    end
+  end
 end
 
 ---creates a new instance

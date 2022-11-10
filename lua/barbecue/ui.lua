@@ -4,6 +4,7 @@ local utils = require("barbecue.utils")
 
 ---@class BarbecueUi
 ---@field visible boolean whether barbecue is visible
+---@field affected_wins number[] list of windows in which winbar has been set by barbecue
 ---@field toggle fun(self: BarbecueUi, visible: boolean?) toggles `visible`
 ---@field update fun(self: BarbecueUi, winnr: number?) updates barbecue on `winnr`
 
@@ -14,6 +15,7 @@ Ui.prototype = {}
 Ui.mt = {}
 
 Ui.prototype.visible = true
+Ui.prototype.affected_wins = {}
 
 ---returns dirname and basename of the given buffer
 ---@param bufnr number
@@ -103,6 +105,11 @@ function Ui.prototype:update(winnr)
     or vim.tbl_contains(config.user.exclude_filetypes, vim.bo[bufnr].filetype)
     or vim.api.nvim_win_get_config(winnr).relative ~= ""
   then
+    if vim.tbl_contains(self.affected_wins, winnr) then
+      vim.wo[winnr].winbar = nil
+      utils:tbl_remove_by_value(self.affected_wins, winnr)
+    end
+
     return
   end
 
@@ -151,6 +158,7 @@ function Ui.prototype:update(winnr)
     end
 
     vim.wo[winnr].winbar = winbar
+    utils:tbl_insert_unique(self.affected_wins, winnr)
   end)
 end
 
