@@ -65,6 +65,20 @@ several things you should be aware of.
 - `:Barbecue show`: Shows winbar on all windows.
 - `:Barbecue toggle`: Toggles winbar on all windows.
 
+### API
+
+- Hide/Show/Toggle barbecue
+
+  ```lua
+  require("barbecue.ui"):toggle([false|true])
+  ```
+
+- Update barbecue in a single window
+
+  ```lua
+  require("barbecue.ui"):update([winnr])
+  ```
+
 ### Autocmd
 
 In order to customize the autocmd behavior, you need to override `barbecue`
