@@ -37,12 +37,12 @@ local M = {
 
     ---modification indicator
     ---`false` to disable
-    ---@type boolean|string
+    ---@type false|string
     modified = false,
 
     ---context placeholder for the root node
     ---`false` to disable
-    ---@type boolean|string
+    ---@type false|string
     default_context = "…",
   },
 
