@@ -77,6 +77,7 @@ function M.setup(cfg)
       "BufWinEnter",
       "BufWritePost",
       "CursorMoved",
+      "InsertLeave",
       "TextChanged",
       "TextChangedI",
     }, {
