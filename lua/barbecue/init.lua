@@ -4,41 +4,6 @@ local utils = require("barbecue.utils")
 
 local M = {}
 
----creates user command named `name` and defines subcommands according to `actions`
----@param name string
----@param actions table<string, fun()>
-local function create_user_command(name, actions)
-  local subcommands = utils.tbl_map(actions, function(_, subcommand)
-    return subcommand
-  end)
-
-  vim.api.nvim_create_user_command(name, function(params)
-    if #params.fargs < 1 then
-      vim.notify("no subcommand is provided", vim.log.levels.ERROR)
-      return
-    end
-
-    local subcommand = params.fargs[1]
-    local action = actions[subcommand]
-    if action == nil then
-      vim.notify(("'%s' is not a subcommand"):format(subcommand), vim.log.levels.ERROR)
-      return
-    end
-
-    action()
-  end, {
-    nargs = "*",
-    complete = function(_, line)
-      local args = vim.split(line, "%s+")
-      if #args ~= 2 then return {} end
-
-      return vim.tbl_filter(function(subcommand)
-        return vim.startswith(subcommand, args[2])
-      end, subcommands)
-    end,
-  })
-end
-
 ---@deprecated
 function M.update(winnr)
   vim.notify(
@@ -83,7 +48,7 @@ function M.setup(cfg)
     })
   end
 
-  create_user_command("Barbecue", {
+  utils.create_user_command("Barbecue", {
     hide = function()
       ui:toggle(false)
     end,
