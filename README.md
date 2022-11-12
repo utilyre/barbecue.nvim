@@ -33,27 +33,6 @@ use {
 }
 ```
 
-Then attach nvim-navic to any language server you want barbecue to work with
-(e.g. tsserver)
-
-```lua
-require("lspconfig").tsserver.setup({
-  -- ...
-
-  on_attach = function(client, bufnr)
-    -- ...
-
-    if client.server_capabilities["documentSymbolProvider"] then
-      require("nvim-navic").attach(client, bufnr)
-    end
-
-    -- ...
-  end,
-
-  -- ...
-})
-```
-
 ## 🚀 Usage
 
 Barbecue will work right after [installation](#-installation), but there are
@@ -70,13 +49,13 @@ several things you should be aware of.
 - Hide/Show/Toggle barbecue
 
   ```lua
-  require("barbecue.ui"):toggle([false|true])
+  require("barbecue.ui").toggle([false|true])
   ```
 
 - Update barbecue in a single window
 
   ```lua
-  require("barbecue.ui"):update([winnr])
+  require("barbecue.ui").update([winnr])
   ```
 
 ### Autocmd
@@ -115,6 +94,10 @@ vim.api.nvim_create_autocmd({
 
   ```lua
   {
+    ---whether to attach navic to language servers automatically
+    ---@type boolean
+    attach_navic = true,
+
     ---whether to create winbar updater autocmd
     ---@type boolean
     create_autocmd = true,
