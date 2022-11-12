@@ -1,5 +1,9 @@
 ---@class BarbecueTemplateConfig
 local M = {
+  ---whether to attach navic to language servers automatically
+  ---@type boolean
+  attach_navic = true,
+
   ---whether to create winbar updater autocmd
   ---@type boolean
   create_autocmd = true,

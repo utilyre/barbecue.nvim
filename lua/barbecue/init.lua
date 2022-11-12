@@ -1,3 +1,4 @@
+local navic = require("nvim-navic")
 local config = require("barbecue.config")
 local ui = require("barbecue.ui")
 local utils = require("barbecue.utils")
@@ -30,6 +31,18 @@ function M.setup(cfg)
   config.apply_config(cfg)
   config.resort_highlights()
 
+  local augroup = vim.api.nvim_create_augroup("barbecue", {})
+
+  if config.user.attach_navic then
+    vim.api.nvim_create_autocmd("LspAttach", {
+      group = augroup,
+      callback = function(a)
+        local client = vim.lsp.get_client_by_id(a.data.client_id)
+        if client.server_capabilities["documentSymbolProvider"] then navic.attach(client, a.buf) end
+      end,
+    })
+  end
+
   if config.user.create_autocmd then
     vim.api.nvim_create_autocmd({
       "BufWinEnter",
@@ -39,7 +52,7 @@ function M.setup(cfg)
       "TextChanged",
       "TextChangedI",
     }, {
-      group = vim.api.nvim_create_augroup("barbecue", {}),
+      group = augroup,
       callback = function(a)
         for _, winnr in ipairs(vim.api.nvim_list_wins()) do
           if a.buf == vim.api.nvim_win_get_buf(winnr) then ui.update(winnr) end
