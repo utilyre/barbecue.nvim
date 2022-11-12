@@ -80,7 +80,7 @@ local function get_context(winnr, bufnr)
       .. "#"
       .. config.user.kinds[entry.type]
       .. " %#NavicText#"
-      .. utils:exp_escape(entry.name)
+      .. utils.exp_escape(entry.name)
       .. "%X"
   end
 
@@ -107,7 +107,7 @@ function Ui.prototype:update(winnr)
   then
     if vim.tbl_contains(self.affected_wins, winnr) then
       vim.wo[winnr].winbar = nil
-      utils:tbl_remove_by_value(self.affected_wins, winnr)
+      utils.tbl_remove_by_value(self.affected_wins, winnr)
     end
 
     return
@@ -137,16 +137,16 @@ function Ui.prototype:update(winnr)
     end
 
     local winbar = "%#NavicText# "
-      .. utils:str_gsub(
-        utils:exp_escape(dirname),
+      .. utils.str_gsub(
+        utils.exp_escape(dirname),
         "/",
-        utils:str_escape("%#NavicSeparator# " .. config.user.symbols.separator .. " %#NavicText#"),
+        utils.str_escape("%#NavicSeparator# " .. config.user.symbols.separator .. " %#NavicText#"),
         2
       )
       .. ("%%@v:lua.require'barbecue.mouse'.navigate_%d_1_0@"):format(winnr)
       .. ((icon == nil or highlight == nil) and "" or ("%#" .. highlight .. "#" .. icon .. " "))
       .. "%#NavicText#"
-      .. utils:exp_escape(basename)
+      .. utils.exp_escape(basename)
       .. "%X"
       .. ((config.user.symbols.modified and vim.bo[bufnr].modified) and " %#BarbecueMod#" .. config.user.symbols.modified or "")
       .. context
@@ -158,7 +158,7 @@ function Ui.prototype:update(winnr)
     end
 
     vim.wo[winnr].winbar = winbar
-    utils:tbl_insert_unique(self.affected_wins, winnr)
+    if not vim.tbl_contains(self.affected_wins, winnr) then table.insert(self.affected_wins, winnr) end
   end)
 end
 

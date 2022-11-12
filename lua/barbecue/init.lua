@@ -6,9 +6,9 @@ local M = {}
 
 ---creates user command named `name` and defines subcommands according to `actions`
 ---@param name string
----@param actions fun()[]
+---@param actions table<string, fun()>
 local function create_user_command(name, actions)
-  local subcommands = utils:tbl_map(actions, function(_, subcommand)
+  local subcommands = utils.tbl_map(actions, function(_, subcommand)
     return subcommand
   end)
 
