@@ -62,15 +62,8 @@ end
 ---configures and starts barbecue
 ---@param cfg BarbecueTemplateConfig
 function M.setup(cfg)
-  config:apply(cfg)
-
-  -- resorts to built-in and nvim-cmp highlight groups if nvim-navic highlight groups are not defined
-  for from, to in pairs(config.highlights) do
-    vim.api.nvim_set_hl(0, from, {
-      link = to,
-      default = true,
-    })
-  end
+  config.apply_config(cfg)
+  config.resort_highlights()
 
   if config.user.create_autocmd then
     vim.api.nvim_create_autocmd({

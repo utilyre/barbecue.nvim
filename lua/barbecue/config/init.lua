@@ -1,31 +1,26 @@
-local highlights = require("barbecue.config.highlights")
 local template = require("barbecue.config.template")
+local highlights = require("barbecue.config.highlights")
 
----@class BarbecueConfig
----@field highlights BarbecueHighlights highlight group mappings
----@field template BarbecueTemplateConfig default configurations
----@field user BarbecueTemplateConfig user specified configurations
----@field apply fun(self: BarbecueConfig, cfg: BarbecueTemplateConfig) merges `config` into `template` and sets it as `user`
+local M = {}
 
-local Config = {}
+---user specified configurations
+---@type BarbecueTemplateConfig
+M.user = template
 
----@type BarbecueConfig
-Config.prototype = {}
-Config.mt = {}
-
-Config.prototype.highlights = highlights
-Config.prototype.template = template
-Config.prototype.user = template
-
-function Config.prototype:apply(cfg)
-  self.user = vim.tbl_deep_extend("force", self.template, cfg)
+---merges `cfg` into `template` and sets it as `user`
+---@param cfg BarbecueTemplateConfig
+function M.apply_config(cfg)
+  M.user = vim.tbl_deep_extend("force", template, cfg)
 end
 
----creates a new instance
----@return BarbecueConfig
-function Config:new()
-  local config = Config.prototype
-  return setmetatable(config, Config.mt)
+---resorts to default highlight mappings if plugin specific highlights are not defined
+function M.resort_highlights()
+  for from, to in pairs(highlights) do
+    vim.api.nvim_set_hl(0, from, {
+      link = to,
+      default = true,
+    })
+  end
 end
 
-return Config:new()
+return M
