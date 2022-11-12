@@ -2,20 +2,15 @@ local navic = require("nvim-navic")
 local config = require("barbecue.config")
 local utils = require("barbecue.utils")
 
----@class BarbecueUi
----@field visible boolean whether barbecue is visible
----@field affected_wins number[] list of windows in which winbar has been set by barbecue
----@field toggle fun(self: BarbecueUi, visible: boolean?) toggles `visible`
----@field update fun(self: BarbecueUi, winnr: number?) updates barbecue on `winnr`
+local M = {}
 
-local Ui = {}
+---whether barbecue is visible
+---@type boolean
+local visible = true
 
----@type BarbecueUi
-Ui.prototype = {}
-Ui.mt = {}
-
-Ui.prototype.visible = true
-Ui.prototype.affected_wins = {}
+---list of windows in which winbar has been set by barbecue
+---@type number[]
+local affected_wins = {}
 
 ---returns dirname and basename of the given buffer
 ---@param bufnr number
@@ -87,16 +82,21 @@ local function get_context(winnr, bufnr)
   return context
 end
 
-function Ui.prototype:toggle(visible)
-  if visible == nil then visible = not self.visible end
+---toggles visibility
+---@param shown boolean?
+function M.toggle(shown)
+  if shown == nil then shown = not visible end
 
-  self.visible = visible
+  visible = shown
   for _, winnr in ipairs(vim.api.nvim_list_wins()) do
-    self:update(winnr)
+    M.update(winnr)
   end
 end
 
-function Ui.prototype:update(winnr)
+---@async
+---updates barbecue on `winnr`
+---@param winnr number?
+function M.update(winnr)
   winnr = winnr or vim.api.nvim_get_current_win()
   local bufnr = vim.api.nvim_win_get_buf(winnr)
 
@@ -105,15 +105,15 @@ function Ui.prototype:update(winnr)
     or vim.tbl_contains(config.user.exclude_filetypes, vim.bo[bufnr].filetype)
     or vim.api.nvim_win_get_config(winnr).relative ~= ""
   then
-    if vim.tbl_contains(self.affected_wins, winnr) then
+    if vim.tbl_contains(affected_wins, winnr) then
       vim.wo[winnr].winbar = nil
-      utils.tbl_remove_by_value(self.affected_wins, winnr)
+      utils.tbl_remove_by_value(affected_wins, winnr)
     end
 
     return
   end
 
-  if not self.visible then
+  if not visible then
     vim.wo[winnr].winbar = nil
     return
   end
@@ -158,15 +158,8 @@ function Ui.prototype:update(winnr)
     end
 
     vim.wo[winnr].winbar = winbar
-    if not vim.tbl_contains(self.affected_wins, winnr) then table.insert(self.affected_wins, winnr) end
+    if not vim.tbl_contains(affected_wins, winnr) then table.insert(affected_wins, winnr) end
   end)
 end
 
----creates a new instance
----@return BarbecueUi
-function Ui:new()
-  local ui = Ui.prototype
-  return setmetatable(ui, Ui.mt)
-end
-
-return Ui:new()
+return M
