@@ -26,9 +26,9 @@ function M.toggle(shown)
 end
 
 ---configures and starts barbecue
----@param cfg BarbecueTemplateConfig
+---@param cfg BarbecueTemplateConfig?
 function M.setup(cfg)
-  config.apply_config(cfg)
+  config.apply_config(cfg or {})
   config.resort_highlights()
 
   local augroup = vim.api.nvim_create_augroup("barbecue", {})
