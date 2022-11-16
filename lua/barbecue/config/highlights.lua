@@ -1,4 +1,4 @@
----@class BarbecueHighlights
+---@type table<string, string>
 local M = {
   BarbecueMod = "BufferVisibleMod",
   NavicText = "Normal",
