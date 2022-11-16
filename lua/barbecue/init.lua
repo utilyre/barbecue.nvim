@@ -53,10 +53,8 @@ function M.setup(cfg)
       "TextChangedI",
     }, {
       group = augroup,
-      callback = function(a)
-        for _, winnr in ipairs(vim.api.nvim_list_wins()) do
-          if a.buf == vim.api.nvim_win_get_buf(winnr) then ui.update(winnr) end
-        end
+      callback = function()
+        ui.update()
       end,
     })
   end
