@@ -65,7 +65,8 @@ local function get_context(winnr, bufnr)
     context = context
       .. "%#NavicSeparator# "
       .. config.user.symbols.separator
-      .. (" %%@v:lua.require'barbecue.mouse'.navigate_%d_%d_%d@"):format(
+      .. string.format(
+        " %%@v:lua.require'barbecue.mouse'.navigate_%d_%d_%d@",
         winnr,
         entry.scope.start.line,
         entry.scope.start.character
@@ -143,7 +144,7 @@ function M.update(winnr)
         utils.str_escape("%#NavicSeparator# " .. config.user.symbols.separator .. " %#NavicText#"),
         2
       )
-      .. ("%%@v:lua.require'barbecue.mouse'.navigate_%d_1_0@"):format(winnr)
+      .. string.format("%%@v:lua.require'barbecue.mouse'.navigate_%d_1_0@", winnr)
       .. ((icon == nil or highlight == nil) and "" or ("%#" .. highlight .. "#" .. icon .. " "))
       .. "%#NavicText#"
       .. utils.exp_escape(basename)
