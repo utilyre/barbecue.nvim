@@ -29,7 +29,7 @@ end
 ---@param cfg BarbecueConfig?
 function M.setup(cfg)
   config.apply_config(cfg or {})
-  config.resort_highlights()
+  config.guarantee_highlights()
 
   local augroup = vim.api.nvim_create_augroup("barbecue", {})
 

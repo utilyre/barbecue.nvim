@@ -14,7 +14,7 @@ function M.apply_config(cfg)
 end
 
 ---resorts to default highlight mappings if plugin specific highlights are not defined
-function M.resort_highlights()
+function M.guarantee_highlights()
   for from, to in pairs(highlights) do
     vim.api.nvim_set_hl(0, from, {
       link = to,
