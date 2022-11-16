@@ -75,12 +75,8 @@ vim.api.nvim_create_autocmd({
   -- add more events here
 }, {
   group = vim.api.nvim_create_augroup("barbecue", {}),
-  callback = function(a)
-    for _, winnr in ipairs(vim.api.nvim_list_wins()) do
-      if a.buf == vim.api.nvim_win_get_buf(winnr) then
-        require("barbecue.ui"):update(winnr)
-      end
-    end
+  callback = function()
+    require("barbecue.ui"):update()
 
     -- maybe a bit more logic here
   end,
