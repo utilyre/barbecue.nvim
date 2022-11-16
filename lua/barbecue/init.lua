@@ -26,7 +26,7 @@ function M.toggle(shown)
 end
 
 ---configures and starts barbecue
----@param cfg BarbecueTemplateConfig?
+---@param cfg BarbecueConfig?
 function M.setup(cfg)
   config.apply_config(cfg or {})
   config.resort_highlights()

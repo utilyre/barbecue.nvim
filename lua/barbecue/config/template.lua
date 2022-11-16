@@ -1,4 +1,4 @@
----@class BarbecueTemplateConfig
+---@class BarbecueConfig
 local M = {
   ---whether to attach navic to language servers automatically
   ---@type boolean

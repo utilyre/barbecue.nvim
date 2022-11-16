@@ -4,11 +4,11 @@ local highlights = require("barbecue.config.highlights")
 local M = {}
 
 ---user specified configurations
----@type BarbecueTemplateConfig
+---@type BarbecueConfig
 M.user = template
 
 ---merges `cfg` into `template` and sets it as `user`
----@param cfg BarbecueTemplateConfig
+---@param cfg BarbecueConfig
 function M.apply_config(cfg)
   M.user = vim.tbl_deep_extend("force", template, cfg)
 end
