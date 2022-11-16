@@ -68,7 +68,12 @@ function M.create_user_command(name, actions)
 
   vim.api.nvim_create_user_command(name, function(params)
     if #params.fargs < 1 then
-      vim.notify("no subcommand is provided", vim.log.levels.ERROR)
+      local msg = "Available subcommands:"
+      for _, subcommand in ipairs(subcommands) do
+        msg = string.format("%s\n  - %s", msg, subcommand)
+      end
+
+      vim.notify(msg, vim.log.levels.INFO)
       return
     end
 
