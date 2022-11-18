@@ -40,9 +40,11 @@ several things you should be aware of.
 
 ### Commands
 
-- `:Barbecue hide`: Hides winbar on all windows.
-- `:Barbecue show`: Shows winbar on all windows.
-- `:Barbecue toggle`: Toggles winbar on all windows.
+- Hide/Show/Toggle winbar
+
+  ```vim
+  Barbecue {hide,show,toggle}
+  ```
 
 ### API
 
