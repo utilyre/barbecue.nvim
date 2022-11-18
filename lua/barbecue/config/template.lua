@@ -51,7 +51,7 @@ local M = {
   },
 
   ---icons for different context entry kinds
-  ---@type table<string, string>
+  ---@type table<string, false|string>
   kinds = {
     File = "",
     Package = "",

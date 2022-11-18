@@ -74,8 +74,8 @@ local function get_context(winnr, bufnr)
       .. "%#NavicIcons"
       .. entry.type
       .. "#"
-      .. config.user.kinds[entry.type]
-      .. " %#NavicText#"
+      .. (config.user.kinds[entry.type] and config.user.kinds[entry.type] .. " " or "")
+      .. "%#NavicText#"
       .. utils.exp_escape(entry.name)
       .. "%X"
   end

@@ -143,7 +143,7 @@ vim.api.nvim_create_autocmd({
     },
 
     ---icons for different context entry kinds
-    ---@type table<string, string>
+    ---@type table<string, false|string>
     kinds = {
       File = "",
       Package = "",
