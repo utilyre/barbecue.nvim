@@ -45,19 +45,6 @@ function M.tbl_map(tbl, cb)
   return ret
 end
 
----removes `value` from `tbl`
----@generic V
----@param list V[]
----@param value V
-function M.tbl_remove_by_value(list, value)
-  for i, v in ipairs(list) do
-    if v == value then
-      table.remove(list, i)
-      return
-    end
-  end
-end
-
 ---creates user command named `name` and defines subcommands according to `actions`
 ---@param name string
 ---@param actions table<string, fun()>

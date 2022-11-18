@@ -9,7 +9,7 @@ local M = {}
 local visible = true
 
 ---list of windows in which winbar has been set by barbecue
----@type number[]
+---@type table<number, true>
 local affected_wins = {}
 
 ---returns dirname and basename of the given buffer
@@ -106,9 +106,9 @@ function M.update(winnr)
     or vim.tbl_contains(config.user.exclude_filetypes, vim.bo[bufnr].filetype)
     or vim.api.nvim_win_get_config(winnr).relative ~= ""
   then
-    if vim.tbl_contains(affected_wins, winnr) then
+    if affected_wins[winnr] == true then
       vim.wo[winnr].winbar = nil
-      utils.tbl_remove_by_value(affected_wins, winnr)
+      affected_wins[winnr] = nil
     end
 
     return
@@ -159,7 +159,7 @@ function M.update(winnr)
     end
 
     vim.wo[winnr].winbar = winbar
-    if not vim.tbl_contains(affected_wins, winnr) then table.insert(affected_wins, winnr) end
+    affected_wins[winnr] = true
   end)
 end
 
