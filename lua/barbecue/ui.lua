@@ -4,11 +4,11 @@ local utils = require("barbecue.utils")
 
 local M = {}
 
----whether barbecue is visible
+---whether winbar is visible
 ---@type boolean
 local visible = true
 
----list of windows in which winbar has been set by barbecue
+---list of windows in which winbar has been set
 ---@type table<number, true>
 local affected_wins = {}
 
@@ -95,7 +95,7 @@ function M.toggle(shown)
 end
 
 ---@async
----updates barbecue on `winnr`
+---updates winbar on `winnr`
 ---@param winnr number?
 function M.update(winnr)
   winnr = winnr or vim.api.nvim_get_current_win()

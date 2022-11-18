@@ -48,13 +48,13 @@ several things you should be aware of.
 
 ### API
 
-- Hide/Show/Toggle barbecue
+- Hide/Show/Toggle winbar
 
   ```lua
   require("barbecue.ui").toggle([false|true])
   ```
 
-- Update barbecue in a single window
+- Update winbar in a single window
 
   ```lua
   require("barbecue.ui").update([winnr])
