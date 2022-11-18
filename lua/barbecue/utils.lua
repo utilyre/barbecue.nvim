@@ -30,28 +30,11 @@ function M.str_gsub(str, patt, repl, from, to)
   return str:sub(1, from - 1) .. str:sub(from, to):gsub(patt, repl) .. str:sub(to + 1, str:len())
 end
 
----applies `cb` to all values of `tbl`
----@generic K, V
----@param tbl table<K, V>
----@param cb fun(value: V, key: K): any, any
----@return table
-function M.tbl_map(tbl, cb)
-  local ret = {}
-  for key, value in pairs(tbl) do
-    local v, k = cb(value, key)
-    ret[k or #ret + 1] = v
-  end
-
-  return ret
-end
-
 ---creates user command named `name` and defines subcommands according to `actions`
 ---@param name string
 ---@param actions table<string, fun()>
 function M.create_user_command(name, actions)
-  local subcommands = M.tbl_map(actions, function(_, subcommand)
-    return subcommand
-  end)
+  local subcommands = vim.tbl_keys(actions)
 
   vim.api.nvim_create_user_command(name, function(params)
     if #params.fargs < 1 then
