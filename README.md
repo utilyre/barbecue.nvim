@@ -78,7 +78,7 @@ vim.api.nvim_create_autocmd({
 }, {
   group = vim.api.nvim_create_augroup("barbecue", {}),
   callback = function()
-    require("barbecue.ui"):update()
+    require("barbecue.ui").update()
 
     -- maybe a bit more logic here
   end,
