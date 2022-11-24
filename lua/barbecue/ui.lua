@@ -152,6 +152,7 @@ function M.update(winnr)
     local context = get_context(winnr, bufnr)
     if basename == nil then return end
 
+    ---@type barbecue.Entry[]
     local entries = {}
     utils.tbl_merge(entries, dirname or {}, { basename }, context or {})
 
