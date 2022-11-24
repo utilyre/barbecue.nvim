@@ -8,8 +8,8 @@ local M = {}
 ---@type boolean
 local visible = true
 
----list of windows in which winbar has been set
----@type table<number, true>
+---mapping of `winnr` to its `winbar` state before being set
+---@type table<number, string>
 local affected_wins = {}
 
 ---returns dirname and basename of the given buffer
@@ -106,8 +106,8 @@ function M.update(winnr)
     or vim.tbl_contains(config.user.exclude_filetypes, vim.bo[bufnr].filetype)
     or vim.api.nvim_win_get_config(winnr).relative ~= ""
   then
-    if affected_wins[winnr] == true then
-      vim.wo[winnr].winbar = nil
+    if affected_wins[winnr] ~= nil then
+      vim.wo[winnr].winbar = affected_wins[winnr]
       affected_wins[winnr] = nil
     end
 
@@ -158,8 +158,8 @@ function M.update(winnr)
       winbar = winbar .. "%=" .. custom_section .. " "
     end
 
+    affected_wins[winnr] = vim.wo[winnr].winbar
     vim.wo[winnr].winbar = winbar
-    affected_wins[winnr] = true
   end)
 end
 
