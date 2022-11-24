@@ -10,6 +10,10 @@ M.user = template
 ---merges `cfg` into `template` and sets it as `user`
 ---@param cfg BarbecueConfig
 function M.apply_config(cfg)
+  if cfg.symbols.default_context ~= nil then
+    vim.notify("symbols.default_context is deprecated, please remove it from your barbecue config", vim.log.levels.WARN)
+  end
+
   M.user = vim.tbl_deep_extend("force", template, cfg)
 end
 
