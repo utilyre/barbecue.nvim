@@ -33,7 +33,6 @@ local M = {
   },
 
   ---icons used by barbecue
-  ---@type table<string, string>
   symbols = {
     ---entry separator
     ---@type string
