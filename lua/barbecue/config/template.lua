@@ -17,7 +17,7 @@ local M = {
   exclude_filetypes = { "toggleterm" },
 
   ---returns a string to be shown at the end of winbar
-  ---@type fun(bufnr: number): number|string
+  ---@type fun(bufnr: number): string
   custom_section = function()
     return ""
   end,

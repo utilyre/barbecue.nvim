@@ -154,9 +154,7 @@ function M.update(winnr)
       .. "%#NavicText#"
 
     local custom_section = config.user.custom_section(bufnr)
-    if vim.tbl_contains({ "number", "string" }, type(custom_section)) then
-      winbar = winbar .. "%=" .. custom_section .. " "
-    end
+    if type(custom_section) == "string" then winbar = winbar .. "%=" .. custom_section .. " " end
 
     affected_wins[winnr] = vim.wo[winnr].winbar
     vim.wo[winnr].winbar = winbar
