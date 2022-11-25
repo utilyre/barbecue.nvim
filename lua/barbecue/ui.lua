@@ -102,6 +102,52 @@ local function get_context(winnr, bufnr)
   end, nestings)
 end
 
+---computes length of visible characters of `entries`
+---@param entries barbecue.Entry[]
+---@return number
+local function entries_length(entries)
+  local length = 0
+
+  for i, entry in ipairs(entries) do
+    length = length + utils.str_chars(entry.text[1])
+    if entry.icon ~= nil then length = length + utils.str_chars(entry.icon[1]) + 1 end
+    if i < #entries then length = length + utils.str_chars(config.user.symbols.separator) + 2 end
+  end
+
+  return length
+end
+
+---truncates `entries` based on `max_length`
+---@param entries barbecue.Entry[]
+---@param length number
+---@param max_length number
+local function truncate_entries(entries, length, max_length)
+  local has_been_truncated = false
+  for i, entry in ipairs(entries) do
+    if length <= max_length then break end
+
+    if has_been_truncated then
+      length = length - utils.str_chars(entry.text[1])
+      if entry.icon ~= nil then length = length - (utils.str_chars(entry.icon[1]) + 1) end
+      if i < #entries then length = length - (utils.str_chars(config.user.symbols.separator) + 2) end
+
+      table.remove(entries, i)
+    else
+      length = length - utils.str_chars(entry.text[1])
+      entries[i] = {
+        text = {
+          "...",
+          highlight = "Conceal",
+        },
+      }
+      length = length + 3
+    end
+
+    has_been_truncated = true
+    i = i - 1
+  end
+end
+
 ---toggles visibility
 ---@param shown boolean?
 function M.toggle(shown)
@@ -157,37 +203,8 @@ function M.update(winnr)
     utils.tbl_merge(entries, dirname or {}, { basename }, context or {})
     local custom_section = config.user.custom_section(bufnr)
 
-    local length = utils.str_chars(custom_section) + 2
-    for i, entry in ipairs(entries) do
-      length = length + utils.str_chars(entry.text[1])
-      if entry.icon ~= nil then length = length + utils.str_chars(entry.icon[1]) + 1 end
-      if i < #entries then length = length + utils.str_chars(config.user.symbols.separator) + 2 end
-    end
-
-    local has_truncated = false
-    for i, entry in ipairs(entries) do
-      if length <= vim.api.nvim_win_get_width(winnr) then break end
-
-      if has_truncated then
-        length = length - utils.str_chars(entry.text[1])
-        if entry.icon ~= nil then length = length - (utils.str_chars(entry.icon[1]) + 1) end
-        if i < #entries then length = length - (utils.str_chars(config.user.symbols.separator) + 2) end
-
-        table.remove(entries, i)
-      else
-        length = length - utils.str_chars(entry.text[1])
-        entries[i] = {
-          text = {
-            "...",
-            highlight = "Conceal",
-          },
-        }
-        length = length + 3
-      end
-
-      has_truncated = true
-      i = i - 1
-    end
+    local length = 1 + entries_length(entries) + utils.str_chars(custom_section) + 1
+    truncate_entries(entries, length, vim.api.nvim_win_get_width(winnr))
 
     local winbar = " "
     for i, entry in ipairs(entries) do
