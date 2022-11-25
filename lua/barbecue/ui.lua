@@ -143,7 +143,7 @@ local function truncate_entries(entries, length, max_length)
           highlight = "Conceal",
         },
       }
-      length = length + 3
+      length = length + utils.str_chars(config.user.symbols.ellipsis)
     end
 
     has_been_truncated = true
