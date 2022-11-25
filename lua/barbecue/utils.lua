@@ -33,7 +33,7 @@ end
 ---returns number of UTF-8 chars in `str`
 ---@param str string
 ---@return number
-function M.str_chars(str)
+function M.str_len(str)
   local _, count = str:gsub("[^\128-\193]", "")
   return count
 end

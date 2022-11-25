@@ -109,9 +109,9 @@ local function entries_length(entries)
   local length = 0
 
   for i, entry in ipairs(entries) do
-    if entry.text ~= nil then length = length + utils.str_chars(entry.text[1]) end
-    if entry.icon ~= nil then length = length + utils.str_chars(entry.icon[1]) + 1 end
-    if i < #entries then length = length + utils.str_chars(config.user.symbols.separator) + 2 end
+    if entry.text ~= nil then length = length + utils.str_len(entry.text[1]) end
+    if entry.icon ~= nil then length = length + utils.str_len(entry.icon[1]) + 1 end
+    if i < #entries then length = length + utils.str_len(config.user.symbols.separator) + 2 end
   end
 
   return length
@@ -127,15 +127,15 @@ local function truncate_entries(entries, length, max_length)
     if length <= max_length then break end
 
     if has_been_truncated then
-      if entry.text ~= nil then length = length - utils.str_chars(entry.text[1]) end
-      if entry.icon ~= nil then length = length - (utils.str_chars(entry.icon[1]) + 1) end
-      if i < #entries then length = length - (utils.str_chars(config.user.symbols.separator) + 2) end
+      if entry.text ~= nil then length = length - utils.str_len(entry.text[1]) end
+      if entry.icon ~= nil then length = length - (utils.str_len(entry.icon[1]) + 1) end
+      if i < #entries then length = length - (utils.str_len(config.user.symbols.separator) + 2) end
 
       table.remove(entries, i)
       i = i - 1
     else
-      if entry.text ~= nil then length = length - utils.str_chars(entry.text[1]) end
-      if entry.icon ~= nil then length = length - (utils.str_chars(entry.icon[1]) + 1) end
+      if entry.text ~= nil then length = length - utils.str_len(entry.text[1]) end
+      if entry.icon ~= nil then length = length - (utils.str_len(entry.icon[1]) + 1) end
 
       entries[i] = {
         icon = {
@@ -143,7 +143,7 @@ local function truncate_entries(entries, length, max_length)
           highlight = "Conceal",
         },
       }
-      length = length + utils.str_chars(config.user.symbols.ellipsis)
+      length = length + utils.str_len(config.user.symbols.ellipsis)
     end
 
     has_been_truncated = true
@@ -205,7 +205,7 @@ function M.update(winnr)
     utils.tbl_merge(entries, dirname or {}, { basename }, context or {})
     local custom_section = config.user.custom_section(bufnr)
 
-    local length = 1 + entries_length(entries) + utils.str_chars(custom_section) + 1
+    local length = 1 + entries_length(entries) + utils.str_len(custom_section) + 1
     truncate_entries(entries, length, vim.api.nvim_win_get_width(winnr))
 
     local winbar = " "
