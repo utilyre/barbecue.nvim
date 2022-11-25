@@ -142,7 +142,7 @@ local function truncate_entries(entries, length, max_length)
       entries[i] = {
         icon = {
           config.user.symbols.ellipsis,
-          highlight = "Conceal",
+          highlight = "BarbecueEllipsis",
         },
       }
 

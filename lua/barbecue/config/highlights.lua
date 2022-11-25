@@ -1,6 +1,7 @@
 ---@type table<string, string>
 local M = {
   BarbecueMod = "BufferVisibleMod",
+  BarbecueEllipsis = "Conceal",
   NavicText = "Normal",
   NavicSeparator = "Conceal",
   NavicIconsFile = "CmpItemKindFile",

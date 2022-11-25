@@ -180,6 +180,7 @@ vim.api.nvim_create_autocmd({
   | Highlight Group             | Default Group              |
   | --------------------------- | -------------------------- |
   | **BarbecueMod**             | _BufferVisibleMod_         |
+  | **BarbecueEllipsis**        | _Conceal_                  |
   | **NavicIconsFile**          | _CmpItemKindFile_          |
   | **NavicIconsModule**        | _CmpItemKindModule_        |
   | **NavicIconsNamespace**     | _CmpItemKindModule_        |
