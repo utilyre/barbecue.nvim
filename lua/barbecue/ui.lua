@@ -136,8 +136,8 @@ local function truncate_entries(entries, length, max_length)
       if entry.text ~= nil then length = length - utils.str_chars(entry.text[1]) end
 
       entries[i] = {
-        text = {
-          "...",
+        icon = {
+          config.user.symbols.ellipsis,
           highlight = "Conceal",
         },
       }
