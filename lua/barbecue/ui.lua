@@ -122,21 +122,19 @@ end
 ---@param length number
 ---@param max_length number
 local function truncate_entries(entries, length, max_length)
-  local has_ellipsis = false
-  local truncated_indices = {}
-
-  for i, entry in ipairs(entries) do
+  local has_ellipsis, i = false, 1
+  while i <= #entries do
     if length <= max_length then break end
 
     if has_ellipsis then
-      if entry.text ~= nil then length = length - utils.str_len(entry.text[1]) end
-      if entry.icon ~= nil then length = length - (utils.str_len(entry.icon[1]) + 1) end
+      if entries[i].text ~= nil then length = length - utils.str_len(entries[i].text[1]) end
+      if entries[i].icon ~= nil then length = length - (utils.str_len(entries[i].icon[1]) + 1) end
       if i < #entries then length = length - (utils.str_len(config.user.symbols.separator) + 2) end
 
-      truncated_indices[i] = true
+      table.remove(entries, i)
     else
-      if entry.text ~= nil then length = length - utils.str_len(entry.text[1]) end
-      if entry.icon ~= nil then length = length - (utils.str_len(entry.icon[1]) + 1) end
+      if entries[i].text ~= nil then length = length - utils.str_len(entries[i].text[1]) end
+      if entries[i].icon ~= nil then length = length - (utils.str_len(entries[i].icon[1]) + 1) end
 
       length = length + utils.str_len(config.user.symbols.ellipsis)
       entries[i] = {
@@ -147,11 +145,8 @@ local function truncate_entries(entries, length, max_length)
       }
 
       has_ellipsis = true
+      i = i + 1 -- manually increment i when not removing anything from entries
     end
-  end
-
-  for i = #entries, 1, -1 do
-    if truncated_indices[i] then table.remove(entries, i) end
   end
 end
 
