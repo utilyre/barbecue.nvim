@@ -1,0 +1,5 @@
+- [ ] An option for formatting the winbar (especially to bring `modified` symbol after `basename`).
+- [ ] Rename `BarbecueConfig` to `barbecue.Config` and move it to `types/barbecue.nvim`
+- [ ] Add `types/navic.nvim` and include `navic.Data` in it.
+- [ ] Make all highlight groups barbecue specific.
+- [ ] Implement `keep_basename` method for truncation.
