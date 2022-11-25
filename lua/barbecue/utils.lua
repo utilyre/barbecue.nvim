@@ -30,6 +30,14 @@ function M.str_gsub(str, patt, repl, from, to)
   return str:sub(1, from - 1) .. str:sub(from, to):gsub(patt, repl) .. str:sub(to + 1, str:len())
 end
 
+---returns number of UTF-8 chars in `str`
+---@param str string
+---@return number
+function M.str_chars(str)
+  local _, count = str:gsub("[^\128-\193]", "")
+  return count
+end
+
 ---merges one or more lists into `list`
 ---@param list any[]
 ---@param ... any[]
