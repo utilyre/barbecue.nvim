@@ -132,6 +132,7 @@ local function truncate_entries(entries, length, max_length)
       if i < #entries then length = length - (utils.str_chars(config.user.symbols.separator) + 2) end
 
       table.remove(entries, i)
+      i = i - 1
     else
       if entry.text ~= nil then length = length - utils.str_chars(entry.text[1]) end
 
@@ -145,7 +146,6 @@ local function truncate_entries(entries, length, max_length)
     end
 
     has_been_truncated = true
-    i = i - 1
   end
 end
 
