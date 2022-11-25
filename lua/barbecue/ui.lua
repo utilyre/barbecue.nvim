@@ -210,10 +210,14 @@ function M.update(winnr)
     utils.tbl_merge(entries, dirname or {}, { basename }, context or {})
     local custom_section = config.user.custom_section(bufnr)
 
-    local length = 1 + entries_length(entries) + utils.str_len(custom_section) + 1
+    local length = entries_length(entries)
+      + utils.str_len(custom_section)
+      + ((vim.bo[bufnr].modified and config.user.symbols.modified) and utils.str_len(config.user.symbols.modified) + 1 or 0)
+      + 2 -- heading and trailing whitespaces
     truncate_entries(entries, length, vim.api.nvim_win_get_width(winnr))
 
     local winbar = " "
+      .. ((vim.bo[bufnr].modified and config.user.symbols.modified) and "%#BarbecueMod#" .. config.user.symbols.modified .. " " or "")
     for i, entry in ipairs(entries) do
       winbar = winbar
         .. (entry.click == nil and "" or "%@" .. utils.exp_escape(entry.click) .. "@")
