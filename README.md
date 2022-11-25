@@ -136,8 +136,10 @@ vim.api.nvim_create_autocmd({
       ---@type false|string
       modified = false,
 
-      ---@deprecated
-      default_context = nil,
+      ---context placeholder for the root node
+      ---`false` to disable
+      ---@type false|string
+      default_context = "…",
     },
 
     ---icons for different context entry kinds
