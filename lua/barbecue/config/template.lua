@@ -16,12 +16,6 @@ local M = {
   ---@type string[]
   exclude_filetypes = { "toggleterm" },
 
-  ---returns a string to be shown at the end of winbar
-  ---@type fun(bufnr: number): string
-  custom_section = function()
-    return ""
-  end,
-
   modifiers = {
     ---filename modifiers applied to dirname
     ---@type string
@@ -32,7 +26,12 @@ local M = {
     basename = "",
   },
 
-  ---icons used by barbecue
+  ---returns a string to be shown at the end of winbar
+  ---@type fun(bufnr: number): string
+  custom_section = function()
+    return ""
+  end,
+
   symbols = {
     ---entry separator
     ---@type string
