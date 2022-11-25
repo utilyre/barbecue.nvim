@@ -155,6 +155,7 @@ function M.update(winnr)
     ---@type barbecue.Entry[]
     local entries = {}
     utils.tbl_merge(entries, dirname or {}, { basename }, context or {})
+    local custom_section = config.user.custom_section(bufnr)
 
     local winbar = " "
     for i, entry in ipairs(entries) do
@@ -165,9 +166,7 @@ function M.update(winnr)
         .. (entry.click == nil and "" or "%X")
       if i < #entries then winbar = winbar .. " %#NavicSeparator#" .. config.user.symbols.separator .. " " end
     end
-
-    local custom_section = config.user.custom_section(bufnr)
-    if type(custom_section) == "string" then winbar = winbar .. "%=" .. custom_section .. " " end
+    winbar = winbar .. "%=" .. custom_section .. " "
 
     affected_wins[winnr] = vim.wo[winnr].winbar
     vim.wo[winnr].winbar = winbar
