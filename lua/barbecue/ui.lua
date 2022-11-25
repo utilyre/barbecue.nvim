@@ -109,7 +109,7 @@ local function entries_length(entries)
   local length = 0
 
   for i, entry in ipairs(entries) do
-    length = length + utils.str_chars(entry.text[1])
+    if entry.text ~= nil then length = length + utils.str_chars(entry.text[1]) end
     if entry.icon ~= nil then length = length + utils.str_chars(entry.icon[1]) + 1 end
     if i < #entries then length = length + utils.str_chars(config.user.symbols.separator) + 2 end
   end
@@ -127,13 +127,14 @@ local function truncate_entries(entries, length, max_length)
     if length <= max_length then break end
 
     if has_been_truncated then
-      length = length - utils.str_chars(entry.text[1])
+      if entry.text ~= nil then length = length - utils.str_chars(entry.text[1]) end
       if entry.icon ~= nil then length = length - (utils.str_chars(entry.icon[1]) + 1) end
       if i < #entries then length = length - (utils.str_chars(config.user.symbols.separator) + 2) end
 
       table.remove(entries, i)
     else
-      length = length - utils.str_chars(entry.text[1])
+      if entry.text ~= nil then length = length - utils.str_chars(entry.text[1]) end
+
       entries[i] = {
         text = {
           "...",
@@ -210,8 +211,8 @@ function M.update(winnr)
     for i, entry in ipairs(entries) do
       winbar = winbar
         .. (entry.click == nil and "" or "%@" .. utils.exp_escape(entry.click) .. "@")
-        .. (entry.icon == nil and "" or "%#" .. entry.icon.highlight .. "#" .. utils.exp_escape(entry.icon[1]) .. " ")
-        .. ("%#" .. entry.text.highlight .. "#" .. utils.exp_escape(entry.text[1]))
+        .. (entry.icon == nil and "" or "%#" .. entry.icon.highlight .. "#" .. utils.exp_escape(entry.icon[1]) .. (entry.text == nil and "" or " "))
+        .. (entry.text == nil and "" or "%#" .. entry.text.highlight .. "#" .. utils.exp_escape(entry.text[1]))
         .. (entry.click == nil and "" or "%X")
       if i < #entries then winbar = winbar .. " %#NavicSeparator#" .. config.user.symbols.separator .. " " end
     end
