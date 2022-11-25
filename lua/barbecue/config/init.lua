@@ -11,6 +11,11 @@ M.user = template
 ---@param cfg BarbecueConfig
 function M.apply_config(cfg)
   M.user = vim.tbl_deep_extend("force", template, cfg)
+
+  if M.user.truncation.method ~= "simple" then
+    vim.notify("barbecue: truncation methods other that 'simple' are not supported yet", vim.log.levels.WARN)
+    M.user.truncation.method = "simple"
+  end
 end
 
 ---resorts to default highlight mappings if plugin specific highlights are not defined
