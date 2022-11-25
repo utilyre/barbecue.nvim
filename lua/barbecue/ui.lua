@@ -135,6 +135,7 @@ local function truncate_entries(entries, length, max_length)
       i = i - 1
     else
       if entry.text ~= nil then length = length - utils.str_chars(entry.text[1]) end
+      if entry.icon ~= nil then length = length - (utils.str_chars(entry.icon[1]) + 1) end
 
       entries[i] = {
         icon = {
