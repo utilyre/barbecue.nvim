@@ -122,31 +122,36 @@ end
 ---@param length number
 ---@param max_length number
 local function truncate_entries(entries, length, max_length)
-  local has_been_truncated = false
+  local has_ellipsis = false
+  local truncated_indices = {}
+
   for i, entry in ipairs(entries) do
     if length <= max_length then break end
 
-    if has_been_truncated then
+    if has_ellipsis then
       if entry.text ~= nil then length = length - utils.str_len(entry.text[1]) end
       if entry.icon ~= nil then length = length - (utils.str_len(entry.icon[1]) + 1) end
       if i < #entries then length = length - (utils.str_len(config.user.symbols.separator) + 2) end
 
-      table.remove(entries, i)
-      i = i - 1
+      truncated_indices[i] = true
     else
       if entry.text ~= nil then length = length - utils.str_len(entry.text[1]) end
       if entry.icon ~= nil then length = length - (utils.str_len(entry.icon[1]) + 1) end
 
+      length = length + utils.str_len(config.user.symbols.ellipsis)
       entries[i] = {
         icon = {
           config.user.symbols.ellipsis,
           highlight = "Conceal",
         },
       }
-      length = length + utils.str_len(config.user.symbols.ellipsis)
-    end
 
-    has_been_truncated = true
+      has_ellipsis = true
+    end
+  end
+
+  for i = #entries, 1, -1 do
+    if truncated_indices[i] then table.remove(entries, i) end
   end
 end
 
