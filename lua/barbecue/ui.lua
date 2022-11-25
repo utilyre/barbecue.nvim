@@ -157,6 +157,38 @@ function M.update(winnr)
     utils.tbl_merge(entries, dirname or {}, { basename }, context or {})
     local custom_section = config.user.custom_section(bufnr)
 
+    local length = utils.str_chars(custom_section) + 2
+    for i, entry in ipairs(entries) do
+      length = length + utils.str_chars(entry.text[1])
+      if entry.icon ~= nil then length = length + utils.str_chars(entry.icon[1]) + 1 end
+      if i < #entries then length = length + utils.str_chars(config.user.symbols.separator) + 2 end
+    end
+
+    local has_truncated = false
+    for i, entry in ipairs(entries) do
+      if length <= vim.api.nvim_win_get_width(winnr) then break end
+
+      if has_truncated then
+        length = length - utils.str_chars(entry.text[1])
+        if entry.icon ~= nil then length = length - (utils.str_chars(entry.icon[1]) + 1) end
+        if i < #entries then length = length - (utils.str_chars(config.user.symbols.separator) + 2) end
+
+        table.remove(entries, i)
+      else
+        length = length - utils.str_chars(entry.text[1])
+        entries[i] = {
+          text = {
+            "...",
+            highlight = "Conceal",
+          },
+        }
+        length = length + 3
+      end
+
+      has_truncated = true
+      i = i - 1
+    end
+
     local winbar = " "
     for i, entry in ipairs(entries) do
       winbar = winbar
