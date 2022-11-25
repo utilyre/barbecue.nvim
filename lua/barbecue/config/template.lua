@@ -16,6 +16,18 @@ local M = {
   ---@type string[]
   exclude_filetypes = { "toggleterm" },
 
+  truncation = {
+    ---whether winbar truncation is enabled
+    ---`false` to gain a little performance
+    ---@type boolean
+    enabled = true,
+
+    ---`simple` starts truncating from the beginning until it fits
+    ---`keep_basename` is the same as `simple` but skips basename
+    ---@type "simple"|"keep_basename"
+    method = "keep_basename",
+  },
+
   modifiers = {
     ---filename modifiers applied to dirname
     ---@type string
@@ -33,6 +45,10 @@ local M = {
   end,
 
   symbols = {
+    ---truncation indicator
+    ---@type string
+    ellipsis = "…",
+
     ---entry separator
     ---@type string
     separator = "",
