@@ -44,14 +44,25 @@ function M.setup(cfg)
   end
 
   if config.user.create_autocmd then
-    vim.api.nvim_create_autocmd({
+    local events = {
       "BufWinEnter",
-      "BufWritePost",
       "CursorMoved",
       "InsertLeave",
-      "TextChanged",
-      "TextChangedI",
-    }, {
+    }
+
+    if config.user.truncation.enabled then utils.tbl_merge(events, {
+      "WinScrolled",
+    }) end
+
+    if config.user.symbols.modified ~= false then
+      utils.tbl_merge(events, {
+        "BufWritePost",
+        "TextChanged",
+        "TextChangedI",
+      })
+    end
+
+    vim.api.nvim_create_autocmd(events, {
       group = augroup,
       callback = function()
         ui.update()
