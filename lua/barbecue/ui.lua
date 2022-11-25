@@ -217,7 +217,11 @@ function M.update(winnr)
     truncate_entries(entries, length, vim.api.nvim_win_get_width(winnr))
 
     local winbar = " "
-      .. ((vim.bo[bufnr].modified and config.user.symbols.modified) and "%#BarbecueMod#" .. config.user.symbols.modified .. " " or "")
+      .. (
+        (vim.bo[bufnr].modified and config.user.symbols.modified)
+          and "%#BarbecueMod#" .. config.user.symbols.modified .. " "
+        or ""
+      )
     for i, entry in ipairs(entries) do
       winbar = winbar
         .. (entry.click == nil and "" or "%@" .. utils.exp_escape(entry.click) .. "@")
