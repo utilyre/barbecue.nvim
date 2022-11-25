@@ -213,7 +213,9 @@ function M.update(winnr)
     if config.user.truncation.enabled then
       local length = entries_length(entries)
         + utils.str_len(custom_section)
-        + ((vim.bo[bufnr].modified and config.user.symbols.modified) and utils.str_len(config.user.symbols.modified) + 1 or 0)
+        + ((vim.bo[bufnr].modified and config.user.symbols.modified ~= false) and utils.str_len(
+          config.user.symbols.modified
+        ) + 1 or 0)
         + 2 -- heading and trailing whitespaces
 
       truncate_entries(entries, length, vim.api.nvim_win_get_width(winnr))
@@ -221,7 +223,7 @@ function M.update(winnr)
 
     local winbar = " "
       .. (
-        (vim.bo[bufnr].modified and config.user.symbols.modified)
+        (vim.bo[bufnr].modified and config.user.symbols.modified ~= false)
           and "%#BarbecueMod#" .. config.user.symbols.modified .. " "
         or ""
       )
