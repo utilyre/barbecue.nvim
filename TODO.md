@@ -1,4 +1,4 @@
 - [ ] An option for formatting the winbar (especially to bring `modified` symbol after `basename`).
 - [x] Rename `BarbecueConfig` to `barbecue.Config` and move it to `types/barbecue.nvim`
-- [ ] Make all highlight groups barbecue specific.
+- [x] Make all highlight groups barbecue specific.
 - [x] Implement `keep_basename` method for truncation.

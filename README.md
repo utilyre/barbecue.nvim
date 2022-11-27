@@ -198,36 +198,38 @@ vim.api.nvim_create_autocmd({
 <details>
   <summary>Click to see highlight groups</summary>
 
-  | Highlight Group             | Default Group              |
-  | --------------------------- | -------------------------- |
-  | **BarbecueMod**             | _BufferVisibleMod_         |
-  | **BarbecueEllipsis**        | _Conceal_                  |
-  | **NavicIconsFile**          | _CmpItemKindFile_          |
-  | **NavicIconsModule**        | _CmpItemKindModule_        |
-  | **NavicIconsNamespace**     | _CmpItemKindModule_        |
-  | **NavicIconsPackage**       | _CmpItemKindFolder_        |
-  | **NavicIconsClass**         | _CmpItemKindClass_         |
-  | **NavicIconsMethod**        | _CmpItemKindMethod_        |
-  | **NavicIconsProperty**      | _CmpItemKindProperty_      |
-  | **NavicIconsField**         | _CmpItemKindField_         |
-  | **NavicIconsConstructor**   | _CmpItemKindConstructor_   |
-  | **NavicIconsEnum**          | _CmpItemKindEnum_          |
-  | **NavicIconsInterface**     | _CmpItemKindInterface_     |
-  | **NavicIconsFunction**      | _CmpItemKindFunction_      |
-  | **NavicIconsVariable**      | _CmpItemKindVariable_      |
-  | **NavicIconsConstant**      | _CmpItemKindConstant_      |
-  | **NavicIconsString**        | _CmpItemKindValue_         |
-  | **NavicIconsNumber**        | _CmpItemKindValue_         |
-  | **NavicIconsBoolean**       | _CmpItemKindValue_         |
-  | **NavicIconsArray**         | _CmpItemKindValue_         |
-  | **NavicIconsObject**        | _CmpItemKindValue_         |
-  | **NavicIconsKey**           | _CmpItemKindValue_         |
-  | **NavicIconsNull**          | _CmpItemKindValue_         |
-  | **NavicIconsEnumMember**    | _CmpItemKindEnumMember_    |
-  | **NavicIconsStruct**        | _CmpItemKindStruct_        |
-  | **NavicIconsEvent**         | _CmpItemKindEvent_         |
-  | **NavicIconsOperator**      | _CmpItemKindOperator_      |
-  | **NavicIconsTypeParameter** | _CmpItemKindTypeParameter_ |
-  | **NavicText**               | _Normal_                   |
-  | **NavicSeparator**          | _Conceal_                  |
+  | Highlight Group                  | Default Group              |
+  | -------------------------------- | -------------------------- |
+  | **BarbecueModified**             | _BufferVisibleMod_         |
+  | **BarbecueEllipsis**             | _Conceal_                  |
+  | **BarbecueSeparator**            | _Conceal_                  |
+  | **BarbecueDirname**              | _Normal_                   |
+  | **BarbecueBasename**             | _Normal_                   |
+  | **BarbecueContext**              | _Normal_                   |
+  | **BarbecueContextFile**          | _CmpItemKindFile_          |
+  | **BarbecueContextModule**        | _CmpItemKindModule_        |
+  | **BarbecueContextNamespace**     | _CmpItemKindModule_        |
+  | **BarbecueContextPackage**       | _CmpItemKindFolder_        |
+  | **BarbecueContextClass**         | _CmpItemKindClass_         |
+  | **BarbecueContextMethod**        | _CmpItemKindMethod_        |
+  | **BarbecueContextProperty**      | _CmpItemKindProperty_      |
+  | **BarbecueContextField**         | _CmpItemKindField_         |
+  | **BarbecueContextConstructor**   | _CmpItemKindConstructor_   |
+  | **BarbecueContextEnum**          | _CmpItemKindEnum_          |
+  | **BarbecueContextInterface**     | _CmpItemKindInterface_     |
+  | **BarbecueContextFunction**      | _CmpItemKindFunction_      |
+  | **BarbecueContextVariable**      | _CmpItemKindVariable_      |
+  | **BarbecueContextConstant**      | _CmpItemKindConstant_      |
+  | **BarbecueContextString**        | _CmpItemKindValue_         |
+  | **BarbecueContextNumber**        | _CmpItemKindValue_         |
+  | **BarbecueContextBoolean**       | _CmpItemKindValue_         |
+  | **BarbecueContextArray**         | _CmpItemKindValue_         |
+  | **BarbecueContextObject**        | _CmpItemKindValue_         |
+  | **BarbecueContextKey**           | _CmpItemKindValue_         |
+  | **BarbecueContextNull**          | _CmpItemKindValue_         |
+  | **BarbecueContextEnumMember**    | _CmpItemKindEnumMember_    |
+  | **BarbecueContextStruct**        | _CmpItemKindStruct_        |
+  | **BarbecueContextEvent**         | _CmpItemKindEvent_         |
+  | **BarbecueContextOperator**      | _CmpItemKindOperator_      |
+  | **BarbecueContextTypeParameter** | _CmpItemKindTypeParameter_ |
 </details>

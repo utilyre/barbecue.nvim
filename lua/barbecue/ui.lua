@@ -31,7 +31,7 @@ local function get_dirname(bufnr)
       entries,
       Entry.new({
         "/",
-        highlight = "NavicText",
+        highlight = "BarbecueDirname",
       })
     )
   end
@@ -41,7 +41,7 @@ local function get_dirname(bufnr)
       entries,
       Entry.new({
         dir,
-        highlight = "NavicText",
+        highlight = "BarbecueDirname",
       })
     )
   end
@@ -65,7 +65,7 @@ local function get_basename(winnr, bufnr)
 
   return Entry.new({
     basename,
-    highlight = "NavicText",
+    highlight = "BarbecueBasename",
   }, {
     icon,
     highlight = icon_highlight,
@@ -88,10 +88,10 @@ local function get_context(winnr, bufnr)
   return vim.tbl_map(function(nesting)
     return Entry.new({
       nesting.name,
-      highlight = "NavicText",
+      highlight = "BarbecueContext",
     }, {
       config.user.kinds[nesting.type],
-      highlight = "NavicIcons" .. nesting.type,
+      highlight = "BarbecueContext" .. nesting.type,
     }, function()
       vim.api.nvim_set_current_win(winnr)
       vim.api.nvim_win_set_cursor(winnr, { nesting.scope.start.line, nesting.scope.start.character })
@@ -213,12 +213,12 @@ function M.update(winnr)
     local winbar = " "
       .. (
         (vim.bo[bufnr].modified and config.user.symbols.modified ~= false)
-          and "%#BarbecueMod#" .. config.user.symbols.modified .. " "
+          and "%#BarbecueModified#" .. config.user.symbols.modified .. " "
         or ""
       )
     for i, entry in ipairs(entries) do
       winbar = winbar .. entry:to_string()
-      if i < #entries then winbar = winbar .. " %#NavicSeparator#" .. config.user.symbols.separator .. " " end
+      if i < #entries then winbar = winbar .. " %#BarbecueSeparator#" .. config.user.symbols.separator .. " " end
     end
     winbar = winbar .. "%=" .. custom_section .. " "
 
