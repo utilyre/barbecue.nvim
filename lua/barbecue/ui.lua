@@ -103,10 +103,16 @@ end
 ---@param entries barbecue.Entry[]
 ---@param length number
 ---@param max_length number
-local function truncate_entries(entries, length, max_length)
+---@param skip_indices number[]
+local function truncate_entries(entries, length, max_length, skip_indices)
   local has_ellipsis, i = false, 1
   while i <= #entries do
     if length <= max_length then break end
+    if has_ellipsis and vim.tbl_contains(skip_indices, i) then
+      has_ellipsis = false
+      i = i + 1
+      goto continue
+    end
 
     length = length - entries[i]:len()
     if has_ellipsis then
@@ -122,6 +128,8 @@ local function truncate_entries(entries, length, max_length)
       has_ellipsis = true
       i = i + 1 -- manually increment i when not removing anything from entries
     end
+
+    ::continue::
   end
 end
 
@@ -191,7 +199,13 @@ function M.update(winnr)
         if i < #entries then length = length + utils.str_len(config.user.symbols.separator) + 2 end
       end
 
-      truncate_entries(entries, length, vim.api.nvim_win_get_width(winnr))
+      local skip_indices
+      if config.user.truncation.method == "simple" then
+        skip_indices = {}
+      elseif config.user.truncation.method == "keep_basename" then
+        skip_indices = { #dirname + 1 }
+      end
+      truncate_entries(entries, length, vim.api.nvim_win_get_width(winnr), skip_indices)
     end
 
     local winbar = " "
