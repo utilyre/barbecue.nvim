@@ -1,6 +1,8 @@
 local navic = require("nvim-navic")
+local devicons_ok, devicons = pcall(require, "nvim-web-devicons")
 local config = require("barbecue.config")
 local utils = require("barbecue.utils")
+local Entry = require("barbecue.ui.entry")
 
 local M = {}
 
@@ -12,75 +14,125 @@ local visible = true
 ---@type table<number, string>
 local affected_wins = {}
 
----returns dirname and basename of the given buffer
+---returns dirname of `bufnr`
 ---@param bufnr number
----@return string dirname
----@return string basename
-local function get_filename(bufnr)
+---@return barbecue.Entry[]|nil
+local function get_dirname(bufnr)
   local filename = vim.api.nvim_buf_get_name(bufnr)
-  local dirname = vim.fn.fnamemodify(filename, config.user.modifiers.dirname .. ":h") .. "/"
-  -- treats the first slash as a directory instead of a separator
-  if dirname ~= "//" and dirname:sub(1, 1) == "/" then dirname = "/" .. dirname end
-  -- won't show the dirname if the file is in the current working directory
-  if dirname == "./" then dirname = "" end
+  local dirname = vim.fn.fnamemodify(filename, config.user.modifiers.dirname .. ":h")
 
-  local basename = vim.fn.fnamemodify(filename, config.user.modifiers.basename .. ":t")
+  ---@type barbecue.Entry[]
+  local entries = {}
 
-  return dirname, basename
+  if dirname == "." then return nil end
+  if dirname ~= "/" and dirname:sub(1, 1) == "/" then
+    dirname:sub(2)
+    table.insert(
+      entries,
+      Entry.new({
+        "/",
+        highlight = "NavicText",
+      })
+    )
+  end
+
+  for _, dir in ipairs(vim.split(dirname, "/")) do
+    table.insert(
+      entries,
+      Entry.new({
+        dir,
+        highlight = "NavicText",
+      })
+    )
+  end
+
+  return entries
 end
 
----returns devicon and its corresponding highlight group of the given buffer
----@param bufnr number
----@return string|nil icon
----@return string|nil highlight
-local function get_icon(bufnr)
-  local ok, devicons = pcall(require, "nvim-web-devicons")
-  if not ok then return nil, nil end
-
-  local icon, highlight = devicons.get_icon_by_filetype(vim.bo[bufnr].filetype)
-  return icon, highlight
-end
-
----returns the current lsp context
+---returns basename of `bufnr`
 ---@param winnr number
 ---@param bufnr number
----@return string
+---@return barbecue.Entry|nil
+local function get_basename(winnr, bufnr)
+  local filename = vim.api.nvim_buf_get_name(bufnr)
+  local basename = vim.fn.fnamemodify(filename, config.user.modifiers.basename .. ":t")
+  if basename == "" then return nil end
+
+  local icon, icon_highlight
+  if devicons_ok then
+    icon, icon_highlight = devicons.get_icon_by_filetype(vim.bo[bufnr].filetype)
+  end
+
+  return Entry.new({
+    basename,
+    highlight = "NavicText",
+  }, {
+    icon,
+    highlight = icon_highlight,
+  }, function()
+    vim.api.nvim_set_current_win(winnr)
+    vim.api.nvim_win_set_cursor(winnr, { 1, 0 })
+  end)
+end
+
+---returns context of `bufnr`
+---@param winnr number
+---@param bufnr number
+---@return barbecue.Entry[]|nil
 local function get_context(winnr, bufnr)
-  if not navic.is_available() then return "" end
+  if not navic.is_available() then return nil end
 
-  local data = navic.get_data(bufnr)
-  if data == nil then return "" end
+  local nestings = navic.get_data(bufnr)
+  if nestings == nil then return nil end
 
-  if #data == 0 then
-    if not config.user.symbols.default_context then return "" end
+  return vim.tbl_map(function(nesting)
+    return Entry.new({
+      nesting.name,
+      highlight = "NavicText",
+    }, {
+      config.user.kinds[nesting.type],
+      highlight = "NavicIcons" .. nesting.type,
+    }, function()
+      vim.api.nvim_set_current_win(winnr)
+      vim.api.nvim_win_set_cursor(winnr, { nesting.scope.start.line, nesting.scope.start.character })
+    end)
+  end, nestings)
+end
 
-    return "%#NavicSeparator# "
-      .. config.user.symbols.separator
-      .. " %#NavicText#"
-      .. config.user.symbols.default_context
+---truncates `entries` based on `max_length`
+---@param entries barbecue.Entry[]
+---@param length number
+---@param max_length number
+---@param skip_indices number[]
+local function truncate_entries(entries, length, max_length, skip_indices)
+  local has_ellipsis, remove_counter, i = false, 0, 1
+  while i <= #entries do
+    if length <= max_length then break end
+    if has_ellipsis and vim.tbl_contains(skip_indices, remove_counter + i) then
+      has_ellipsis = false
+      i = i + 1
+      goto continue
+    end
+
+    length = length - entries[i]:len()
+    if has_ellipsis then
+      if i < #entries then length = length - (utils.str_len(config.user.symbols.separator) + 2) end
+
+      table.remove(entries, i)
+      remove_counter = remove_counter + 1
+    else
+      length = length + utils.str_len(config.user.symbols.ellipsis)
+      entries[i] = Entry.new({
+        config.user.symbols.ellipsis,
+        highlight = "BarbecueEllipsis",
+      })
+
+      has_ellipsis = true
+      i = i + 1 -- manually increment i when not removing anything from entries
+    end
+
+    ::continue::
   end
-
-  local context = ""
-  for _, entry in ipairs(data) do
-    context = context
-      .. "%#NavicSeparator# "
-      .. config.user.symbols.separator
-      .. string.format(
-        " %%@v:lua.require'barbecue.mouse'.navigate_%d_%d_%d@",
-        winnr,
-        entry.scope.start.line,
-        entry.scope.start.character
-      )
-      .. "%#NavicIcons"
-      .. entry.type
-      .. "#"
-      .. (config.user.kinds[entry.type] and config.user.kinds[entry.type] .. " " or "")
-      .. "%#NavicText#"
-      .. utils.exp_escape(entry.name)
-      .. "%X"
-  end
-
-  return context
 end
 
 ---toggles visibility
@@ -128,33 +180,47 @@ function M.update(winnr)
       return
     end
 
-    local dirname, basename = get_filename(bufnr)
-    local icon, highlight = get_icon(bufnr)
+    local dirname = get_dirname(bufnr)
+    local basename = get_basename(winnr, bufnr)
     local context = get_context(winnr, bufnr)
+    if basename == nil then return end
 
-    if basename == "" then
-      vim.wo[winnr].winbar = nil
-      return
+    ---@type barbecue.Entry[]
+    local entries = {}
+    utils.tbl_merge(entries, dirname or {}, { basename }, context or {})
+    local custom_section = config.user.custom_section(bufnr)
+
+    if config.user.truncation.enabled then
+      local length = 2 + utils.str_len(custom_section)
+      if vim.bo[bufnr].modified and config.user.symbols.modified ~= false then
+        length = length + utils.str_len(config.user.symbols.modified) + 1
+      end
+
+      for i, entry in ipairs(entries) do
+        length = length + entry:len()
+        if i < #entries then length = length + utils.str_len(config.user.symbols.separator) + 2 end
+      end
+
+      local skip_indices
+      if config.user.truncation.method == "simple" then
+        skip_indices = {}
+      elseif config.user.truncation.method == "keep_basename" then
+        skip_indices = { #dirname + 1 }
+      end
+      truncate_entries(entries, length, vim.api.nvim_win_get_width(winnr), skip_indices)
     end
 
-    local winbar = "%#NavicText# "
-      .. utils.str_gsub(
-        utils.exp_escape(dirname),
-        "/",
-        utils.str_escape("%#NavicSeparator# " .. config.user.symbols.separator .. " %#NavicText#"),
-        2
+    local winbar = " "
+      .. (
+        (vim.bo[bufnr].modified and config.user.symbols.modified ~= false)
+          and "%#BarbecueMod#" .. config.user.symbols.modified .. " "
+        or ""
       )
-      .. string.format("%%@v:lua.require'barbecue.mouse'.navigate_%d_1_0@", winnr)
-      .. ((icon == nil or highlight == nil) and "" or ("%#" .. highlight .. "#" .. icon .. " "))
-      .. "%#NavicText#"
-      .. utils.exp_escape(basename)
-      .. "%X"
-      .. ((config.user.symbols.modified and vim.bo[bufnr].modified) and " %#BarbecueMod#" .. config.user.symbols.modified or "")
-      .. context
-      .. "%#NavicText#"
-
-    local custom_section = config.user.custom_section(bufnr)
-    if type(custom_section) == "string" then winbar = winbar .. "%=" .. custom_section .. " " end
+    for i, entry in ipairs(entries) do
+      winbar = winbar .. entry:to_string()
+      if i < #entries then winbar = winbar .. " %#NavicSeparator#" .. config.user.symbols.separator .. " " end
+    end
+    winbar = winbar .. "%=" .. custom_section .. " "
 
     affected_wins[winnr] = vim.wo[winnr].winbar
     vim.wo[winnr].winbar = winbar
