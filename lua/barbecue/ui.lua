@@ -108,7 +108,7 @@ local function truncate_entries(entries, length, max_length, skip_indices)
   local has_ellipsis, remove_counter, i = false, 0, 1
   while i <= #entries do
     if length <= max_length then break end
-    if has_ellipsis and vim.tbl_contains(skip_indices, remove_counter + i) then
+    if vim.tbl_contains(skip_indices, remove_counter + i) then
       has_ellipsis = false
       i = i + 1
       goto continue
