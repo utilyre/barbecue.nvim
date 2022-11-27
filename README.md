@@ -8,14 +8,14 @@
 
 https://user-images.githubusercontent.com/91974155/197051920-0e89203e-1f0c-4f3c-af72-e7d5e13340ad.mp4
 
-## 📦 Dependencies
+## 📬 Dependencies
 
 - [NVIM v0.8+](https://github.com/neovim/neovim/releases/latest): Winbar support.
 - [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig): Dependency of nvim-navic.
 - [nvim-navic](https://github.com/smiteshp/nvim-navic): LSP `textDocument/documentSymbol` provider.
 - [nvim-web-devicons](https://github.com/kyazdani42/nvim-web-devicons): File icon provider. _(optional)_
 
-## 📬 Installation
+## 📦 Installation
 
 Install barbecue and its dependencies
 
