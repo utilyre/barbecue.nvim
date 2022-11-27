@@ -2,6 +2,7 @@ local navic = require("nvim-navic")
 local devicons_ok, devicons = pcall(require, "nvim-web-devicons")
 local config = require("barbecue.config")
 local utils = require("barbecue.utils")
+local Entry = require("barbecue.ui.entry")
 
 local M = {}
 
@@ -20,26 +21,29 @@ local function get_dirname(bufnr)
   local filename = vim.api.nvim_buf_get_name(bufnr)
   local dirname = vim.fn.fnamemodify(filename, config.user.modifiers.dirname .. ":h")
 
+  ---@type barbecue.Entry[]
   local entries = {}
 
   if dirname == "." then return nil end
   if dirname ~= "/" and dirname:sub(1, 1) == "/" then
     dirname:sub(2)
-    table.insert(entries, {
-      text = {
+    table.insert(
+      entries,
+      Entry.new({
         "/",
         highlight = "NavicText",
-      },
-    })
+      })
+    )
   end
 
   for _, dir in ipairs(vim.split(dirname, "/")) do
-    table.insert(entries, {
-      text = {
+    table.insert(
+      entries,
+      Entry.new({
         dir,
         highlight = "NavicText",
-      },
-    })
+      })
+    )
   end
 
   return entries
@@ -59,17 +63,16 @@ local function get_basename(winnr, bufnr)
     icon, icon_highlight = devicons.get_icon_by_filetype(vim.bo[bufnr].filetype)
   end
 
-  return {
-    text = {
-      basename,
-      highlight = "NavicText",
-    },
-    icon = {
-      icon,
-      highlight = icon_highlight,
-    },
-    click = string.format("v:lua.require'barbecue.mouse'.navigate_%d_1_0", winnr),
-  }
+  return Entry.new({
+    basename,
+    highlight = "NavicText",
+  }, {
+    icon,
+    highlight = icon_highlight,
+  }, function()
+    vim.api.nvim_set_current_win(winnr)
+    vim.api.nvim_win_set_cursor(winnr, { 1, 0 })
+  end)
 end
 
 ---returns context of `bufnr`
@@ -83,22 +86,16 @@ local function get_context(winnr, bufnr)
   if nestings == nil then return nil end
 
   return vim.tbl_map(function(nesting)
-    return {
-      text = {
-        nesting.name,
-        highlight = "NavicText",
-      },
-      icon = {
-        config.user.kinds[nesting.type],
-        highlight = "NavicIcons" .. nesting.type,
-      },
-      click = string.format(
-        "v:lua.require'barbecue.mouse'.navigate_%d_%d_%d",
-        winnr,
-        nesting.scope.start.line,
-        nesting.scope.start.character
-      ),
-    }
+    return Entry.new({
+      nesting.name,
+      highlight = "NavicText",
+    }, {
+      config.user.kinds[nesting.type],
+      highlight = "NavicIcons" .. nesting.type,
+    }, function()
+      vim.api.nvim_set_current_win(winnr)
+      vim.api.nvim_win_set_cursor(winnr, { nesting.scope.start.line, nesting.scope.start.character })
+    end)
   end, nestings)
 end
 
@@ -109,8 +106,7 @@ local function entries_length(entries)
   local length = 0
 
   for i, entry in ipairs(entries) do
-    if entry.text ~= nil then length = length + utils.str_len(entry.text[1]) end
-    if entry.icon ~= nil then length = length + utils.str_len(entry.icon[1]) + 1 end
+    length = length + entry:len()
     if i < #entries then length = length + utils.str_len(config.user.symbols.separator) + 2 end
   end
 
@@ -126,23 +122,16 @@ local function truncate_entries(entries, length, max_length)
   while i <= #entries do
     if length <= max_length then break end
 
+    length = length - entries[i]:len()
     if has_ellipsis then
-      if entries[i].text ~= nil then length = length - utils.str_len(entries[i].text[1]) end
-      if entries[i].icon ~= nil then length = length - (utils.str_len(entries[i].icon[1]) + 1) end
       if i < #entries then length = length - (utils.str_len(config.user.symbols.separator) + 2) end
-
       table.remove(entries, i)
     else
-      if entries[i].text ~= nil then length = length - utils.str_len(entries[i].text[1]) end
-      if entries[i].icon ~= nil then length = length - (utils.str_len(entries[i].icon[1]) + 1) end
-
       length = length + utils.str_len(config.user.symbols.ellipsis)
-      entries[i] = {
-        icon = {
-          config.user.symbols.ellipsis,
-          highlight = "BarbecueEllipsis",
-        },
-      }
+      entries[i] = Entry.new({
+        config.user.symbols.ellipsis,
+        highlight = "BarbecueEllipsis",
+      })
 
       has_ellipsis = true
       i = i + 1 -- manually increment i when not removing anything from entries
@@ -223,11 +212,7 @@ function M.update(winnr)
         or ""
       )
     for i, entry in ipairs(entries) do
-      winbar = winbar
-        .. (entry.click == nil and "" or "%@" .. utils.exp_escape(entry.click) .. "@")
-        .. (entry.icon == nil and "" or "%#" .. entry.icon.highlight .. "#" .. utils.exp_escape(entry.icon[1]) .. (entry.text == nil and "" or " "))
-        .. (entry.text == nil and "" or "%#" .. entry.text.highlight .. "#" .. utils.exp_escape(entry.text[1]))
-        .. (entry.click == nil and "" or "%X")
+      winbar = winbar .. entry:to_string()
       if i < #entries then winbar = winbar .. " %#NavicSeparator#" .. config.user.symbols.separator .. " " end
     end
     winbar = winbar .. "%=" .. custom_section .. " "

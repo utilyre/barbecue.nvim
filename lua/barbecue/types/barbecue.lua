@@ -1,4 +1,0 @@
----@class barbecue.Entry
----@field public text { [1]: string, highlight: string }|nil
----@field public icon { [1]: string, highlight: string }|nil
----@field public click string|nil
