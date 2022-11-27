@@ -99,20 +99,6 @@ local function get_context(winnr, bufnr)
   end, nestings)
 end
 
----computes length of visible characters of `entries`
----@param entries barbecue.Entry[]
----@return number
-local function entries_length(entries)
-  local length = 0
-
-  for i, entry in ipairs(entries) do
-    length = length + entry:len()
-    if i < #entries then length = length + utils.str_len(config.user.symbols.separator) + 2 end
-  end
-
-  return length
-end
-
 ---truncates `entries` based on `max_length`
 ---@param entries barbecue.Entry[]
 ---@param length number
@@ -195,12 +181,15 @@ function M.update(winnr)
     local custom_section = config.user.custom_section(bufnr)
 
     if config.user.truncation.enabled then
-      local length = entries_length(entries)
-        + utils.str_len(custom_section)
-        + ((vim.bo[bufnr].modified and config.user.symbols.modified ~= false) and utils.str_len(
-          config.user.symbols.modified
-        ) + 1 or 0)
-        + 2 -- heading and trailing whitespaces
+      local length = 2 + utils.str_len(custom_section)
+      if vim.bo[bufnr].modified and config.user.symbols.modified ~= false then
+        length = length + utils.str_len(config.user.symbols.modified) + 1
+      end
+
+      for i, entry in ipairs(entries) do
+        length = length + entry:len()
+        if i < #entries then length = length + utils.str_len(config.user.symbols.separator) + 2 end
+      end
 
       truncate_entries(entries, length, vim.api.nvim_win_get_width(winnr))
     end
