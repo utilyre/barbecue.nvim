@@ -105,10 +105,10 @@ end
 ---@param max_length number
 ---@param skip_indices number[]
 local function truncate_entries(entries, length, max_length, skip_indices)
-  local has_ellipsis, i = false, 1
+  local has_ellipsis, remove_counter, i = false, 0, 1
   while i <= #entries do
     if length <= max_length then break end
-    if has_ellipsis and vim.tbl_contains(skip_indices, i) then
+    if has_ellipsis and vim.tbl_contains(skip_indices, remove_counter + i) then
       has_ellipsis = false
       i = i + 1
       goto continue
@@ -117,7 +117,9 @@ local function truncate_entries(entries, length, max_length, skip_indices)
     length = length - entries[i]:len()
     if has_ellipsis then
       if i < #entries then length = length - (utils.str_len(config.user.symbols.separator) + 2) end
+
       table.remove(entries, i)
+      remove_counter = remove_counter + 1
     else
       length = length + utils.str_len(config.user.symbols.ellipsis)
       entries[i] = Entry.new({
