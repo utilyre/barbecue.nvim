@@ -205,7 +205,7 @@ function M.update(winnr)
       if config.user.truncation.method == "simple" then
         skip_indices = {}
       elseif config.user.truncation.method == "keep_basename" then
-        skip_indices = { #dirname + 1 }
+        skip_indices = { dirname == nil and 1 or #dirname + 1 }
       end
       truncate_entries(entries, length, vim.api.nvim_win_get_width(winnr), skip_indices)
     end
