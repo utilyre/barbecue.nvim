@@ -8,6 +8,13 @@
 
 https://user-images.githubusercontent.com/91974155/197051920-0e89203e-1f0c-4f3c-af72-e7d5e13340ad.mp4
 
+## ✨ Features
+
+- 🖱️ Jump to any context by _just_ clicking on it.
+- 🌲 Have a deeply nested **file-tree/context**? It's gonna get rid of the _less_ useful parts smartly.
+- 📂 _Easily_ tell where your file is located at by looking at your **winbar**.
+- 📜 Put _whatever_ your heart desires in the **custom section**.
+
 ## 📬 Dependencies
 
 - [NVIM v0.8+](https://github.com/neovim/neovim/releases/latest): Winbar support.
