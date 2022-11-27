@@ -220,7 +220,7 @@ function M.update(winnr)
       winbar = winbar .. entry:to_string()
       if i < #entries then winbar = winbar .. " %#BarbecueSeparator#" .. config.user.symbols.separator .. " " end
     end
-    winbar = winbar .. "%=" .. custom_section .. " "
+    winbar = winbar .. "%#Normal#%=" .. custom_section .. " "
 
     affected_wins[winnr] = vim.wo[winnr].winbar
     vim.wo[winnr].winbar = winbar
