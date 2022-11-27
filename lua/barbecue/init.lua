@@ -50,16 +50,9 @@ function M.setup(cfg)
       "InsertLeave",
     }
 
-    if config.user.truncation.enabled then utils.tbl_merge(events, {
-      "WinScrolled",
-    }) end
-
+    if config.user.truncation.enabled then utils.tbl_merge(events, { "WinScrolled" }) end
     if config.user.symbols.modified ~= false then
-      utils.tbl_merge(events, {
-        "BufWritePost",
-        "TextChanged",
-        "TextChangedI",
-      })
+      utils.tbl_merge(events, { "BufWritePost", "TextChanged", "TextChangedI" })
     end
 
     vim.api.nvim_create_autocmd(events, {
