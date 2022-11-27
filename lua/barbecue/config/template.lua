@@ -45,6 +45,11 @@ local M = {
   end,
 
   symbols = {
+    ---modification indicator
+    ---`false` to disable
+    ---@type false|string
+    modified = false,
+
     ---truncation indicator
     ---@type string
     ellipsis = "…",
@@ -52,11 +57,6 @@ local M = {
     ---entry separator
     ---@type string
     separator = "",
-
-    ---modification indicator
-    ---`false` to disable
-    ---@type false|string
-    modified = false,
   },
 
   ---icons for different context entry kinds

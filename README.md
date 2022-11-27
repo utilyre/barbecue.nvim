@@ -144,6 +144,11 @@ vim.api.nvim_create_autocmd({
     end,
 
     symbols = {
+      ---modification indicator
+      ---`false` to disable
+      ---@type false|string
+      modified = false,
+
       ---truncation indicator
       ---@type string
       ellipsis = "…",
@@ -151,11 +156,6 @@ vim.api.nvim_create_autocmd({
       ---entry separator
       ---@type string
       separator = "",
-
-      ---modification indicator
-      ---`false` to disable
-      ---@type false|string
-      modified = false,
     },
 
     ---icons for different context entry kinds
