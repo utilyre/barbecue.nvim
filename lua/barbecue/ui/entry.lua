@@ -5,8 +5,8 @@ local utils = require("barbecue.utils")
 local next_id = 1
 
 ---entry instance tracker
----@type table<number, barbecue.Entry>
-local instances = {}
+---@type table<number, fun(clicks: number, button: string, modifiers: string)>
+local on_clicks = {}
 
 ---@class barbecue.Entry
 ---@field private id number
@@ -22,8 +22,8 @@ Entry.__index = Entry
 ---@param button string
 ---@param modifiers string
 function Entry.on_click(id, clicks, button, modifiers)
-  if instances[id] == nil then return end
-  instances[id].on_click(clicks, button, modifiers)
+  if on_clicks[id] == nil then return end
+  on_clicks[id](clicks, button, modifiers)
 end
 
 ---creates a new instance
@@ -39,7 +39,7 @@ function Entry.new(text, icon, on_click)
   instance.icon = icon
   instance.on_click = on_click
 
-  instances[next_id] = instance
+  on_clicks[next_id] = instance.on_click
   next_id = next_id + 1
 
   return instance
