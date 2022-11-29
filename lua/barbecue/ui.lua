@@ -113,6 +113,11 @@ end
 ---@param max_length number
 ---@param skip_indices number[]
 local function truncate_entries(entries, length, max_length, skip_indices)
+  local ellipsis = Entry.new({
+    config.user.symbols.ellipsis,
+    highlight = "BarbecueEllipsis",
+  })
+
   local has_ellipsis, remove_counter, i = false, 0, 1
   while i <= #entries do
     if length <= max_length then break end
@@ -130,10 +135,7 @@ local function truncate_entries(entries, length, max_length, skip_indices)
       remove_counter = remove_counter + 1
     else
       length = length + utils.str_len(config.user.symbols.ellipsis)
-      entries[i] = Entry.new({
-        config.user.symbols.ellipsis,
-        highlight = "BarbecueEllipsis",
-      })
+      entries[i] = ellipsis
 
       has_ellipsis = true
       i = i + 1 -- manually increment i when not removing anything from entries
