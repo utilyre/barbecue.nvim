@@ -92,10 +92,13 @@ local function get_context(winnr, bufnr)
       nesting.name,
       highlight = "BarbecueContext",
     }
-    local icon = {
-      config.user.kinds[nesting.type],
-      highlight = "BarbecueContext" .. nesting.type,
-    }
+    local icon
+    if config.user.kinds ~= false then
+      icon = {
+        config.user.kinds[nesting.type],
+        highlight = "BarbecueContext" .. nesting.type,
+      }
+    end
 
     return Entry.new(text, icon, function()
       vim.api.nvim_set_current_win(winnr)
