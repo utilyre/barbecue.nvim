@@ -65,10 +65,7 @@ local function get_basename(winnr, bufnr)
   local icon
   if devicons_ok then
     local ic, hl = devicons.get_icon_by_filetype(vim.bo[bufnr].filetype)
-    icon = {
-      ic,
-      highlight = hl,
-    }
+    if ic ~= nil and hl ~= nil then icon = { ic, highlight = hl } end
   end
 
   return Entry.new(text, icon, function()
