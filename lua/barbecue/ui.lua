@@ -58,18 +58,19 @@ local function get_basename(winnr, bufnr)
   local basename = vim.fn.fnamemodify(filename, config.user.modifiers.basename .. ":t")
   if basename == "" then return nil end
 
-  local icon, icon_highlight
+  local icon
   if devicons_ok then
-    icon, icon_highlight = devicons.get_icon_by_filetype(vim.bo[bufnr].filetype)
+    local ic, hl = devicons.get_icon_by_filetype(vim.bo[bufnr].filetype)
+    icon = {
+      ic,
+      highlight = hl,
+    }
   end
 
   return Entry.new({
     basename,
     highlight = "BarbecueBasename",
-  }, {
-    icon,
-    highlight = icon_highlight,
-  }, function()
+  }, icon, function()
     vim.api.nvim_set_current_win(winnr)
     vim.api.nvim_win_set_cursor(winnr, { 1, 0 })
   end)
