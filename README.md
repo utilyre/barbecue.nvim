@@ -159,7 +159,8 @@ vim.api.nvim_create_autocmd({
     },
 
     ---icons for different context entry kinds
-    ---@type table<string, false|string>
+    ---`false` to disable kind icons
+    ---@type table<string, string>|false
     kinds = {
       File = "",
       Package = "",
