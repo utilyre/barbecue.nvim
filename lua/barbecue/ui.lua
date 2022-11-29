@@ -118,10 +118,10 @@ local function truncate_entries(entries, length, max_length, skip_indices)
     highlight = "BarbecueEllipsis",
   })
 
-  local has_ellipsis, remove_counter, i = false, 0, 1
+  local has_ellipsis, i, n = false, 1, 0
   while i <= #entries do
     if length <= max_length then break end
-    if vim.tbl_contains(skip_indices, remove_counter + i) then
+    if vim.tbl_contains(skip_indices, n + i) then
       has_ellipsis = false
       i = i + 1
       goto continue
@@ -132,7 +132,7 @@ local function truncate_entries(entries, length, max_length, skip_indices)
       if i < #entries then length = length - (utils.str_len(config.user.symbols.separator) + 2) end
 
       table.remove(entries, i)
-      remove_counter = remove_counter + 1
+      n = n + 1
     else
       length = length + utils.str_len(config.user.symbols.ellipsis)
       entries[i] = ellipsis
