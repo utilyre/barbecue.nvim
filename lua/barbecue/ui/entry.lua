@@ -49,7 +49,7 @@ end
 ---@return number
 function Entry:len()
   local length = utils.str_len(self.text[1])
-  if self.icon ~= nil then length = length + utils.str_len(self.icon[1]) + 1 end
+  if (self.icon ~= nil and next(self.icon) ~= nil) then length = length + utils.str_len(self.icon[1]) + 1 end
 
   return length
 end
@@ -58,7 +58,7 @@ end
 ---@return string
 function Entry:to_string()
   return ("%" .. self.id .. "@v:lua.require'barbecue.ui.entry'.on_click@")
-    .. (self.icon == nil and "" or "%#" .. self.icon.highlight .. "#" .. utils.exp_escape(self.icon[1]) .. (self.text == nil and "" or " "))
+    .. ((self.icon == nil or next(self.icon) == nil) and "" or "%#" .. self.icon.highlight .. "#" .. utils.exp_escape(self.icon[1]) .. (self.text == nil and "" or " "))
     .. ("%#" .. self.text.highlight .. "#" .. utils.exp_escape(self.text[1]))
     .. "%X"
 end
