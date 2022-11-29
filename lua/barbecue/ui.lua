@@ -58,6 +58,10 @@ local function get_basename(winnr, bufnr)
   local basename = vim.fn.fnamemodify(filename, config.user.modifiers.basename .. ":t")
   if basename == "" then return nil end
 
+  local text = {
+    basename,
+    highlight = "BarbecueBasename",
+  }
   local icon
   if devicons_ok then
     local ic, hl = devicons.get_icon_by_filetype(vim.bo[bufnr].filetype)
@@ -67,10 +71,7 @@ local function get_basename(winnr, bufnr)
     }
   end
 
-  return Entry.new({
-    basename,
-    highlight = "BarbecueBasename",
-  }, icon, function()
+  return Entry.new(text, icon, function()
     vim.api.nvim_set_current_win(winnr)
     vim.api.nvim_win_set_cursor(winnr, { 1, 0 })
   end)
@@ -87,13 +88,16 @@ local function get_context(winnr, bufnr)
   if nestings == nil then return nil end
 
   return vim.tbl_map(function(nesting)
-    return Entry.new({
+    local text = {
       nesting.name,
       highlight = "BarbecueContext",
-    }, {
+    }
+    local icon = {
       config.user.kinds[nesting.type],
       highlight = "BarbecueContext" .. nesting.type,
-    }, function()
+    }
+
+    return Entry.new(text, icon, function()
       vim.api.nvim_set_current_win(winnr)
       vim.api.nvim_win_set_cursor(winnr, { nesting.scope.start.line, nesting.scope.start.character })
     end)
