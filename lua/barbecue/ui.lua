@@ -187,6 +187,9 @@ function M.update(winnr)
       return
     end
 
+    -- PERF: reset state of Entry to prevent memory leak
+    Entry.reset_state()
+
     local dirname = get_dirname(bufnr)
     local basename = get_basename(winnr, bufnr)
     local context = get_context(winnr, bufnr)
