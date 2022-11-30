@@ -12,7 +12,7 @@ local visible = true
 
 ---mapping of `winnr` to its `winbar` state before being set
 ---@type table<number, string>
-local affected_wins = {}
+local previous_winbars = {}
 
 ---returns dirname of `bufnr`
 ---@param bufnr number
@@ -165,9 +165,9 @@ function M.update(winnr)
     or vim.tbl_contains(config.user.exclude_filetypes, vim.bo[bufnr].filetype)
     or vim.api.nvim_win_get_config(winnr).relative ~= ""
   then
-    if affected_wins[winnr] ~= nil then
-      vim.wo[winnr].winbar = affected_wins[winnr]
-      affected_wins[winnr] = nil
+    if previous_winbars[winnr] ~= nil then
+      vim.wo[winnr].winbar = previous_winbars[winnr]
+      previous_winbars[winnr] = nil
     end
 
     return
@@ -229,7 +229,7 @@ function M.update(winnr)
     end
     winbar = winbar .. "%#Normal#%=" .. custom_section .. " "
 
-    affected_wins[winnr] = vim.wo[winnr].winbar
+    previous_winbars[winnr] = vim.wo[winnr].winbar
     vim.wo[winnr].winbar = winbar
   end)
 end
