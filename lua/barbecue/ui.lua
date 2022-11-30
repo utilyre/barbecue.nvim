@@ -16,7 +16,7 @@ local previous_winbars = {}
 
 ---returns dirname of `bufnr`
 ---@param bufnr number
----@return barbecue.Entry[]|nil
+---@return barbecue.Entry[]
 local function get_dirname(bufnr)
   local filename = vim.api.nvim_buf_get_name(bufnr)
   local dirname = vim.fn.fnamemodify(filename, config.user.modifiers.dirname .. ":h")
@@ -24,7 +24,7 @@ local function get_dirname(bufnr)
   ---@type barbecue.Entry[]
   local entries = {}
 
-  if dirname == "." then return nil end
+  if dirname == "." then return {} end
   if dirname ~= "/" and dirname:sub(1, 1) == "/" then
     dirname:sub(2)
     table.insert(
@@ -77,12 +77,12 @@ end
 ---returns context of `bufnr`
 ---@param winnr number
 ---@param bufnr number
----@return barbecue.Entry[]|nil
+---@return barbecue.Entry[]
 local function get_context(winnr, bufnr)
-  if not navic.is_available() then return nil end
+  if not navic.is_available() then return {} end
 
   local nestings = navic.get_data(bufnr)
-  if nestings == nil then return nil end
+  if nestings == nil then return {} end
 
   return vim.tbl_map(function(nesting)
     local text = {
@@ -194,7 +194,7 @@ function M.update(winnr)
 
     ---@type barbecue.Entry[]
     local entries = {}
-    utils.tbl_merge(entries, dirname or {}, { basename }, context or {})
+    utils.tbl_merge(entries, dirname, { basename }, context)
     local custom_section = config.user.custom_section(bufnr)
 
     if config.user.truncation.enabled then
@@ -212,7 +212,7 @@ function M.update(winnr)
       if config.user.truncation.method == "simple" then
         skip_indices = {}
       elseif config.user.truncation.method == "keep_basename" then
-        skip_indices = { dirname == nil and 1 or #dirname + 1 }
+        skip_indices = { #dirname + 1 }
       end
       truncate_entries(entries, length, vim.api.nvim_win_get_width(winnr), skip_indices)
     end
