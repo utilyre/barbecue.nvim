@@ -1,10 +1,10 @@
 local utils = require("barbecue.utils")
 
----next ID of `instances`
+---next ID of `on_clicks`
 ---@type number
 local next_id = 1
 
----entry instance tracker
+---entry instance on_click tracker
 ---@type table<number, fun(clicks: number, button: string, modifiers: string)>
 local on_clicks = {}
 
