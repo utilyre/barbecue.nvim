@@ -5,26 +5,6 @@ local utils = require("barbecue.utils")
 
 local M = {}
 
----@deprecated
-function M.update(winnr)
-  vim.notify(
-    "require(\"barbecue\").update is deprecated now, use require(\"barbecue.ui\").update instead",
-    vim.log.levels.WARN
-  )
-
-  ui.update(winnr)
-end
-
----@deprecated
-function M.toggle(shown)
-  vim.notify(
-    "require(\"barbecue\").toggle is deprecated now, use require(\"barbecue.ui\").toggle instead",
-    vim.log.levels.WARN
-  )
-
-  ui.toggle(shown)
-end
-
 ---configures and starts barbecue
 ---@param cfg barbecue.Config?
 function M.setup(cfg)
