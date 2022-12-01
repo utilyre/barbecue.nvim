@@ -4,6 +4,8 @@ local config = require("barbecue.config")
 local utils = require("barbecue.utils")
 local Entry = require("barbecue.ui.entry")
 
+local ENTRY_IDS = "barbecue_entry_ids"
+
 local M = {}
 
 ---whether winbar is visible
@@ -25,8 +27,7 @@ local function get_dirname(bufnr)
   local entries = {}
 
   if dirname == "." then return {} end
-  if dirname ~= "/" and dirname:sub(1, 1) == "/" then
-    dirname:sub(2)
+  if dirname:sub(1, 1) == "/" then
     table.insert(
       entries,
       Entry.new({
@@ -36,7 +37,8 @@ local function get_dirname(bufnr)
     )
   end
 
-  for _, dir in ipairs(vim.split(dirname, "/")) do
+  local dirs = vim.split(dirname, "/", { trimempty = true })
+  for _, dir in ipairs(dirs) do
     table.insert(
       entries,
       Entry.new({
@@ -187,8 +189,13 @@ function M.update(winnr)
       return
     end
 
-    -- PERF: reset state of Entry to prevent memory leak
-    Entry.reset_state()
+    -- PERF: remove unused/previous callbacks in Entry class
+    local ids_ok, ids = pcall(vim.api.nvim_win_get_var, winnr, ENTRY_IDS)
+    if ids_ok then
+      for _, id in ipairs(ids) do
+        Entry.remove_callback(id)
+      end
+    end
 
     local dirname = get_dirname(bufnr)
     local basename = get_basename(winnr, bufnr)
@@ -199,6 +206,14 @@ function M.update(winnr)
     local entries = {}
     utils.tbl_merge(entries, dirname, { basename }, context)
     local custom_section = config.user.custom_section(bufnr)
+
+    vim.api.nvim_win_set_var(
+      winnr,
+      ENTRY_IDS,
+      vim.tbl_map(function(entry)
+        return entry.id
+      end, entries)
+    )
 
     if config.user.truncation.enabled then
       local length = 2 + utils.str_len(custom_section)
