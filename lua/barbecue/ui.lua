@@ -28,7 +28,6 @@ local function get_dirname(bufnr)
 
   if dirname == "." then return {} end
   if dirname:sub(1, 1) == "/" then
-    dirname = dirname:sub(2)
     table.insert(
       entries,
       Entry.new({
