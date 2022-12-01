@@ -3,7 +3,7 @@ local M = {}
 ---escapes `str` from winbar expansion
 ---@param str string
 ---@return string
-function M.exp_escape(str)
+function M.str_escape(str)
   str = str:gsub("%%", "%%%%")
   str = str:gsub("\n", " ")
   return str
