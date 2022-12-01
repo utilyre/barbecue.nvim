@@ -27,8 +27,8 @@ local function get_dirname(bufnr)
   local entries = {}
 
   if dirname == "." then return {} end
-  if dirname ~= "/" and dirname:sub(1, 1) == "/" then
-    dirname:sub(2)
+  if dirname:sub(1, 1) == "/" then
+    dirname = dirname:sub(2)
     table.insert(
       entries,
       Entry.new({
@@ -38,7 +38,8 @@ local function get_dirname(bufnr)
     )
   end
 
-  for _, dir in ipairs(vim.split(dirname, "/")) do
+  local dirs = vim.split(dirname, "/", { trimempty = true })
+  for _, dir in ipairs(dirs) do
     table.insert(
       entries,
       Entry.new({
