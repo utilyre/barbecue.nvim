@@ -2,3 +2,4 @@
 - [x] Rename `BarbecueConfig` to `barbecue.Config` and move it to `types/barbecue.nvim`
 - [x] Make all highlight groups barbecue specific.
 - [x] Implement `keep_basename` method for truncation.
+- [ ] Add highlight groups to several colorschemes (e.g. [tokyonight](https://github.com/folke/tokyonight.nvim) and [onedark](https://github.com/navarasu/onedark.nvim))
