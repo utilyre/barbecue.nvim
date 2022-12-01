@@ -1,12 +1,12 @@
 local utils = require("barbecue.utils")
 
----next ID of `on_clicks`
+---next ID of `callbacks`
 ---@type number
 local next_id = 1
 
----entry instance on_click tracker
+---entry instance `on_click` tracker
 ---@type table<number, fun(clicks: number, button: string, modifiers: string)>
-local on_clicks = {}
+local callbacks = {}
 
 ---@class barbecue.Entry
 ---@field private id number
@@ -22,14 +22,14 @@ Entry.__index = Entry
 ---@param button string
 ---@param modifiers string
 function Entry.on_click(id, clicks, button, modifiers)
-  if on_clicks[id] == nil then return end
-  on_clicks[id](clicks, button, modifiers)
+  if callbacks[id] == nil then return end
+  callbacks[id](clicks, button, modifiers)
 end
 
----resets the global state
-function Entry.reset_state()
-  next_id = 1
-  on_clicks = {}
+---removes an item from `callbacks`
+---@param id number
+function Entry.remove_callback(id)
+  callbacks[id] = nil
 end
 
 ---creates a new instance
@@ -45,7 +45,7 @@ function Entry.new(text, icon, on_click)
   instance.icon = icon
   instance.on_click = on_click
 
-  if on_click ~= nil then on_clicks[next_id] = instance.on_click end
+  if on_click ~= nil then callbacks[next_id] = instance.on_click end
   next_id = next_id + 1
 
   return instance
