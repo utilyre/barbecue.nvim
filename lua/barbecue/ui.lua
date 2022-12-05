@@ -62,7 +62,12 @@ local function get_basename(winnr, bufnr)
     highlight = "BarbecueBasename",
   }
   local icon
-  if devicons_ok then
+  if vim.bo[bufnr].modified and config.user.symbols.modified ~= false then
+    icon = {
+      config.user.symbols.modified,
+      highlight = "BarbecueModified",
+    }
+  elseif devicons_ok then
     local ic, hl = devicons.get_icon_by_filetype(vim.bo[bufnr].filetype)
     if ic ~= nil and hl ~= nil then icon = { ic, highlight = hl } end
   end
@@ -215,10 +220,6 @@ function M.update(winnr)
 
     if config.user.truncation.enabled then
       local length = 2 + utils.str_len(custom_section)
-      if vim.bo[bufnr].modified and config.user.symbols.modified ~= false then
-        length = length + utils.str_len(config.user.symbols.modified) + 1
-      end
-
       for i, entry in ipairs(entries) do
         length = length + entry:len()
         if i < #entries then length = length + utils.str_len(config.user.symbols.separator) + 2 end
@@ -234,11 +235,6 @@ function M.update(winnr)
     end
 
     local winbar = " "
-      .. (
-        (vim.bo[bufnr].modified and config.user.symbols.modified ~= false)
-          and "%#BarbecueModified#" .. config.user.symbols.modified .. " "
-        or ""
-      )
     for i, entry in ipairs(entries) do
       winbar = winbar .. entry:to_string()
       if i < #entries then winbar = winbar .. " %#BarbecueSeparator#" .. config.user.symbols.separator .. " " end
