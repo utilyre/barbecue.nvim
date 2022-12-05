@@ -75,10 +75,11 @@ yourself) like so
 
 ```lua
 vim.api.nvim_create_autocmd({
+  "WinScrolled",
   "BufWinEnter",
-  "BufWritePost",
   "CursorMoved",
   "InsertLeave",
+  "BufWritePost",
   "TextChanged",
   "TextChangedI",
   -- add more events here
