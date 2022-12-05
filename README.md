@@ -132,11 +132,14 @@ vim.api.nvim_create_autocmd({
       return ""
     end,
 
+    ---whether to replace file icon with the modified symbol when buffer is modified
+    ---@type boolean
+    show_modified = false,
+
     symbols = {
       ---modification indicator
-      ---`false` to disable
-      ---@type false|string
-      modified = false,
+      ---@type string
+      modified = "●",
 
       ---truncation indicator
       ---@type string

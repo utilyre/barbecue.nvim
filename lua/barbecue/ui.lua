@@ -62,7 +62,7 @@ local function get_basename(winnr, bufnr)
     highlight = "BarbecueBasename",
   }
   local icon
-  if vim.bo[bufnr].modified and config.user.symbols.modified ~= false then
+  if vim.bo[bufnr].modified and config.user.show_modified then
     icon = {
       config.user.symbols.modified,
       highlight = "BarbecueModified",

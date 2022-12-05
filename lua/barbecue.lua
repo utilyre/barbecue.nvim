@@ -31,7 +31,7 @@ function M.setup(cfg)
       "InsertLeave",
     }
 
-    if config.user.symbols.modified ~= false then
+    if config.user.show_modified then
       utils.tbl_merge(events, {
         "BufWritePost",
         "TextChanged",
