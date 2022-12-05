@@ -1,25 +1,30 @@
 local utils = require("barbecue.utils")
 
 ---next ID of `callbacks`
----@type number
+---@type barbecue.Entry.id
 local next_id = 1
 
 ---entry instance `on_click` tracker
----@type table<number, fun(clicks: number, button: string, modifiers: string)>
+---@type table<barbecue.Entry.id, barbecue.Entry.on_click>
 local callbacks = {}
 
+---@alias barbecue.Entry.id number
+---@alias barbecue.Entry.text { [1]: string, highlight: string }
+---@alias barbecue.Entry.icon { [1]: string, highlight: string }
+---@alias barbecue.Entry.on_click fun(clicks: number, button: "l"|"m"|"r", modifiers: string)
+
 ---@class barbecue.Entry
----@field private id number
----@field public text { [1]: string, highlight: string }
----@field public icon { [1]: string, highlight: string }|nil
----@field public on_click fun(clicks: number, button: string, modifiers: string)|nil
+---@field private id barbecue.Entry.id
+---@field public text barbecue.Entry.text
+---@field public icon barbecue.Entry.icon|nil
+---@field public on_click barbecue.Entry.on_click|nil
 local Entry = {}
 Entry.__index = Entry
 
 ---general click handler
----@param id number
+---@param id barbecue.Entry.id
 ---@param clicks number
----@param button string
+---@param button "l"|"m"|"r"
 ---@param modifiers string
 function Entry.on_click(id, clicks, button, modifiers)
   if callbacks[id] == nil then return end
@@ -27,15 +32,15 @@ function Entry.on_click(id, clicks, button, modifiers)
 end
 
 ---removes an item from `callbacks`
----@param id number
+---@param id barbecue.Entry.id
 function Entry.remove_callback(id)
   callbacks[id] = nil
 end
 
 ---creates a new instance
----@param text { [1]: string, highlight: string }
----@param icon { [1]: string, highlight: string }?
----@param on_click fun(clicks: number, button: string, modifiers: string)?
+---@param text barbecue.Entry.text
+---@param icon barbecue.Entry.icon?
+---@param on_click barbecue.Entry.on_click?
 ---@return barbecue.Entry
 function Entry.new(text, icon, on_click)
   local instance = setmetatable({}, Entry)
@@ -64,8 +69,8 @@ end
 ---@return string
 function Entry:to_string()
   return ("%" .. self.id .. "@v:lua.require'barbecue.ui.entry'.on_click@")
-    .. (self.icon == nil and "" or "%#" .. self.icon.highlight .. "#" .. utils.exp_escape(self.icon[1]) .. (self.text == nil and "" or " "))
-    .. ("%#" .. self.text.highlight .. "#" .. utils.exp_escape(self.text[1]))
+    .. (self.icon == nil and "" or "%#" .. self.icon.highlight .. "#" .. utils.str_escape(self.icon[1]) .. (self.text == nil and "" or " "))
+    .. ("%#" .. self.text.highlight .. "#" .. utils.str_escape(self.text[1]))
     .. "%X"
 end
 

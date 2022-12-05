@@ -75,10 +75,11 @@ yourself) like so
 
 ```lua
 vim.api.nvim_create_autocmd({
+  "WinScrolled",
   "BufWinEnter",
-  "BufWritePost",
   "CursorMoved",
   "InsertLeave",
+  "BufWritePost",
   "TextChanged",
   "TextChangedI",
   -- add more events here
@@ -115,18 +116,6 @@ vim.api.nvim_create_autocmd({
     ---@type string[]
     exclude_filetypes = { "toggleterm" },
 
-    truncation = {
-      ---whether winbar truncation is enabled
-      ---`false` to gain a little performance
-      ---@type boolean
-      enabled = true,
-
-      ---`simple` starts truncating from the beginning until it fits
-      ---`keep_basename` is the same as `simple` but skips basename
-      ---@type "simple"|"keep_basename"
-      method = "keep_basename",
-    },
-
     modifiers = {
       ---filename modifiers applied to dirname
       ---@type string
@@ -143,11 +132,14 @@ vim.api.nvim_create_autocmd({
       return ""
     end,
 
+    ---whether to replace file icon with the modified symbol when buffer is modified
+    ---@type boolean
+    show_modified = false,
+
     symbols = {
       ---modification indicator
-      ---`false` to disable
-      ---@type false|string
-      modified = false,
+      ---@type string
+      modified = "●",
 
       ---truncation indicator
       ---@type string

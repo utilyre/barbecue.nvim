@@ -4,17 +4,14 @@ local config = require("barbecue.config")
 local utils = require("barbecue.utils")
 local Entry = require("barbecue.ui.entry")
 
-local ENTRY_IDS = "barbecue_entry_ids"
+local VAR_ENTRY_IDS = "barbecue_entry_ids"
+local VAR_LAST_WINBAR = "barbecue_last_winbar"
 
 local M = {}
 
 ---whether winbar is visible
 ---@type boolean
 local visible = true
-
----mapping of `winnr` to its `winbar` state before being set
----@type table<number, string>
-local previous_winbars = {}
 
 ---returns dirname of `bufnr`
 ---@param bufnr number
@@ -65,12 +62,19 @@ local function get_basename(winnr, bufnr)
     highlight = "BarbecueBasename",
   }
   local icon
-  if devicons_ok then
+  if vim.bo[bufnr].modified and config.user.show_modified then
+    icon = {
+      config.user.symbols.modified,
+      highlight = "BarbecueModified",
+    }
+  elseif devicons_ok then
     local ic, hl = devicons.get_icon_by_filetype(vim.bo[bufnr].filetype)
     if ic ~= nil and hl ~= nil then icon = { ic, highlight = hl } end
   end
 
-  return Entry.new(text, icon, function()
+  return Entry.new(text, icon, function(_, button)
+    if button ~= "l" then return end
+
     vim.api.nvim_set_current_win(winnr)
     vim.api.nvim_win_set_cursor(winnr, { 1, 0 })
   end)
@@ -99,7 +103,9 @@ local function get_context(winnr, bufnr)
       }
     end
 
-    return Entry.new(text, icon, function()
+    return Entry.new(text, icon, function(_, button)
+      if button ~= "l" then return end
+
       vim.api.nvim_set_current_win(winnr)
       vim.api.nvim_win_set_cursor(winnr, { nesting.scope.start.line, nesting.scope.start.character })
     end)
@@ -167,9 +173,10 @@ function M.update(winnr)
     or vim.tbl_contains(config.user.exclude_filetypes, vim.bo[bufnr].filetype)
     or vim.api.nvim_win_get_config(winnr).relative ~= ""
   then
-    if previous_winbars[winnr] ~= nil then
-      vim.wo[winnr].winbar = previous_winbars[winnr]
-      previous_winbars[winnr] = nil
+    local last_winbar_ok, last_winbar = pcall(vim.api.nvim_win_get_var, winnr, VAR_LAST_WINBAR)
+    if last_winbar_ok then
+      vim.wo[winnr].winbar = last_winbar
+      vim.api.nvim_win_del_var(winnr, VAR_LAST_WINBAR)
     end
 
     return
@@ -190,7 +197,7 @@ function M.update(winnr)
     end
 
     -- PERF: remove unused/previous callbacks in Entry class
-    local ids_ok, ids = pcall(vim.api.nvim_win_get_var, winnr, ENTRY_IDS)
+    local ids_ok, ids = pcall(vim.api.nvim_win_get_var, winnr, VAR_ENTRY_IDS)
     if ids_ok then
       for _, id in ipairs(ids) do
         Entry.remove_callback(id)
@@ -209,45 +216,27 @@ function M.update(winnr)
 
     vim.api.nvim_win_set_var(
       winnr,
-      ENTRY_IDS,
+      VAR_ENTRY_IDS,
       vim.tbl_map(function(entry)
         return entry.id
       end, entries)
     )
 
-    if config.user.truncation.enabled then
-      local length = 2 + utils.str_len(custom_section)
-      if vim.bo[bufnr].modified and config.user.symbols.modified ~= false then
-        length = length + utils.str_len(config.user.symbols.modified) + 1
-      end
-
-      for i, entry in ipairs(entries) do
-        length = length + entry:len()
-        if i < #entries then length = length + utils.str_len(config.user.symbols.separator) + 2 end
-      end
-
-      local skip_indices
-      if config.user.truncation.method == "simple" then
-        skip_indices = {}
-      elseif config.user.truncation.method == "keep_basename" then
-        skip_indices = { #dirname + 1 }
-      end
-      truncate_entries(entries, length, vim.api.nvim_win_get_width(winnr), skip_indices)
+    local length = 2 + utils.str_len(custom_section)
+    for i, entry in ipairs(entries) do
+      length = length + entry:len()
+      if i < #entries then length = length + utils.str_len(config.user.symbols.separator) + 2 end
     end
+    truncate_entries(entries, length, vim.api.nvim_win_get_width(winnr), { #dirname + 1 })
 
     local winbar = " "
-      .. (
-        (vim.bo[bufnr].modified and config.user.symbols.modified ~= false)
-          and "%#BarbecueModified#" .. config.user.symbols.modified .. " "
-        or ""
-      )
     for i, entry in ipairs(entries) do
       winbar = winbar .. entry:to_string()
       if i < #entries then winbar = winbar .. " %#BarbecueSeparator#" .. config.user.symbols.separator .. " " end
     end
     winbar = winbar .. "%#Normal#%=" .. custom_section .. " "
 
-    previous_winbars[winnr] = vim.wo[winnr].winbar
+    vim.api.nvim_win_set_var(winnr, VAR_LAST_WINBAR, vim.wo[winnr].winbar)
     vim.wo[winnr].winbar = winbar
   end)
 end

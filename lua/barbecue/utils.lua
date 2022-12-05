@@ -3,31 +3,10 @@ local M = {}
 ---escapes `str` from winbar expansion
 ---@param str string
 ---@return string
-function M.exp_escape(str)
+function M.str_escape(str)
   str = str:gsub("%%", "%%%%")
   str = str:gsub("\n", " ")
   return str
-end
-
----escapes `str` from lua regex
----@param str string
----@return string
-function M.str_escape(str)
-  local escaped = str:gsub("[%^%$%(%)%%%.%[%]%*%+%-%?]", "%%%1")
-  return escaped
-end
-
----substitutes `str` within `from` and `to`
----@param str string
----@param patt string
----@param repl string
----@param from number?
----@param to number?
----@return string
-function M.str_gsub(str, patt, repl, from, to)
-  from = from or 1
-  to = to or str:len()
-  return str:sub(1, from - 1) .. str:sub(from, to):gsub(patt, repl) .. str:sub(to + 1, str:len())
 end
 
 ---returns number of UTF-8 chars in `str`
