@@ -218,21 +218,12 @@ function M.update(winnr)
       end, entries)
     )
 
-    if config.user.truncation.enabled then
-      local length = 2 + utils.str_len(custom_section)
-      for i, entry in ipairs(entries) do
-        length = length + entry:len()
-        if i < #entries then length = length + utils.str_len(config.user.symbols.separator) + 2 end
-      end
-
-      local skip_indices
-      if config.user.truncation.method == "simple" then
-        skip_indices = {}
-      elseif config.user.truncation.method == "keep_basename" then
-        skip_indices = { #dirname + 1 }
-      end
-      truncate_entries(entries, length, vim.api.nvim_win_get_width(winnr), skip_indices)
+    local length = 2 + utils.str_len(custom_section)
+    for i, entry in ipairs(entries) do
+      length = length + entry:len()
+      if i < #entries then length = length + utils.str_len(config.user.symbols.separator) + 2 end
     end
+    truncate_entries(entries, length, vim.api.nvim_win_get_width(winnr), { #dirname + 1 })
 
     local winbar = " "
     for i, entry in ipairs(entries) do
