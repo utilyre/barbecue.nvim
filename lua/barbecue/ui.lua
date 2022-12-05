@@ -72,7 +72,9 @@ local function get_basename(winnr, bufnr)
     if ic ~= nil and hl ~= nil then icon = { ic, highlight = hl } end
   end
 
-  return Entry.new(text, icon, function()
+  return Entry.new(text, icon, function(_, button)
+    if button ~= "l" then return end
+
     vim.api.nvim_set_current_win(winnr)
     vim.api.nvim_win_set_cursor(winnr, { 1, 0 })
   end)
@@ -101,7 +103,9 @@ local function get_context(winnr, bufnr)
       }
     end
 
-    return Entry.new(text, icon, function()
+    return Entry.new(text, icon, function(_, button)
+      if button ~= "l" then return end
+
       vim.api.nvim_set_current_win(winnr)
       vim.api.nvim_win_set_cursor(winnr, { nesting.scope.start.line, nesting.scope.start.character })
     end)
