@@ -4,7 +4,7 @@ local config = require("barbecue.config")
 local utils = require("barbecue.utils")
 local Entry = require("barbecue.ui.entry")
 
-local ENTRY_IDS = "barbecue_entry_ids"
+local VAR_ENTRY_IDS = "barbecue_entry_ids"
 
 local M = {}
 
@@ -190,7 +190,7 @@ function M.update(winnr)
     end
 
     -- PERF: remove unused/previous callbacks in Entry class
-    local ids_ok, ids = pcall(vim.api.nvim_win_get_var, winnr, ENTRY_IDS)
+    local ids_ok, ids = pcall(vim.api.nvim_win_get_var, winnr, VAR_ENTRY_IDS)
     if ids_ok then
       for _, id in ipairs(ids) do
         Entry.remove_callback(id)
@@ -209,7 +209,7 @@ function M.update(winnr)
 
     vim.api.nvim_win_set_var(
       winnr,
-      ENTRY_IDS,
+      VAR_ENTRY_IDS,
       vim.tbl_map(function(entry)
         return entry.id
       end, entries)
