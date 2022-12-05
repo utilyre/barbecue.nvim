@@ -5,16 +5,13 @@ local utils = require("barbecue.utils")
 local Entry = require("barbecue.ui.entry")
 
 local VAR_ENTRY_IDS = "barbecue_entry_ids"
+local VAR_LAST_WINBAR = "barbecue_last_winbar"
 
 local M = {}
 
 ---whether winbar is visible
 ---@type boolean
 local visible = true
-
----mapping of `winnr` to its `winbar` state before being set
----@type table<number, string>
-local previous_winbars = {}
 
 ---returns dirname of `bufnr`
 ---@param bufnr number
@@ -167,9 +164,10 @@ function M.update(winnr)
     or vim.tbl_contains(config.user.exclude_filetypes, vim.bo[bufnr].filetype)
     or vim.api.nvim_win_get_config(winnr).relative ~= ""
   then
-    if previous_winbars[winnr] ~= nil then
-      vim.wo[winnr].winbar = previous_winbars[winnr]
-      previous_winbars[winnr] = nil
+    local last_winbar_ok, last_winbar = pcall(vim.api.nvim_win_get_var, winnr, VAR_LAST_WINBAR)
+    if last_winbar_ok then
+      vim.wo[winnr].winbar = last_winbar
+      vim.api.nvim_win_del_var(winnr, VAR_LAST_WINBAR)
     end
 
     return
@@ -247,7 +245,7 @@ function M.update(winnr)
     end
     winbar = winbar .. "%#Normal#%=" .. custom_section .. " "
 
-    previous_winbars[winnr] = vim.wo[winnr].winbar
+    vim.api.nvim_win_set_var(winnr, VAR_LAST_WINBAR, vim.wo[winnr].winbar)
     vim.wo[winnr].winbar = winbar
   end)
 end
