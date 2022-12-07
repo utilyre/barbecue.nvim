@@ -34,6 +34,7 @@ use {
     "smiteshp/nvim-navic",
     "kyazdani42/nvim-web-devicons", -- optional
   },
+  after = "nvim-web-devicons", -- NOTICE: keep this if you're using NvChad
   config = function()
     require("barbecue").setup()
   end,
