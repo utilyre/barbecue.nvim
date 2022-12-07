@@ -34,6 +34,7 @@ use {
     "smiteshp/nvim-navic",
     "kyazdani42/nvim-web-devicons", -- optional
   },
+  after = "nvim-web-devicons", -- NOTICE: keep this if you're using NvChad
   config = function()
     require("barbecue").setup()
   end,
@@ -193,6 +194,7 @@ vim.api.nvim_create_autocmd({
 
   | Highlight Group                  | Default Group              |
   | -------------------------------- | -------------------------- |
+  | **BarbecueNormal**               | _WinBar_                   |
   | **BarbecueModified**             | _BufferVisibleMod_         |
   | **BarbecueEllipsis**             | _Conceal_                  |
   | **BarbecueSeparator**            | _Conceal_                  |

@@ -69,7 +69,7 @@ end
 ---@return string
 function Entry:to_string()
   return ("%" .. self.id .. "@v:lua.require'barbecue.ui.entry'.on_click@")
-    .. (self.icon == nil and "" or "%#" .. self.icon.highlight .. "#" .. utils.str_escape(self.icon[1]) .. (self.text == nil and "" or " "))
+    .. (self.icon == nil and "" or "%#" .. self.icon.highlight .. "#" .. utils.str_escape(self.icon[1]) .. "%#BarbecueNormal#" .. (self.text == nil and "" or " "))
     .. ("%#" .. self.text.highlight .. "#" .. utils.str_escape(self.text[1]))
     .. "%X"
 end

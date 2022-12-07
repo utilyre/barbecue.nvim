@@ -1,5 +1,6 @@
 ---@type table<string, string>
 local M = {
+  BarbecueNormal = "WinBar",
   BarbecueModified = "BufferVisibleMod",
   BarbecueEllipsis = "Conceal",
   BarbecueSeparator = "Conceal",

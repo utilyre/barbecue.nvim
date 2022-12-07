@@ -19,7 +19,7 @@ end
 
 ---merges one or more lists into `list`
 ---@param list any[]
----@vararg any[]
+---@param ... any[]
 function M.tbl_merge(list, ...)
   for _, l in ipairs({ ... }) do
     for _, value in ipairs(l) do

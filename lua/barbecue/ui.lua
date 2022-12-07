@@ -116,8 +116,8 @@ end
 ---@param entries barbecue.Entry[]
 ---@param length number
 ---@param max_length number
----@param skip_indices number[]
-local function truncate_entries(entries, length, max_length, skip_indices)
+---@param basename_position number
+local function truncate_entries(entries, length, max_length, basename_position)
   local ellipsis = Entry.new({
     config.user.symbols.ellipsis,
     highlight = "BarbecueEllipsis",
@@ -126,7 +126,7 @@ local function truncate_entries(entries, length, max_length, skip_indices)
   local has_ellipsis, i, n = false, 1, 0
   while i <= #entries do
     if length <= max_length then break end
-    if vim.tbl_contains(skip_indices, n + i) then
+    if n + i == basename_position then
       has_ellipsis = false
       i = i + 1
       goto continue
@@ -227,14 +227,19 @@ function M.update(winnr)
       length = length + entry:len()
       if i < #entries then length = length + utils.str_len(config.user.symbols.separator) + 2 end
     end
-    truncate_entries(entries, length, vim.api.nvim_win_get_width(winnr), { #dirname + 1 })
+    truncate_entries(entries, length, vim.api.nvim_win_get_width(winnr), #dirname + 1)
 
-    local winbar = " "
+    local winbar = "%#BarbecueNormal# "
     for i, entry in ipairs(entries) do
       winbar = winbar .. entry:to_string()
-      if i < #entries then winbar = winbar .. " %#BarbecueSeparator#" .. config.user.symbols.separator .. " " end
+      if i < #entries then
+        winbar = winbar
+          .. "%#BarbecueNormal# %#BarbecueSeparator#"
+          .. config.user.symbols.separator
+          .. "%#BarbecueNormal# "
+      end
     end
-    winbar = winbar .. "%#Normal#%=" .. custom_section .. " "
+    winbar = winbar .. "%#BarbecueNormal#%=" .. custom_section .. " "
 
     vim.api.nvim_win_set_var(winnr, VAR_LAST_WINBAR, vim.wo[winnr].winbar)
     vim.wo[winnr].winbar = winbar
