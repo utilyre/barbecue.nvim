@@ -193,6 +193,7 @@ vim.api.nvim_create_autocmd({
 
   | Highlight Group                  | Default Group              |
   | -------------------------------- | -------------------------- |
+  | **BarbecueNormal**               | _WinBar_                   |
   | **BarbecueModified**             | _BufferVisibleMod_         |
   | **BarbecueEllipsis**             | _Conceal_                  |
   | **BarbecueSeparator**            | _Conceal_                  |

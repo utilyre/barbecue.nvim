@@ -229,12 +229,17 @@ function M.update(winnr)
     end
     truncate_entries(entries, length, vim.api.nvim_win_get_width(winnr), { #dirname + 1 })
 
-    local winbar = " "
+    local winbar = "%#BarbecueNormal# "
     for i, entry in ipairs(entries) do
       winbar = winbar .. entry:to_string()
-      if i < #entries then winbar = winbar .. " %#BarbecueSeparator#" .. config.user.symbols.separator .. " " end
+      if i < #entries then
+        winbar = winbar
+          .. "%#BarbecueNormal# %#BarbecueSeparator#"
+          .. config.user.symbols.separator
+          .. "%#BarbecueNormal# "
+      end
     end
-    winbar = winbar .. "%#Normal#%=" .. custom_section .. " "
+    winbar = winbar .. "%#BarbecueNormal#%=" .. custom_section .. " "
 
     vim.api.nvim_win_set_var(winnr, VAR_LAST_WINBAR, vim.wo[winnr].winbar)
     vim.wo[winnr].winbar = winbar
