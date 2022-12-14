@@ -5,6 +5,7 @@ local utils = require("barbecue.utils")
 local Entry = require("barbecue.ui.entry")
 
 local VAR_ENTRY_IDS = "barbecue_entry_ids"
+local VAR_WAS_AFFECTED = "barbecue_was_affected"
 local VAR_LAST_WINBAR = "barbecue_last_winbar"
 
 local M = {}
@@ -174,10 +175,10 @@ function M.update(winnr)
     or vim.api.nvim_win_get_config(winnr).relative ~= ""
   then
     local last_winbar_ok, last_winbar = pcall(vim.api.nvim_win_get_var, winnr, VAR_LAST_WINBAR)
-    if last_winbar_ok then
-      vim.wo[winnr].winbar = last_winbar
-      vim.api.nvim_win_del_var(winnr, VAR_LAST_WINBAR)
-    end
+    vim.wo[winnr].winbar = last_winbar_ok and last_winbar or nil
+
+    local was_affected_ok, was_affected = pcall(vim.api.nvim_win_get_var, winnr, VAR_WAS_AFFECTED)
+    if was_affected_ok and was_affected then vim.api.nvim_win_del_var(winnr, VAR_WAS_AFFECTED) end
 
     return
   end
@@ -241,7 +242,14 @@ function M.update(winnr)
     end
     winbar = winbar .. "%#BarbecueNormal#%=" .. custom_section .. " "
 
-    vim.api.nvim_win_set_var(winnr, VAR_LAST_WINBAR, vim.wo[winnr].winbar)
+    local was_affected_ok, was_affected = pcall(vim.api.nvim_win_get_var, winnr, VAR_WAS_AFFECTED)
+    if was_affected_ok and was_affected then
+      pcall(vim.api.nvim_win_del_var, winnr, VAR_LAST_WINBAR)
+    else
+      vim.api.nvim_win_set_var(winnr, VAR_WAS_AFFECTED, true)
+      vim.api.nvim_win_set_var(winnr, VAR_LAST_WINBAR, vim.wo[winnr].winbar)
+    end
+
     vim.wo[winnr].winbar = winbar
   end)
 end
