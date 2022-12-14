@@ -35,6 +35,20 @@ local function get_dirname(bufnr)
     )
   end
 
+  local protocol_start_index = dirname:find("://")
+  if protocol_start_index ~= nil then
+    local protocol = dirname:sub(1, protocol_start_index + 2)
+    table.insert(
+      entries,
+      Entry.new({
+        protocol,
+        highlight = "BarbecueDirname",
+      })
+    )
+
+    dirname = dirname:sub(protocol_start_index + 3)
+  end
+
   local dirs = vim.split(dirname, "/", { trimempty = true })
   for _, dir in ipairs(dirs) do
     table.insert(
