@@ -165,17 +165,6 @@ local function truncate_entries(entries, length, max_length, basename_position)
   end
 end
 
----toggles visibility
----@param shown boolean?
-function M.toggle(shown)
-  if shown == nil then shown = not visible end
-
-  visible = shown
-  for _, winnr in ipairs(vim.api.nvim_list_wins()) do
-    M.update(winnr)
-  end
-end
-
 ---@async
 ---updates winbar on `winnr`
 ---@param winnr number?
@@ -266,6 +255,17 @@ function M.update(winnr)
 
     vim.wo[winnr].winbar = winbar
   end)
+end
+
+---toggles visibility
+---@param shown boolean?
+function M.toggle(shown)
+  if shown == nil then shown = not visible end
+
+  visible = shown
+  for _, winnr in ipairs(vim.api.nvim_list_wins()) do
+    M.update(winnr)
+  end
 end
 
 return M
