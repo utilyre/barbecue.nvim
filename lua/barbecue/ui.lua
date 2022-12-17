@@ -258,6 +258,8 @@ function M.update(winnr)
     remove_unused_callbacks(winnr)
     local custom_section = config.user.custom_section(bufnr)
     local entries = create_entries(winnr, bufnr, 2 + utils.str_len(custom_section))
+    if #entries == 0 then return end
+
     local winbar = build_winbar(entries, custom_section)
 
     vim.api.nvim_win_set_var(
