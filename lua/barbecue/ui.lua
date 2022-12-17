@@ -4,10 +4,6 @@ local config = require("barbecue.config")
 local utils = require("barbecue.utils")
 local Entry = require("barbecue.ui.entry")
 
-local VAR_ENTRY_IDS = "barbecue_entry_ids"
-local VAR_WAS_AFFECTED = "barbecue_was_affected"
-local VAR_LAST_WINBAR = "barbecue_last_winbar"
-
 local M = {}
 
 ---whether winbar is visible
@@ -220,6 +216,46 @@ local function build_winbar(entries, custom_section)
   return winbar .. "%#BarbecueNormal#%=" .. custom_section .. " "
 end
 
+local VAR_ENTRY_IDS = "barbecue_entry_ids"
+local VAR_WAS_AFFECTED = "barbecue_was_affected"
+local VAR_LAST_WINBAR = "barbecue_last_winbar"
+
+---returns `last_winbar` from `winnr`
+---@param winnr number
+---@return string|nil
+local function get_last_winbar(winnr)
+  local last_winbar_ok, last_winbar = pcall(vim.api.nvim_win_get_var, winnr, VAR_LAST_WINBAR)
+  return last_winbar_ok and last_winbar or nil
+end
+
+---clears the unneeded saved state from `winnr`
+---@param winnr number
+local function clear_state(winnr)
+  local was_affected_ok, was_affected = pcall(vim.api.nvim_win_get_var, winnr, VAR_WAS_AFFECTED)
+  if was_affected_ok and was_affected then vim.api.nvim_win_del_var(winnr, VAR_WAS_AFFECTED) end
+end
+
+---save the current state inside `winnr`
+---@param winnr any
+---@param entries any
+local function save_state(winnr, entries)
+  vim.api.nvim_win_set_var(
+    winnr,
+    VAR_ENTRY_IDS,
+    vim.tbl_map(function(entry)
+      return entry.id
+    end, entries)
+  )
+
+  local was_affected_ok, was_affected = pcall(vim.api.nvim_win_get_var, winnr, VAR_WAS_AFFECTED)
+  if was_affected_ok and was_affected then
+    pcall(vim.api.nvim_win_del_var, winnr, VAR_LAST_WINBAR)
+  else
+    vim.api.nvim_win_set_var(winnr, VAR_WAS_AFFECTED, true)
+    vim.api.nvim_win_set_var(winnr, VAR_LAST_WINBAR, vim.wo[winnr].winbar)
+  end
+end
+
 ---@async
 ---updates winbar on `winnr`
 ---@param winnr number?
@@ -232,11 +268,8 @@ function M.update(winnr)
     or vim.tbl_contains(config.user.exclude_filetypes, vim.bo[bufnr].filetype)
     or vim.api.nvim_win_get_config(winnr).relative ~= ""
   then
-    local last_winbar_ok, last_winbar = pcall(vim.api.nvim_win_get_var, winnr, VAR_LAST_WINBAR)
-    vim.wo[winnr].winbar = last_winbar_ok and last_winbar or nil
-
-    local was_affected_ok, was_affected = pcall(vim.api.nvim_win_get_var, winnr, VAR_WAS_AFFECTED)
-    if was_affected_ok and was_affected then vim.api.nvim_win_del_var(winnr, VAR_WAS_AFFECTED) end
+    vim.wo[winnr].winbar = get_last_winbar(winnr)
+    clear_state(winnr)
 
     return
   end
@@ -261,23 +294,7 @@ function M.update(winnr)
     if #entries == 0 then return end
 
     local winbar = build_winbar(entries, custom_section)
-
-    vim.api.nvim_win_set_var(
-      winnr,
-      VAR_ENTRY_IDS,
-      vim.tbl_map(function(entry)
-        return entry.id
-      end, entries)
-    )
-
-    local was_affected_ok, was_affected = pcall(vim.api.nvim_win_get_var, winnr, VAR_WAS_AFFECTED)
-    if was_affected_ok and was_affected then
-      pcall(vim.api.nvim_win_del_var, winnr, VAR_LAST_WINBAR)
-    else
-      vim.api.nvim_win_set_var(winnr, VAR_WAS_AFFECTED, true)
-      vim.api.nvim_win_set_var(winnr, VAR_LAST_WINBAR, vim.wo[winnr].winbar)
-    end
-
+    save_state(winnr)
     vim.wo[winnr].winbar = winbar
   end)
 end
