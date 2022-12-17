@@ -127,6 +127,17 @@ local function get_context(winnr, bufnr)
   end, nestings)
 end
 
+---removes unused/previous callbacks in Entry class
+---@param winnr number
+local function remove_unused_callbacks(winnr)
+  local ids_ok, ids = pcall(vim.api.nvim_win_get_var, winnr, VAR_ENTRY_IDS)
+  if ids_ok then
+    for _, id in ipairs(ids) do
+      Entry.remove_callback(id)
+    end
+  end
+end
+
 ---truncates `entries` based on `max_length`
 ---@param entries barbecue.Entry[]
 ---@param length number
@@ -165,6 +176,50 @@ local function truncate_entries(entries, length, max_length, basename_position)
   end
 end
 
+---combines dirname, basename, and context entries
+---@param winnr number
+---@param bufnr number
+---@param extra_length number
+---@return barbecue.Entry[]
+local function create_entries(winnr, bufnr, extra_length)
+  local dirname = get_dirname(bufnr)
+  local basename = get_basename(winnr, bufnr)
+  local context = get_context(winnr, bufnr)
+  if basename == nil then return {} end
+
+  ---@type barbecue.Entry[]
+  local entries = {}
+  utils.tbl_merge(entries, dirname, { basename }, context)
+
+  local length = extra_length
+  for i, entry in ipairs(entries) do
+    length = length + entry:len()
+    if i < #entries then length = length + utils.str_len(config.user.symbols.separator) + 2 end
+  end
+  truncate_entries(entries, length, vim.api.nvim_win_get_width(winnr), #dirname + 1)
+
+  return entries
+end
+
+---builds the winbar string from `entries` and `custom_section`
+---@param entries barbecue.Entry[]
+---@param custom_section string
+---@return string
+local function build_winbar(entries, custom_section)
+  local winbar = "%#BarbecueNormal# "
+  for i, entry in ipairs(entries) do
+    winbar = winbar .. entry:to_string()
+    if i < #entries then
+      winbar = winbar
+        .. "%#BarbecueNormal# %#BarbecueSeparator#"
+        .. config.user.symbols.separator
+        .. "%#BarbecueNormal# "
+    end
+  end
+
+  return winbar .. "%#BarbecueNormal#%=" .. custom_section .. " "
+end
+
 ---@async
 ---updates winbar on `winnr`
 ---@param winnr number?
@@ -200,23 +255,10 @@ function M.update(winnr)
       return
     end
 
-    -- PERF: remove unused/previous callbacks in Entry class
-    local ids_ok, ids = pcall(vim.api.nvim_win_get_var, winnr, VAR_ENTRY_IDS)
-    if ids_ok then
-      for _, id in ipairs(ids) do
-        Entry.remove_callback(id)
-      end
-    end
-
-    local dirname = get_dirname(bufnr)
-    local basename = get_basename(winnr, bufnr)
-    local context = get_context(winnr, bufnr)
-    if basename == nil then return end
-
-    ---@type barbecue.Entry[]
-    local entries = {}
-    utils.tbl_merge(entries, dirname, { basename }, context)
+    remove_unused_callbacks(winnr)
     local custom_section = config.user.custom_section(bufnr)
+    local entries = create_entries(winnr, bufnr, 2 + utils.str_len(custom_section))
+    local winbar = build_winbar(entries, custom_section)
 
     vim.api.nvim_win_set_var(
       winnr,
@@ -225,25 +267,6 @@ function M.update(winnr)
         return entry.id
       end, entries)
     )
-
-    local length = 2 + utils.str_len(custom_section)
-    for i, entry in ipairs(entries) do
-      length = length + entry:len()
-      if i < #entries then length = length + utils.str_len(config.user.symbols.separator) + 2 end
-    end
-    truncate_entries(entries, length, vim.api.nvim_win_get_width(winnr), #dirname + 1)
-
-    local winbar = "%#BarbecueNormal# "
-    for i, entry in ipairs(entries) do
-      winbar = winbar .. entry:to_string()
-      if i < #entries then
-        winbar = winbar
-          .. "%#BarbecueNormal# %#BarbecueSeparator#"
-          .. config.user.symbols.separator
-          .. "%#BarbecueNormal# "
-      end
-    end
-    winbar = winbar .. "%#BarbecueNormal#%=" .. custom_section .. " "
 
     local was_affected_ok, was_affected = pcall(vim.api.nvim_win_get_var, winnr, VAR_WAS_AFFECTED)
     if was_affected_ok and was_affected then
