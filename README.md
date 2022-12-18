@@ -6,7 +6,7 @@
   in order to get LSP context from your language server.
 </p>
 
-https://user-images.githubusercontent.com/91974155/197051920-0e89203e-1f0c-4f3c-af72-e7d5e13340ad.mp4
+https://user-images.githubusercontent.com/91974155/208309076-00b3d5e4-e0cc-4990-9f55-2877fca4baa2.mp4
 
 ## ✨ Features
 
