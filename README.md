@@ -29,12 +29,13 @@ Install barbecue and its dependencies
 ```lua
 use {
   "utilyre/barbecue.nvim",
+  branch = "dev", -- omit this if you only want stable updates
   requires = {
     "neovim/nvim-lspconfig",
     "smiteshp/nvim-navic",
-    "kyazdani42/nvim-web-devicons", -- optional
+    "kyazdani42/nvim-web-devicons", -- optional dependency
   },
-  after = "nvim-web-devicons", -- NOTICE: keep this if you're using NvChad
+  after = "nvim-web-devicons", -- keep this if you're using NvChad
   config = function()
     require("barbecue").setup()
   end,
