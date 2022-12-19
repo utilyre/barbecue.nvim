@@ -1,9 +1,5 @@
 local utils = require("barbecue.utils")
 
----next ID of `callbacks`
----@type barbecue.Entry.id
-local next_id = 1
-
 ---entry instance `on_click` tracker
 ---@type table<barbecue.Entry.id, barbecue.Entry.on_click>
 local callbacks = {}
@@ -45,13 +41,24 @@ end
 function Entry.new(text, icon, on_click)
   local instance = setmetatable({}, Entry)
 
-  instance.id = next_id
+  instance.id = 0
   instance.text = text
   instance.icon = icon
-  instance.on_click = on_click
 
-  if on_click ~= nil then callbacks[next_id] = instance.on_click end
-  next_id = next_id + 1
+  if on_click ~= nil then
+    local id = 1
+    while true do
+      if callbacks[id] == nil then
+        instance.id = id
+        instance.on_click = on_click
+
+        callbacks[instance.id] = instance.on_click
+        break
+      end
+
+      id = id + 1
+    end
+  end
 
   return instance
 end
