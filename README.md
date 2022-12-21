@@ -96,7 +96,7 @@ vim.api.nvim_create_autocmd({
 })
 ```
 
-- Get nvim-navic working with multiple tabs (#35)
+- Get nvim-navic working with multiple tabs ([#35](/../../issues/35))
 
 ```lua
 require("barbecue").setup({
