@@ -1,57 +1,27 @@
 local utils = require("barbecue.utils")
 
----next ID of `callbacks`
----@type barbecue.Entry.id
-local next_id = 1
-
----entry instance `on_click` tracker
----@type table<barbecue.Entry.id, barbecue.Entry.on_click>
-local callbacks = {}
-
----@alias barbecue.Entry.id number
 ---@alias barbecue.Entry.text { [1]: string, highlight: string }
 ---@alias barbecue.Entry.icon { [1]: string, highlight: string }
----@alias barbecue.Entry.on_click fun(clicks: number, button: "l"|"m"|"r", modifiers: string)
+---@alias barbecue.Entry.to { win: number, pos: { [1]: number, [2]: number } }
 
 ---@class barbecue.Entry
----@field private id barbecue.Entry.id
 ---@field public text barbecue.Entry.text
 ---@field public icon barbecue.Entry.icon|nil
----@field public on_click barbecue.Entry.on_click|nil
+---@field public to barbecue.Entry.to|nil
 local Entry = {}
 Entry.__index = Entry
-
----general click handler
----@param id barbecue.Entry.id
----@param clicks number
----@param button "l"|"m"|"r"
----@param modifiers string
-function Entry.on_click(id, clicks, button, modifiers)
-  if callbacks[id] == nil then return end
-  callbacks[id](clicks, button, modifiers)
-end
-
----removes an item from `callbacks`
----@param id barbecue.Entry.id
-function Entry.remove_callback(id)
-  callbacks[id] = nil
-end
 
 ---creates a new instance
 ---@param text barbecue.Entry.text
 ---@param icon barbecue.Entry.icon?
----@param on_click barbecue.Entry.on_click?
+---@param to barbecue.Entry.to?
 ---@return barbecue.Entry
-function Entry.new(text, icon, on_click)
+function Entry.new(text, icon, to)
   local instance = setmetatable({}, Entry)
 
-  instance.id = next_id
   instance.text = text
   instance.icon = icon
-  instance.on_click = on_click
-
-  if on_click ~= nil then callbacks[next_id] = instance.on_click end
-  next_id = next_id + 1
+  instance.to = to
 
   return instance
 end
@@ -68,10 +38,22 @@ end
 ---converts itself to a string
 ---@return string
 function Entry:to_string()
-  return ("%" .. self.id .. "@v:lua.require'barbecue.ui.entry'.on_click@")
-    .. (self.icon == nil and "" or "%#" .. self.icon.highlight .. "#" .. utils.str_escape(self.icon[1]) .. "%#BarbecueNormal#" .. (self.text == nil and "" or " "))
-    .. ("%#" .. self.text.highlight .. "#" .. utils.str_escape(self.text[1]))
-    .. "%X"
+  return (
+    self.to == nil and ""
+    or string.format(
+      "%%@v:lua.require'barbecue.ui.mouse'.navigate_%d_%d_%d@",
+      self.to.win,
+      self.to.pos[1],
+      self.to.pos[2]
+    )
+  )
+    .. (self.icon == nil and "" or string.format(
+      "%%#%s#%s%%#BarbecueNormal# ",
+      self.icon.highlight,
+      utils.str_escape(self.icon[1])
+    ))
+    .. string.format("%%#%s#%s", self.text.highlight, utils.str_escape(self.text[1]))
+    .. (self.to == nil and "" or "%X")
 end
 
 return Entry
