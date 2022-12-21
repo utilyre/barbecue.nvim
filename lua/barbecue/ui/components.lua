@@ -63,10 +63,6 @@ function M.get_basename(winnr, bufnr)
   local basename = vim.fn.fnamemodify(filename, config.user.modifiers.basename .. ":t")
   if basename == "" then return nil end
 
-  local text = {
-    basename,
-    highlight = "BarbecueBasename",
-  }
   local icon
   if vim.bo[bufnr].modified and config.user.show_modified then
     icon = {
@@ -78,12 +74,17 @@ function M.get_basename(winnr, bufnr)
     if ic ~= nil and hl ~= nil then icon = { ic, highlight = hl } end
   end
 
-  return Entry.new(text, icon, function(_, button)
-    if button ~= "l" then return end
-
-    vim.api.nvim_set_current_win(winnr)
-    vim.api.nvim_win_set_cursor(winnr, { 1, 0 })
-  end)
+  return Entry.new(
+    {
+      basename,
+      highlight = "BarbecueBasename",
+    },
+    icon,
+    {
+      win = winnr,
+      pos = { 1, 0 },
+    }
+  )
 end
 
 ---returns context of `bufnr`
@@ -97,10 +98,6 @@ function M.get_context(winnr, bufnr)
   if nestings == nil then return {} end
 
   return vim.tbl_map(function(nesting)
-    local text = {
-      nesting.name,
-      highlight = "BarbecueContext",
-    }
     local icon
     if config.user.kinds ~= false then
       icon = {
@@ -109,12 +106,17 @@ function M.get_context(winnr, bufnr)
       }
     end
 
-    return Entry.new(text, icon, function(_, button)
-      if button ~= "l" then return end
-
-      vim.api.nvim_set_current_win(winnr)
-      vim.api.nvim_win_set_cursor(winnr, { nesting.scope.start.line, nesting.scope.start.character })
-    end)
+    return Entry.new(
+      {
+        nesting.name,
+        highlight = "BarbecueContext",
+      },
+      icon,
+      {
+        win = winnr,
+        pos = { nesting.scope.start.line, nesting.scope.start.character },
+      }
+    )
   end, nestings)
 end
 

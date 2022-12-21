@@ -10,16 +10,6 @@ local M = {}
 ---@type boolean
 local visible = true
 
----removes unused/previous callbacks in Entry class
----@param winnr number
-local function remove_unused_callbacks(winnr)
-  local ids = state.get_entry_ids(winnr)
-  if ids ~= nil then
-    for _, id in ipairs(ids) do
-      Entry.remove_callback(id)
-    end
-  end
-end
 
 ---truncates `entries` based on `max_length`
 ---@param entries barbecue.Entry[]
@@ -135,7 +125,6 @@ function M.update(winnr)
       return
     end
 
-    remove_unused_callbacks(winnr)
     local custom_section = config.user.custom_section(bufnr)
     local entries = create_entries(winnr, bufnr, 2 + utils.str_len(custom_section))
     if #entries == 0 then return end
