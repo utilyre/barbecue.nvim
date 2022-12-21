@@ -10,6 +10,10 @@ local M = {}
 ---@type boolean
 local visible = true
 
+local ENTRY_ELLIPSIS = Entry.new({
+  config.user.symbols.ellipsis,
+  highlight = "BarbecueEllipsis",
+})
 
 ---truncates `entries` based on `max_length`
 ---@param entries barbecue.Entry[]
@@ -17,11 +21,6 @@ local visible = true
 ---@param max_length number
 ---@param basename_position number
 local function truncate_entries(entries, length, max_length, basename_position)
-  local ellipsis = Entry.new({
-    config.user.symbols.ellipsis,
-    highlight = "BarbecueEllipsis",
-  })
-
   local has_ellipsis, i, n = false, 1, 0
   while i <= #entries do
     if length <= max_length then break end
@@ -39,7 +38,7 @@ local function truncate_entries(entries, length, max_length, basename_position)
       n = n + 1
     else
       length = length + utils.str_len(config.user.symbols.ellipsis)
-      entries[i] = ellipsis
+      entries[i] = ENTRY_ELLIPSIS
 
       has_ellipsis = true
       i = i + 1 -- manually increment i when not removing anything from entries
