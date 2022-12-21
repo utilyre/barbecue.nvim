@@ -69,29 +69,48 @@ several things you should be aware of.
   require("barbecue.ui").update([winnr])
   ```
 
-### Autocmd
+## 🍴 Recipes
 
-In order to customize the autocmd behavior, you need to override `barbecue`
-augroup (or ideally set `create_autocmd` to false and completely handle it
-yourself) like so
+- Gain better performance when moving the cursor around
 
 ```lua
+require("barbecue").setup({
+  create_autocmd = false, -- prevent barbecue from updating itself automatically
+})
+
 vim.api.nvim_create_autocmd({
   "WinScrolled",
   "BufWinEnter",
-  "CursorMoved",
+  "CursorHold",
   "InsertLeave",
+
+  -- include these if you have set `show_modified` to `true`
   "BufWritePost",
   "TextChanged",
   "TextChangedI",
-  -- add more events here
 }, {
   group = vim.api.nvim_create_augroup("barbecue", {}),
   callback = function()
     require("barbecue.ui").update()
-
-    -- maybe a bit more logic here
   end,
+})
+```
+
+- Get nvim-navic working with multiple tabs (#35)
+
+```lua
+require("barbecue").setup({
+  attach_navic = false, -- prevent barbecue from automatically attaching nvim-navic
+})
+
+require("lspconfig")[server].setup({
+  -- ...
+
+  on_attach = function(client, bufnr)
+    require("nvim-navic").attach(client, bufnr)
+  end,
+
+  -- ...
 })
 ```
 
