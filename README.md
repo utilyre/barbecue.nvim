@@ -27,7 +27,7 @@ https://user-images.githubusercontent.com/91974155/208309076-00b3d5e4-e0cc-4990-
 Install barbecue and its dependencies
 
 ```lua
-use {
+use({
   "utilyre/barbecue.nvim",
   branch = "dev", -- omit this if you only want stable updates
   requires = {
@@ -39,7 +39,7 @@ use {
   config = function()
     require("barbecue").setup()
   end,
-}
+})
 ```
 
 ## 🚀 Usage
