@@ -90,7 +90,7 @@ local function build_winbar(entries, custom_section)
     end
   end
 
-  return winbar .. "%#BarbecueNormal#%=" .. custom_section .. " "
+  return winbar .. "%#BarbecueNormal#%=%#WinBar#" .. custom_section
 end
 
 ---@async
