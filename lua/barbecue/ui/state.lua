@@ -31,11 +31,11 @@ function M.save(winnr, entries)
     vim.api.nvim_win_set_var(winnr, VAR_LAST_WINBAR, vim.wo[winnr].winbar)
   end
 
-  local serialize_entries = vim.json.encode(vim.tbl_map(function(entry)
+  local serialized_entries = vim.json.encode(vim.tbl_map(function(entry)
     local clone = vim.deepcopy(entry)
     return setmetatable(clone, nil)
   end, entries))
-  vim.api.nvim_win_set_var(winnr, VAR_ENTRIES, serialize_entries)
+  vim.api.nvim_win_set_var(winnr, VAR_ENTRIES, serialized_entries)
 end
 
 return M
