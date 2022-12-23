@@ -14,7 +14,7 @@ end
 
 ---clears the unneeded saved state from `winnr`
 ---@param winnr number
-function M.clear_state(winnr)
+function M.clear(winnr)
   local was_affected_ok, was_affected = pcall(vim.api.nvim_win_get_var, winnr, VAR_WAS_AFFECTED)
   if was_affected_ok and was_affected then vim.api.nvim_win_del_var(winnr, VAR_WAS_AFFECTED) end
 end
@@ -22,7 +22,7 @@ end
 ---save the current state inside `winnr`
 ---@param winnr number
 ---@param entries barbecue.Entry[]
-function M.save_state(winnr, entries)
+function M.save(winnr, entries)
   local was_affected_ok, was_affected = pcall(vim.api.nvim_win_get_var, winnr, VAR_WAS_AFFECTED)
   if was_affected_ok and was_affected then
     pcall(vim.api.nvim_win_del_var, winnr, VAR_LAST_WINBAR)

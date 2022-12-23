@@ -105,7 +105,7 @@ function M.update(winnr)
     or vim.api.nvim_win_get_config(winnr).relative ~= ""
   then
     vim.wo[winnr].winbar = state.get_last_winbar(winnr)
-    state.clear_state(winnr)
+    state.clear(winnr)
 
     return
   end
@@ -126,7 +126,7 @@ function M.update(winnr)
 
     local custom_section = config.user.custom_section(bufnr)
     local entries = create_entries(winnr, bufnr, 2 + utils.str_len(custom_section))
-    state.save_state(winnr, entries)
+    state.save(winnr, entries)
 
     local winbar
     if #entries > 0 then winbar = build_winbar(entries, custom_section) end
