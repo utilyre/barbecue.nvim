@@ -12,6 +12,16 @@ function M.get_last_winbar(winnr)
   return last_winbar_ok and last_winbar or nil
 end
 
+---returns `entries` from `winnr`
+---@param winnr number
+---@return barbecue.Entry[]|nil
+function M.get_entries(winnr)
+  local serialized_entries_ok, serialized_entries = pcall(vim.api.nvim_win_get_var, winnr, VAR_ENTRIES)
+  if not serialized_entries_ok then return nil end
+
+  return vim.json.decode(serialized_entries)
+end
+
 ---clears the unneeded saved state from `winnr`
 ---@param winnr number
 function M.clear(winnr)
