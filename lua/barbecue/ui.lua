@@ -3,6 +3,7 @@ local utils = require("barbecue.utils")
 local Entry = require("barbecue.ui.entry")
 local state = require("barbecue.ui.state")
 local components = require("barbecue.ui.components")
+local mouse = require("barbecue.ui.mouse")
 
 local M = {}
 
@@ -143,6 +144,26 @@ function M.toggle(shown)
   for _, winnr in ipairs(vim.api.nvim_list_wins()) do
     M.update(winnr)
   end
+end
+
+---navigates to `index` in `winnr` entries
+---@param index number
+---@param winnr number?
+function M.navigate(index, winnr)
+  if index == 0 then error("expected non-zero index", 2) end
+  winnr = winnr or vim.api.nvim_get_current_win()
+
+  local entries = state.get_entries(winnr)
+  if entries == nil then return end
+
+  ---@type barbecue.Entry[]
+  local clickable_entries = vim.tbl_filter(function(entry)
+    return entry.to ~= nil
+  end, entries)
+  if index < -#clickable_entries or index > #clickable_entries then error("index out of range", 2) end
+
+  if index < 0 then index = #clickable_entries + index + 1 end
+  mouse.navigate(clickable_entries[index].to)
 end
 
 return M
