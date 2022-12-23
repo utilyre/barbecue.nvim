@@ -128,8 +128,8 @@ function M.update(winnr)
     local entries = create_entries(winnr, bufnr, 2 + utils.str_len(custom_section))
     state.save_state(winnr, entries)
 
-    if #entries == 0 then return end
-    local winbar = build_winbar(entries, custom_section)
+    local winbar
+    if #entries > 0 then winbar = build_winbar(entries, custom_section) end
     vim.wo[winnr].winbar = winbar
   end)
 end
