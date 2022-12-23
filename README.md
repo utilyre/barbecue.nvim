@@ -26,6 +26,28 @@ https://user-images.githubusercontent.com/91974155/208309076-00b3d5e4-e0cc-4990-
 
 Install barbecue and its dependencies
 
+- [lazy.nvim](https://github.com/folke/lazy.nvim)
+
+```lua
+local spec = {
+  "utilyre/barbecue.nvim",
+  branch = "dev", -- omit this if you only want stable updates
+  dependencies = {
+    "neovim/nvim-lspconfig",
+    "smiteshp/nvim-navic",
+    "kyazdani42/nvim-web-devicons", -- optional dependency
+  },
+}
+
+function spec.config()
+  require("barbecue").setup()
+end
+
+return spec
+```
+
+- [packer.nvim](https://github.com/wbthomason/packer.nvim)
+
 ```lua
 use({
   "utilyre/barbecue.nvim",
