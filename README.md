@@ -91,6 +91,19 @@ several things you should be aware of.
   require("barbecue.ui").update([winnr])
   ```
 
+- Navigate to an entry by the given index
+
+  ```lua
+  require("barbecue.ui").navigate(index --[[ negative values begin from the end ]], [winnr])
+  ```
+
+- Get winbar entries in the given window
+
+  ```lua
+  ---@type barbecue.Entry[]|nil
+  local entries = require("barbecue.ui.state").get_entries(winnr)
+  ```
+
 ## 🍴 Recipes
 
 - Gain better performance when moving the cursor around
