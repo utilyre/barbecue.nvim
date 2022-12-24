@@ -140,7 +140,7 @@ end
 function M.toggle(shown)
   if shown == nil then shown = not visible end
 
-  visible = shown
+  visible = shown --[[ @as boolean ]]
   for _, winnr in ipairs(vim.api.nvim_list_wins()) do
     M.update(winnr)
   end
