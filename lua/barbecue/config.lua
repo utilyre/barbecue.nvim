@@ -1,5 +1,4 @@
 local template = require("barbecue.config.template")
-local highlights = require("barbecue.config.highlights")
 
 local M = {}
 
