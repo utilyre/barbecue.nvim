@@ -9,7 +9,7 @@ end
 
 setmetatable(M, {
   __index = function(self, key)
-    if type(key) ~= "string" then return end
+    if type(key) ~= "string" then return nil end
 
     local parts = vim.split(key, "_")
     if parts[1] == "navigate" and #parts == 4 then
@@ -21,6 +21,8 @@ setmetatable(M, {
         self.navigate({ win = win, pos = pos })
       end
     end
+
+    return nil
   end,
 })
 
