@@ -48,7 +48,7 @@ end
 ---@param cfg barbecue.Config?
 function M.setup(cfg)
   config.apply_config(cfg or {})
-  theme.load(vim.g.colors_name)
+  theme.load(config.user.theme or vim.g.colors_name)
 
   local augroup = vim.api.nvim_create_augroup("barbecue", {})
   if config.user.attach_navic then attach_navic(augroup) end

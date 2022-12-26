@@ -32,6 +32,11 @@ local M = {
     return ""
   end,
 
+  ---theme to be used which should be located under `barbecue.theme` module
+  ---`auto` defaults to your current colorscheme
+  ---@type string|false
+  theme = false,
+
   ---whether to replace file icon with the modified symbol when buffer is modified
   ---@type boolean
   show_modified = false,
