@@ -2,6 +2,7 @@ local devicons_ok, devicons = pcall(require, "nvim-web-devicons")
 
 local M = {}
 
+---an abstraction layer for highlight groups
 M.highlights = {
   normal = "barbecue_normal",
   ellipsis = "barbecue_ellipsis",
@@ -66,6 +67,8 @@ setmetatable(M.highlights, {
   end,
 })
 
+---sets the highlight groups according to `colorscheme`
+---@param colorscheme string
 function M.load(colorscheme)
   local theme_ok, theme = pcall(require, "barbecue.theme." .. colorscheme)
   if not theme_ok then theme = require("barbecue.theme.default") end
