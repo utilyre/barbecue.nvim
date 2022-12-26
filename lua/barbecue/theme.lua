@@ -71,7 +71,7 @@ function M.load(colorscheme)
   if not theme_ok then theme = require("barbecue.theme.default") end
 
   for name, group in pairs(M.highlights) do
-    vim.api.nvim_set_hl(0, group, theme[name])
+    vim.api.nvim_set_hl(0, group, vim.tbl_extend("force", theme.normal, theme[name]))
   end
 end
 
