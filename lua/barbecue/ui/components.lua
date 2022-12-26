@@ -73,7 +73,7 @@ function M.get_basename(winnr, bufnr)
   elseif devicons_ok then
     local filetype_icon, _ = devicons.get_icon_color_by_filetype(vim.bo[bufnr].filetype, { default = true })
     if filetype_icon ~= nil then
-      icon = { filetype_icon, highlight = theme.highlights["filetype_" .. vim.bo[bufnr].filetype] }
+      icon = { filetype_icon, highlight = theme.highlights[string.format("filetype_%s", vim.bo[bufnr].filetype)] }
     end
   end
 
