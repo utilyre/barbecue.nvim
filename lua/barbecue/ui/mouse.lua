@@ -12,7 +12,7 @@ setmetatable(M, {
     if type(key) ~= "string" then return nil end
 
     local parts = vim.split(key, "_")
-    if parts[1] == "navigate" and #parts == 4 then
+    if #parts == 4 and parts[1] == "navigate" then
       local win = tonumber(parts[2])
       local pos = { tonumber(parts[3]), tonumber(parts[4]) }
 
