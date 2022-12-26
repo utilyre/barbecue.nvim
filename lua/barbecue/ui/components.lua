@@ -1,6 +1,7 @@
 local navic = require("nvim-navic")
 local devicons_ok, devicons = pcall(require, "nvim-web-devicons")
 local config = require("barbecue.config")
+local theme = require("barbecue.theme")
 local Entry = require("barbecue.ui.entry")
 
 local M = {}
@@ -21,7 +22,7 @@ function M.get_dirname(bufnr)
       entries,
       Entry.new({
         "/",
-        highlight = "BarbecueDirname",
+        highlight = theme.highlights.dirname,
       })
     )
   end
@@ -33,7 +34,7 @@ function M.get_dirname(bufnr)
       entries,
       Entry.new({
         protocol,
-        highlight = "BarbecueDirname",
+        highlight = theme.highlights.dirname,
       })
     )
 
@@ -46,7 +47,7 @@ function M.get_dirname(bufnr)
       entries,
       Entry.new({
         dir,
-        highlight = "BarbecueDirname",
+        highlight = theme.highlights.dirname,
       })
     )
   end
@@ -67,17 +68,27 @@ function M.get_basename(winnr, bufnr)
   if vim.bo[bufnr].modified and config.user.show_modified then
     icon = {
       config.user.symbols.modified,
-      highlight = "BarbecueModified",
+      highlight = theme.highlights.modified,
     }
   elseif devicons_ok then
-    local ic, hl = devicons.get_icon_by_filetype(vim.bo[bufnr].filetype)
-    if ic ~= nil and hl ~= nil then icon = { ic, highlight = hl } end
+    local ic, color = devicons.get_icon_color_by_filetype(vim.bo[bufnr].filetype, { default = true })
+
+    if ic ~= nil and color ~= nil then
+      local normal_hl = vim.api.nvim_get_hl_by_name(theme.highlights.normal, true)
+      vim.api.nvim_set_hl(
+        0,
+        "barbecue_filetype_" .. vim.bo[bufnr].filetype,
+        vim.tbl_extend("force", normal_hl, { foreground = color })
+      )
+
+      icon = { ic, highlight = "barbecue_filetype_" .. vim.bo[bufnr].filetype }
+    end
   end
 
   return Entry.new(
     {
       basename,
-      highlight = "BarbecueBasename",
+      highlight = theme.highlights.basename,
     },
     icon,
     {
@@ -86,6 +97,35 @@ function M.get_basename(winnr, bufnr)
     }
   )
 end
+
+local kind_to_highlight_name = {
+  [1] = "context_file",
+  [2] = "context_module",
+  [3] = "context_namespace",
+  [4] = "context_package",
+  [5] = "context_class",
+  [6] = "context_method",
+  [7] = "context_property",
+  [8] = "context_field",
+  [9] = "context_constructor",
+  [10] = "context_enum",
+  [11] = "context_interface",
+  [12] = "context_function",
+  [13] = "context_variable",
+  [14] = "context_constant",
+  [15] = "context_string",
+  [16] = "context_number",
+  [17] = "context_boolean",
+  [18] = "context_array",
+  [19] = "context_object",
+  [20] = "context_key",
+  [21] = "context_null",
+  [22] = "context_enum_member",
+  [23] = "context_struct",
+  [24] = "context_event",
+  [25] = "context_operator",
+  [26] = "context_type_parameter",
+}
 
 ---returns context of `bufnr`
 ---@param winnr number
@@ -102,14 +142,14 @@ function M.get_context(winnr, bufnr)
     if config.user.kinds ~= false then
       icon = {
         config.user.kinds[nesting.type],
-        highlight = "BarbecueContext" .. nesting.type,
+        highlight = theme.highlights[kind_to_highlight_name[nesting.kind]],
       }
     end
 
     return Entry.new(
       {
         nesting.name,
-        highlight = "BarbecueContext",
+        highlight = theme.highlights.context,
       },
       icon,
       {

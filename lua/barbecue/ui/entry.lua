@@ -1,4 +1,5 @@
 local utils = require("barbecue.utils")
+local theme = require("barbecue.theme")
 
 ---@alias barbecue.Entry.text { [1]: string, highlight: string }
 ---@alias barbecue.Entry.icon { [1]: string, highlight: string }
@@ -48,9 +49,10 @@ function Entry:to_string()
     )
   )
     .. (self.icon == nil and "" or string.format(
-      "%%#%s#%s%%#BarbecueNormal# ",
+      "%%#%s#%s%%#%s# ",
       self.icon.highlight,
-      utils.str_escape(self.icon[1])
+      utils.str_escape(self.icon[1]),
+      theme.highlights.normal
     ))
     .. string.format("%%#%s#%s", self.text.highlight, utils.str_escape(self.text[1]))
     .. (self.to == nil and "" or "%X")

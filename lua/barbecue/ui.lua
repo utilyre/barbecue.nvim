@@ -1,4 +1,5 @@
 local config = require("barbecue.config")
+local theme = require("barbecue.theme")
 local utils = require("barbecue.utils")
 local Entry = require("barbecue.ui.entry")
 local state = require("barbecue.ui.state")
@@ -13,7 +14,7 @@ local visible = true
 
 local ENTRY_ELLIPSIS = Entry.new({
   config.user.symbols.ellipsis,
-  highlight = "BarbecueEllipsis",
+  highlight = theme.highlights.ellipsis,
 })
 
 ---truncates `entries` based on `max_length`
@@ -79,18 +80,18 @@ end
 ---@param custom_section string
 ---@return string
 local function build_winbar(entries, custom_section)
-  local winbar = "%#BarbecueNormal# "
+  local winbar = string.format("%%#%s# ", theme.highlights.normal)
   for i, entry in ipairs(entries) do
     winbar = winbar .. entry:to_string()
     if i < #entries then
       winbar = winbar
-        .. "%#BarbecueNormal# %#BarbecueSeparator#"
+        .. string.format("%%#%s# %%#%s#", theme.highlights.normal, theme.highlights.separator)
         .. config.user.symbols.separator
-        .. "%#BarbecueNormal# "
+        .. string.format("%%#%s# ", theme.highlights.normal)
     end
   end
 
-  return winbar .. "%#BarbecueNormal#%=%#WinBar#" .. custom_section
+  return winbar .. string.format("%%#%s#%%=%%#WinBar#", theme.highlights.normal) .. custom_section
 end
 
 ---@async

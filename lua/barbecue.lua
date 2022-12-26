@@ -1,5 +1,6 @@
 local navic = require("nvim-navic")
 local config = require("barbecue.config")
+local theme = require("barbecue.theme")
 local ui = require("barbecue.ui")
 local utils = require("barbecue.utils")
 
@@ -47,7 +48,7 @@ end
 ---@param cfg barbecue.Config?
 function M.setup(cfg)
   config.apply_config(cfg or {})
-  config.guarantee_highlights()
+  theme.load(vim.g.colors_name)
 
   local augroup = vim.api.nvim_create_augroup("barbecue", {})
   if config.user.attach_navic then attach_navic(augroup) end
