@@ -71,17 +71,9 @@ function M.get_basename(winnr, bufnr)
       highlight = theme.highlights.modified,
     }
   elseif devicons_ok then
-    local ic, color = devicons.get_icon_color_by_filetype(vim.bo[bufnr].filetype, { default = true })
-
-    if ic ~= nil and color ~= nil then
-      local normal_hl = vim.api.nvim_get_hl_by_name(theme.highlights.normal, true)
-      vim.api.nvim_set_hl(
-        0,
-        "barbecue_filetype_" .. vim.bo[bufnr].filetype,
-        vim.tbl_extend("force", normal_hl, { foreground = color })
-      )
-
-      icon = { ic, highlight = "barbecue_filetype_" .. vim.bo[bufnr].filetype }
+    local filetype_icon, _ = devicons.get_icon_color_by_filetype(vim.bo[bufnr].filetype, { default = true })
+    if filetype_icon ~= nil then
+      icon = { filetype_icon, highlight = theme.highlights["filetype_" .. vim.bo[bufnr].filetype] }
     end
   end
 

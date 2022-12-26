@@ -1,3 +1,5 @@
+local devicons_ok, devicons = pcall(require, "nvim-web-devicons")
+
 local M = {}
 
 M.highlights = {
@@ -37,6 +39,32 @@ M.highlights = {
   context_operator = "barbecue_context_operator",
   context_type_parameter = "barbecue_context_type_parameter",
 }
+
+setmetatable(M.highlights, {
+  __index = function(self, key)
+    if type(key) ~= "string" then return nil end
+
+    local parts = vim.split(key, "_")
+    if #parts == 2 and parts[1] == "filetype" then
+      local filetype = parts[2]
+      local normal_highlight = vim.api.nvim_get_hl_by_name(M.highlights.normal, true)
+
+      local filetype_highlight = {}
+      if devicons_ok then
+        local _, foreground = devicons.get_icon_color_by_filetype(filetype, { default = true })
+        if foreground ~= nil then filetype_highlight = { foreground = foreground } end
+      end
+
+      local name = string.format("barbecue_filetype_%s", filetype)
+      vim.api.nvim_set_hl(0, name, vim.tbl_extend("force", normal_highlight, filetype_highlight))
+
+      self[key] = name
+      return name
+    end
+
+    return nil
+  end,
+})
 
 function M.load(colorscheme)
   local theme_ok, theme = pcall(require, "barbecue.theme." .. colorscheme)
