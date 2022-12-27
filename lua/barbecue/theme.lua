@@ -49,21 +49,21 @@ setmetatable(M.highlights, {
     if #parts == 2 and parts[1] == "filetype" then
       local filetype = parts[2]
 
-      local filetype_highlight = {}
+      local highlight_value = {}
       if devicons_ok then
         local _, foreground = devicons.get_icon_color_by_filetype(filetype, { default = true })
-        if foreground ~= nil then filetype_highlight = { foreground = foreground } end
+        if foreground ~= nil then highlight_value.foreground = foreground end
       end
 
-      local name = string.format("barbecue_filetype_%s", filetype)
+      local highlight_name = string.format("barbecue_filetype_%s", filetype)
       vim.api.nvim_set_hl(
         0,
-        name,
-        vim.tbl_extend("force", vim.api.nvim_get_hl_by_name(M.highlights.normal, true), filetype_highlight)
+        highlight_name,
+        vim.tbl_extend("force", vim.api.nvim_get_hl_by_name(M.highlights.normal, true), highlight_value)
       )
 
-      self[key] = name
-      return name
+      self[key] = highlight_name
+      return self[key]
     end
 
     return nil
@@ -76,8 +76,8 @@ function M.load(colorscheme)
   local theme_ok, theme = pcall(require, "barbecue.theme." .. colorscheme)
   if not theme_ok then theme = require("barbecue.theme.default") end
 
-  for name, group in pairs(M.highlights) do
-    vim.api.nvim_set_hl(0, group, vim.tbl_extend("force", theme.normal, theme[name]))
+  for key, name in pairs(M.highlights) do
+    vim.api.nvim_set_hl(0, name, vim.tbl_extend("force", theme.normal, theme[key]))
   end
 end
 

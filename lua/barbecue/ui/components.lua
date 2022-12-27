@@ -73,7 +73,10 @@ function M.get_basename(winnr, bufnr)
   elseif devicons_ok then
     local filetype_icon, _ = devicons.get_icon_color_by_filetype(vim.bo[bufnr].filetype, { default = true })
     if filetype_icon ~= nil then
-      icon = { filetype_icon, highlight = theme.highlights[string.format("filetype_%s", vim.bo[bufnr].filetype)] }
+      icon = {
+        filetype_icon,
+        highlight = theme.highlights[string.format("filetype_%s", vim.bo[bufnr].filetype)],
+      }
     end
   end
 
@@ -90,7 +93,7 @@ function M.get_basename(winnr, bufnr)
   )
 end
 
-local kind_to_highlight_name = {
+local kind_to_highlight = {
   [1] = "context_file",
   [2] = "context_module",
   [3] = "context_namespace",
@@ -134,7 +137,7 @@ function M.get_context(winnr, bufnr)
     if config.user.kinds ~= false then
       icon = {
         config.user.kinds[nesting.type],
-        highlight = theme.highlights[kind_to_highlight_name[nesting.kind]],
+        highlight = theme.highlights[kind_to_highlight[nesting.kind]],
       }
     end
 
