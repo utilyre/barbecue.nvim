@@ -155,6 +155,22 @@ require("lspconfig")[server].setup({
 })
 ```
 
+## 🎨 Theme
+
+Your colorscheme should already support barbecue, but if it doesn't you can do one of the following
+
+- Contribute to the unsupported colorscheme
+
+  1. Fork its repository.
+  2. Copy [default.lua](/lua/barbecue/theme/default.lua) to the corresponding folder in the colorscheme.
+  3. Rename the copied file to `[name].lua` where `[name` represents the output of `:lua vim.g.colors_name`.
+  4. Open the file and start modifying colors.
+
+- Change theme locally
+
+  1. Set `theme` in your config to the value of variable `M` in [default.lua](/lua/barbecue/theme/default.lua).
+  2. Modify the colors to your liking.
+
 ## 🚠 Configuration
 
 <details>
@@ -251,46 +267,4 @@ require("lspconfig")[server].setup({
     },
   }
   ```
-</details>
-
-## 🎨 Highlight Groups
-
-<details>
-  <summary>Click to see highlight groups</summary>
-
-  | Highlight Group                  | Default Group              |
-  | -------------------------------- | -------------------------- |
-  | **BarbecueNormal**               | _WinBar_                   |
-  | **BarbecueModified**             | _BufferVisibleMod_         |
-  | **BarbecueEllipsis**             | _Conceal_                  |
-  | **BarbecueSeparator**            | _Conceal_                  |
-  | **BarbecueDirname**              | _Normal_                   |
-  | **BarbecueBasename**             | _Normal_                   |
-  | **BarbecueContext**              | _Normal_                   |
-  | **BarbecueContextFile**          | _CmpItemKindFile_          |
-  | **BarbecueContextModule**        | _CmpItemKindModule_        |
-  | **BarbecueContextNamespace**     | _CmpItemKindModule_        |
-  | **BarbecueContextPackage**       | _CmpItemKindFolder_        |
-  | **BarbecueContextClass**         | _CmpItemKindClass_         |
-  | **BarbecueContextMethod**        | _CmpItemKindMethod_        |
-  | **BarbecueContextProperty**      | _CmpItemKindProperty_      |
-  | **BarbecueContextField**         | _CmpItemKindField_         |
-  | **BarbecueContextConstructor**   | _CmpItemKindConstructor_   |
-  | **BarbecueContextEnum**          | _CmpItemKindEnum_          |
-  | **BarbecueContextInterface**     | _CmpItemKindInterface_     |
-  | **BarbecueContextFunction**      | _CmpItemKindFunction_      |
-  | **BarbecueContextVariable**      | _CmpItemKindVariable_      |
-  | **BarbecueContextConstant**      | _CmpItemKindConstant_      |
-  | **BarbecueContextString**        | _CmpItemKindValue_         |
-  | **BarbecueContextNumber**        | _CmpItemKindValue_         |
-  | **BarbecueContextBoolean**       | _CmpItemKindValue_         |
-  | **BarbecueContextArray**         | _CmpItemKindValue_         |
-  | **BarbecueContextObject**        | _CmpItemKindValue_         |
-  | **BarbecueContextKey**           | _CmpItemKindValue_         |
-  | **BarbecueContextNull**          | _CmpItemKindValue_         |
-  | **BarbecueContextEnumMember**    | _CmpItemKindEnumMember_    |
-  | **BarbecueContextStruct**        | _CmpItemKindStruct_        |
-  | **BarbecueContextEvent**         | _CmpItemKindEvent_         |
-  | **BarbecueContextOperator**      | _CmpItemKindOperator_      |
-  | **BarbecueContextTypeParameter** | _CmpItemKindTypeParameter_ |
 </details>
