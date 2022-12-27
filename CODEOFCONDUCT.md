@@ -58,3 +58,35 @@
 - Title PRs the same way as commit headers.
 - Adopt [Karma](https://karma-runner.github.io/latest/dev/git-commit-msg.html)
   git commit conventions.
+
+## FAQ
+
+- What if I accidentally create a branch based on `main`?
+
+  1. Change branch from `main` to `dev` on GitHub web.
+
+  2. Rebase your branch towards `dev`
+
+    ```bash
+    git rebase remotes/origin/dev
+    ```
+
+  3. Force push
+
+  ```bash
+  git push -f
+  ```
+
+- How can I keep my branch up to date with `dev`?
+
+  1. Rebase towards `dev`
+
+  ```bash
+  git rebase dev
+  ```
+
+  2. Force push
+
+  ```bash
+  git push -f
+  ```
