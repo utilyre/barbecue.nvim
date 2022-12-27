@@ -2,7 +2,7 @@
 
 ## Getting Started
 
-1. [Fork](/fork) and clone this
+1. [Fork](/../../fork) and clone this
    repository
 
   ```bash
