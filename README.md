@@ -20,7 +20,7 @@ https://user-images.githubusercontent.com/91974155/208309076-00b3d5e4-e0cc-4990-
 - [NVIM v0.8+](https://github.com/neovim/neovim/releases/latest): Winbar support.
 - [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig): Dependency of nvim-navic.
 - [nvim-navic](https://github.com/smiteshp/nvim-navic): LSP `textDocument/documentSymbol` provider.
-- [nvim-web-devicons](https://github.com/kyazdani42/nvim-web-devicons): File icon provider. _(optional)_
+- [nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons): File icon provider. _(optional)_
 
 ## 📦 Installation
 
@@ -35,7 +35,7 @@ Install barbecue and its dependencies
     dependencies = {
       "neovim/nvim-lspconfig",
       "smiteshp/nvim-navic",
-      "kyazdani42/nvim-web-devicons", -- optional dependency
+      "nvim-tree/nvim-web-devicons", -- optional dependency
     },
   }
 
@@ -55,7 +55,7 @@ Install barbecue and its dependencies
     requires = {
       "neovim/nvim-lspconfig",
       "smiteshp/nvim-navic",
-      "kyazdani42/nvim-web-devicons", -- optional dependency
+      "nvim-tree/nvim-web-devicons", -- optional dependency
     },
     after = "nvim-web-devicons", -- keep this if you're using NvChad
     config = function()
