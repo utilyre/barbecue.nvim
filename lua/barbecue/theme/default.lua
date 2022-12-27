@@ -1,38 +1,38 @@
-local default = {}
+local M = {}
 
-default.normal = { bg = "none", fg = "#ffffff" }
-default.modified = { fg = "#ffff00" }
-default.ellipsis = default.normal
-default.separator = default.normal
-default.dirname = default.normal
-default.basename = default.normal
-default.context = default.normal
+M.normal = { bg = "none", fg = "#ffffff" }
+M.modified = { fg = "#ffff00" }
+M.ellipsis = M.normal
+M.separator = M.normal
+M.dirname = M.normal
+M.basename = M.normal
+M.context = M.normal
 
-default.context_file = {}
-default.context_module = {}
-default.context_namespace = {}
-default.context_package = {}
-default.context_class = {}
-default.context_method = {}
-default.context_property = {}
-default.context_field = {}
-default.context_constructor = {}
-default.context_enum = {}
-default.context_interface = {}
-default.context_function = {}
-default.context_variable = {}
-default.context_constant = {}
-default.context_string = {}
-default.context_number = {}
-default.context_boolean = {}
-default.context_array = {}
-default.context_object = {}
-default.context_key = {}
-default.context_null = {}
-default.context_enum_member = {}
-default.context_struct = {}
-default.context_event = {}
-default.context_operator = {}
-default.context_type_parameter = {}
+M.context_file = {}
+M.context_module = {}
+M.context_namespace = {}
+M.context_package = {}
+M.context_class = {}
+M.context_method = {}
+M.context_property = {}
+M.context_field = {}
+M.context_constructor = {}
+M.context_enum = {}
+M.context_interface = {}
+M.context_function = {}
+M.context_variable = {}
+M.context_constant = {}
+M.context_string = {}
+M.context_number = {}
+M.context_boolean = {}
+M.context_array = {}
+M.context_object = {}
+M.context_key = {}
+M.context_null = {}
+M.context_enum_member = {}
+M.context_struct = {}
+M.context_event = {}
+M.context_operator = {}
+M.context_type_parameter = {}
 
-return default
+return M
