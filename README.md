@@ -1,4 +1,4 @@
-<h1 align="center">Barbecue</h1>
+<h1 align="center">barbecue.nvim</h1>
 
 <p align="center">
   This is a VS Code like winbar that uses
