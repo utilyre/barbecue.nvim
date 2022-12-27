@@ -276,3 +276,7 @@ one of the following
   }
   ```
 </details>
+
+## 🔥 Contribution
+
+See [Code of Conduct](/CODEOFCONDUCT.md)
