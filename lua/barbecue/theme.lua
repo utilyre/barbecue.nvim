@@ -48,7 +48,6 @@ setmetatable(M.highlights, {
     local parts = vim.split(key, "_")
     if #parts == 2 and parts[1] == "filetype" then
       local filetype = parts[2]
-      local normal_highlight = vim.api.nvim_get_hl_by_name(M.highlights.normal, true)
 
       local filetype_highlight = {}
       if devicons_ok then
@@ -57,7 +56,11 @@ setmetatable(M.highlights, {
       end
 
       local name = string.format("barbecue_filetype_%s", filetype)
-      vim.api.nvim_set_hl(0, name, vim.tbl_extend("force", normal_highlight, filetype_highlight))
+      vim.api.nvim_set_hl(
+        0,
+        name,
+        vim.tbl_extend("force", vim.api.nvim_get_hl_by_name(M.highlights.normal, true), filetype_highlight)
+      )
 
       self[key] = name
       return name
