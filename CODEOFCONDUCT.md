@@ -2,7 +2,7 @@
 
 ## Getting Started
 
-1. [Fork](https://github.com/utilyre/barbecue.nvim/fork) and clone this
+1. [Fork](/fork) and clone this
    repository
 
   ```bash
