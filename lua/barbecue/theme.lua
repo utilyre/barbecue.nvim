@@ -1,10 +1,12 @@
 local devicons_ok, devicons = pcall(require, "nvim-web-devicons")
+local config = require("barbecue.config")
 
 local M = {}
 
 ---an abstraction layer for highlight groups
 M.highlights = {
   normal = "barbecue_normal",
+
   ellipsis = "barbecue_ellipsis",
   separator = "barbecue_separator",
   modified = "barbecue_modified",
@@ -70,11 +72,31 @@ setmetatable(M.highlights, {
   end,
 })
 
----sets the highlight groups according to `colorscheme`
----@param colorscheme string
-function M.load(colorscheme)
-  local theme_ok, theme = pcall(require, "barbecue.theme." .. colorscheme)
-  if not theme_ok then theme = require("barbecue.theme.default") end
+---loads theme from module `barbecue.theme` by `name`
+---@param name string?
+---@return barbecue.Theme
+local function load_theme(name)
+  name = name or vim.g.colors_name
+
+  local theme
+  if name ~= nil then
+    local t_ok, t = pcall(require, "barbecue.theme." .. name)
+    if t_ok then theme = t end
+  end
+
+  return theme or require("barbecue.theme.default")
+end
+
+---defines highlight groups according to `config.user.theme`
+function M.load()
+  local theme
+  if config.user.theme == "auto" then
+    theme = load_theme()
+  elseif type(config.user.theme) == "string" then
+    theme = load_theme(config.user.theme --[[ @as string ]])
+  elseif type(config.user.theme) == "table" then
+    theme = config.user.theme
+  end
 
   for key, name in pairs(M.highlights) do
     vim.api.nvim_set_hl(0, name, vim.tbl_extend("force", theme.normal, theme[key]))
