@@ -279,4 +279,4 @@ one of the following
 
 ## 🔥 Contribution
 
-See [Code of Conduct](/CODEOFCONDUCT.md)
+See [Code of Conduct](/CODEOFCONDUCT.md).
