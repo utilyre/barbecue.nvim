@@ -6,6 +6,29 @@ local Entry = require("barbecue.ui.entry")
 
 local M = {}
 
+---returns and caches the icon of `filename`
+---@param filename string
+---@return barbecue.Entry.icon|nil
+local function get_file_icon(filename)
+  if not devicons_ok then return nil end
+
+  local basename = vim.fn.fnamemodify(filename, ":t")
+  local extension = vim.fn.fnamemodify(filename, ":e")
+
+  local devicons_icon, devicons_highlight = devicons.get_icon(basename, extension, { default = true })
+  if devicons_icon == nil or devicons_highlight == nil then return nil end
+
+  local highlight = string.format("filetype_%s", devicons_highlight)
+  if theme.highlights[highlight] == nil then
+    vim.api.nvim_set_hl(0, theme.highlights:add(highlight), vim.api.nvim_get_hl_by_name(devicons_highlight, true))
+  end
+
+  return {
+    devicons_icon,
+    highlight = theme.highlights[highlight],
+  }
+end
+
 ---returns dirname of `bufnr`
 ---@param bufnr number
 ---@return barbecue.Entry[]
@@ -71,13 +94,7 @@ function M.get_basename(winnr, bufnr)
       highlight = theme.highlights.modified,
     }
   elseif devicons_ok then
-    local filetype_icon, _ = devicons.get_icon_color_by_filetype(vim.bo[bufnr].filetype, { default = true })
-    if filetype_icon ~= nil then
-      icon = {
-        filetype_icon,
-        highlight = theme.highlights[string.format("filetype_%s", vim.bo[bufnr].filetype)],
-      }
-    end
+    icon = get_file_icon(filename)
   end
 
   return Entry.new(

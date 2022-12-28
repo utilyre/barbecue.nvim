@@ -1,4 +1,3 @@
-local devicons_ok, devicons = pcall(require, "nvim-web-devicons")
 local config = require("barbecue.config")
 
 local M = {}
@@ -43,34 +42,10 @@ M.highlights = {
   context_type_parameter = "barbecue_context_type_parameter",
 }
 
-setmetatable(M.highlights, {
-  __index = function(self, key)
-    if type(key) ~= "string" then return nil end
-
-    local parts = vim.split(key, "_")
-    if #parts == 2 and parts[1] == "filetype" then
-      local filetype = parts[2]
-
-      local highlight_value = {}
-      if devicons_ok then
-        local _, foreground = devicons.get_icon_color_by_filetype(filetype, { default = true })
-        if foreground ~= nil then highlight_value.foreground = foreground end
-      end
-
-      local highlight_name = string.format("barbecue_filetype_%s", filetype)
-      vim.api.nvim_set_hl(
-        0,
-        highlight_name,
-        vim.tbl_extend("force", vim.api.nvim_get_hl_by_name(M.highlights.normal, true), highlight_value)
-      )
-
-      self[key] = highlight_name
-      return self[key]
-    end
-
-    return nil
-  end,
-})
+function M.highlights:add(name)
+  self[name] = string.format("barbecue_%s", name)
+  return self[name]
+end
 
 ---loads theme from module `barbecue.theme` by `name`
 ---@param name string?
@@ -99,7 +74,7 @@ function M.load()
   end
 
   for key, name in pairs(M.highlights) do
-    vim.api.nvim_set_hl(0, name, vim.tbl_extend("force", theme.normal, theme[key]))
+    if type(name) == "string" then vim.api.nvim_set_hl(0, name, vim.tbl_extend("force", theme.normal, theme[key])) end
   end
 end
 
