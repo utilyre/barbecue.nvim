@@ -94,9 +94,9 @@ return M
 1. [Fork](/../../fork) and clone this
    repository
 
-  ```bash
-  git clone --branch=dev https://github.com/[user]/barbecue.nvim.git
-  ```
+   ```bash
+   git clone --branch=dev https://github.com/[user]/barbecue.nvim.git
+   ```
 
 2. Change your config so that neovim will load your locally cloned plugin
 
@@ -121,13 +121,13 @@ return M
 
 3. Create feature branch and do stuff
 
-  ```bash
-  git checkout -b feature/[pr-subject]
-  # or
-  git checkout -b bugfix/[pr-subject]
-  # or
-  git checkout -b hotfix/[pr-subject]
-  ```
+   ```bash
+   git checkout -b feature/[pr-subject]
+   # or
+   git checkout -b bugfix/[pr-subject]
+   # or
+   git checkout -b hotfix/[pr-subject]
+   ```
 
 ## Development Tools
 
@@ -161,26 +161,26 @@ return M
 
   2. Rebase your branch towards `dev`
 
-    ```bash
-    git rebase remotes/origin/dev
-    ```
+     ```bash
+     git rebase remotes/origin/dev
+     ```
 
   3. Force push
 
-  ```bash
-  git push -f
-  ```
+     ```bash
+     git push -f
+     ```
 
 - How can I keep my branch up to date with `dev`?
 
   1. Rebase towards `dev`
 
-  ```bash
-  git rebase dev
-  ```
+     ```bash
+     git rebase dev
+     ```
 
   2. Force push
 
-  ```bash
-  git push -f
-  ```
+     ```bash
+     git push -f
+     ```

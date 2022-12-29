@@ -119,52 +119,52 @@ several things you should be aware of.
 
 - Gain better performance when moving the cursor around
 
-```lua
-require("barbecue").setup({
-  create_autocmd = false, -- prevent barbecue from updating itself automatically
-})
+  ```lua
+  require("barbecue").setup({
+    create_autocmd = false, -- prevent barbecue from updating itself automatically
+  })
 
-vim.api.nvim_create_autocmd({
-  "WinScrolled",
-  "BufWinEnter",
-  "CursorHold",
-  "InsertLeave",
+  vim.api.nvim_create_autocmd({
+    "WinScrolled",
+    "BufWinEnter",
+    "CursorHold",
+    "InsertLeave",
 
-  -- include these if you have set `show_modified` to `true`
-  "BufWritePost",
-  "TextChanged",
-  "TextChangedI",
-}, {
-  group = vim.api.nvim_create_augroup("barbecue", {}),
-  callback = function()
-    require("barbecue.ui").update()
-  end,
-})
-```
+    -- include these if you have set `show_modified` to `true`
+    "BufWritePost",
+    "TextChanged",
+    "TextChangedI",
+  }, {
+    group = vim.api.nvim_create_augroup("barbecue", {}),
+    callback = function()
+      require("barbecue.ui").update()
+    end,
+  })
+  ```
 
 - Get nvim-navic working with multiple tabs ([#35](/../../issues/35))
 
-```lua
-require("barbecue").setup({
-  attach_navic = false, -- prevent barbecue from automatically attaching nvim-navic
-})
+  ```lua
+  require("barbecue").setup({
+    attach_navic = false, -- prevent barbecue from automatically attaching nvim-navic
+  })
 
-require("lspconfig")[server].setup({
-  -- ...
-
-  on_attach = function(client, bufnr)
+  require("lspconfig")[server].setup({
     -- ...
 
-    if client.server_capabilities["documentSymbolProvider"] then
-      require("nvim-navic").attach(client, bufnr)
-    end
+    on_attach = function(client, bufnr)
+      -- ...
+
+      if client.server_capabilities["documentSymbolProvider"] then
+        require("nvim-navic").attach(client, bufnr)
+      end
+
+      -- ...
+    end,
 
     -- ...
-  end,
-
-  -- ...
-})
-```
+  })
+  ```
 
 ## 🚠 Configuration
 
