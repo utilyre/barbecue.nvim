@@ -1,8 +1,6 @@
 ---@alias barbecue.Theme table<string, table>
 ---@type barbecue.Theme
 local M = {
-  -- all items get merged into `normal`
-  -- as a result `normal` can be treated as the background
   normal = { background = "#7a7a7a" },
 
   ellipsis = { foreground = "LightGrey" },
