@@ -1,28 +1,4 @@
----@alias barbecue.ThemeItem.name string
-
----@class barbecue.ThemeItem.value
----@field public foreground string
----@field public background string
----@field public special string
----@field public blend number
----@field public bold boolean
----@field public standout boolean
----@field public underline boolean
----@field public undercurl boolean
----@field public underdouble boolean
----@field public underdotted boolean
----@field public underdashed boolean
----@field public strikethrough boolean
----@field public italic boolean
----@field public reverse boolean
----@field public nocombine boolean
----@field public link string
----@field public default boolean
----@field public ctermfg number
----@field public ctermbg number
----@field public cterm string[]
-
----@alias barbecue.Theme table<barbecue.ThemeItem.name, barbecue.ThemeItem.value>
+---@alias barbecue.Theme table<string, table>
 ---@type barbecue.Theme
 local M = {
   -- all items get merged into `normal`
