@@ -118,6 +118,35 @@ function M.get_basename(winnr, bufnr)
   )
 end
 
+local kind_to_type = {
+  [1] = "File",
+  [2] = "Module",
+  [3] = "Namespace",
+  [4] = "Package",
+  [5] = "Class",
+  [6] = "Method",
+  [7] = "Property",
+  [8] = "Field",
+  [9] = "Constructor",
+  [10] = "Enum",
+  [11] = "Interface",
+  [12] = "Function",
+  [13] = "Variable",
+  [14] = "Constant",
+  [15] = "String",
+  [16] = "Number",
+  [17] = "Boolean",
+  [18] = "Array",
+  [19] = "Object",
+  [20] = "Key",
+  [21] = "Null",
+  [22] = "EnumMember",
+  [23] = "Struct",
+  [24] = "Event",
+  [25] = "Operator",
+  [26] = "TypeParameter",
+}
+
 local kind_to_highlight = {
   [1] = "context_file",
   [2] = "context_module",
@@ -147,6 +176,20 @@ local kind_to_highlight = {
   [26] = "context_type_parameter",
 }
 
+---returns a kind entry icon based on `kind`
+---@param kind number
+---@return barbecue.Entry.icon|nil
+local function get_kind_icon(kind)
+  local type = kind_to_type[kind]
+  local highlight = kind_to_highlight[kind]
+  if type == nil or highlight == nil then return nil end
+
+  return {
+    config.user.kinds[kind_to_type[kind]],
+    highlight = theme.highlights[kind_to_highlight[kind]],
+  }
+end
+
 ---returns context of `bufnr`
 ---@param winnr number
 ---@param bufnr number
@@ -158,20 +201,12 @@ function M.get_context(winnr, bufnr)
   if nestings == nil then return {} end
 
   return vim.tbl_map(function(nesting)
-    local icon
-    if config.user.kinds ~= false then
-      icon = {
-        config.user.kinds[nesting.type],
-        highlight = theme.highlights[kind_to_highlight[nesting.kind]],
-      }
-    end
-
     return Entry.new(
       {
         nesting.name,
         highlight = theme.highlights.context,
       },
-      icon,
+      config.user.kinds == false and nil or get_kind_icon(nesting.kind),
       {
         win = winnr,
         pos = { nesting.scope.start.line, nesting.scope.start.character },
