@@ -48,7 +48,10 @@ function M.create_user_command(name, actions)
     local subcommand = params.fargs[1]
     local action = actions[subcommand]
     if action == nil then
-      vim.notify(string.format("'%s' is not a subcommand", subcommand), vim.log.levels.ERROR)
+      vim.notify(
+        string.format("'%s' is not a subcommand", subcommand),
+        vim.log.levels.ERROR
+      )
       return
     end
 

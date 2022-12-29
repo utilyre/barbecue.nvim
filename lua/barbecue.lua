@@ -13,7 +13,9 @@ local function attach_navic(augroup)
     group = augroup,
     callback = function(a)
       local client = vim.lsp.get_client_by_id(a.data.client_id)
-      if client.server_capabilities["documentSymbolProvider"] then navic.attach(client, a.buf) end
+      if client.server_capabilities["documentSymbolProvider"] then
+        navic.attach(client, a.buf)
+      end
     end,
   })
 end

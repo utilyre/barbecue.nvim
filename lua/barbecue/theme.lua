@@ -74,7 +74,17 @@ function M.load()
   end
 
   for key, name in pairs(M.highlights) do
-    if type(name) == "string" then vim.api.nvim_set_hl(0, name, vim.tbl_extend("force", theme.normal, theme[key])) end
+    if type(name) ~= "string" then
+      goto continue
+    end
+
+    vim.api.nvim_set_hl(
+      0,
+      name,
+      vim.tbl_extend("force", theme.normal, theme[key])
+    )
+
+    ::continue::
   end
 end
 

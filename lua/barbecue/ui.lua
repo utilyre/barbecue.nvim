@@ -34,7 +34,9 @@ local function truncate_entries(entries, length, max_length, basename_position)
 
     length = length - entries[i]:len()
     if has_ellipsis then
-      if i < #entries then length = length - (utils.str_len(config.user.symbols.separator) + 2) end
+      if i < #entries then
+        length = length - (utils.str_len(config.user.symbols.separator) + 2)
+      end
 
       table.remove(entries, i)
       n = n + 1
@@ -68,9 +70,16 @@ local function create_entries(winnr, bufnr, extra_length)
   local length = extra_length
   for i, entry in ipairs(entries) do
     length = length + entry:len()
-    if i < #entries then length = length + utils.str_len(config.user.symbols.separator) + 2 end
+    if i < #entries then
+      length = length + utils.str_len(config.user.symbols.separator) + 2
+    end
   end
-  truncate_entries(entries, length, vim.api.nvim_win_get_width(winnr), #dirname + 1)
+  truncate_entries(
+    entries,
+    length,
+    vim.api.nvim_win_get_width(winnr),
+    #dirname + 1
+  )
 
   return entries
 end
@@ -85,13 +94,19 @@ local function build_winbar(entries, custom_section)
     winbar = winbar .. entry:to_string()
     if i < #entries then
       winbar = winbar
-        .. string.format("%%#%s# %%#%s#", theme.highlights.normal, theme.highlights.separator)
+        .. string.format(
+          "%%#%s# %%#%s#",
+          theme.highlights.normal,
+          theme.highlights.separator
+        )
         .. config.user.symbols.separator
         .. string.format("%%#%s# ", theme.highlights.normal)
     end
   end
 
-  return winbar .. string.format("%%#%s#%%=%%#WinBar#", theme.highlights.normal) .. custom_section
+  return winbar
+    .. string.format("%%#%s#%%=%%#WinBar#", theme.highlights.normal)
+    .. custom_section
 end
 
 ---@async
@@ -127,7 +142,8 @@ function M.update(winnr)
     end
 
     local custom_section = config.user.custom_section(bufnr)
-    local entries = create_entries(winnr, bufnr, 2 + utils.str_len(custom_section))
+    local entries =
+      create_entries(winnr, bufnr, 2 + utils.str_len(custom_section))
     state.save(winnr, entries)
 
     local winbar
@@ -161,7 +177,9 @@ function M.navigate(index, winnr)
   local clickable_entries = vim.tbl_filter(function(entry)
     return entry.to ~= nil
   end, entries)
-  if index < -#clickable_entries or index > #clickable_entries then error("index out of range", 2) end
+  if index < -#clickable_entries or index > #clickable_entries then
+    error("index out of range", 2)
+  end
 
   if index < 0 then index = #clickable_entries + index + 1 end
   mouse.navigate(clickable_entries[index].to)

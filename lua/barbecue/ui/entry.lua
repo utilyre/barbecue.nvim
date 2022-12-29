@@ -40,22 +40,28 @@ end
 ---@return string
 function Entry:to_string()
   return (
-    self.to == nil and ""
-    or string.format(
-      "%%@v:lua.require'barbecue.ui.mouse'.navigate_%d_%d_%d@",
-      self.to.win,
-      self.to.pos[1],
-      self.to.pos[2]
+    (
+      self.to == nil and ""
+      or string.format(
+        "%%@v:lua.require'barbecue.ui.mouse'.navigate_%d_%d_%d@",
+        self.to.win,
+        self.to.pos[1],
+        self.to.pos[2]
+      )
     )
-  )
     .. (self.icon == nil and "" or string.format(
       "%%#%s#%s%%#%s# ",
       self.icon.highlight,
       utils.str_escape(self.icon[1]),
       theme.highlights.normal
     ))
-    .. string.format("%%#%s#%s", self.text.highlight, utils.str_escape(self.text[1]))
+    .. string.format(
+      "%%#%s#%s",
+      self.text.highlight,
+      utils.str_escape(self.text[1])
+    )
     .. (self.to == nil and "" or "%X")
+  )
 end
 
 return Entry

@@ -15,7 +15,8 @@ local function get_file_icon(filename)
   local basename = vim.fn.fnamemodify(filename, ":t")
   local extension = vim.fn.fnamemodify(filename, ":e")
 
-  local devicons_icon, devicons_highlight = devicons.get_icon(basename, extension, { default = true })
+  local devicons_icon, devicons_highlight =
+    devicons.get_icon(basename, extension, { default = true })
   if devicons_icon == nil or devicons_highlight == nil then return nil end
 
   local highlight = string.format("filetype_%s", devicons_highlight)
@@ -42,7 +43,8 @@ end
 ---@return barbecue.Entry[]
 function M.get_dirname(bufnr)
   local filename = vim.api.nvim_buf_get_name(bufnr)
-  local dirname = vim.fn.fnamemodify(filename, config.user.modifiers.dirname .. ":h")
+  local dirname =
+    vim.fn.fnamemodify(filename, config.user.modifiers.dirname .. ":h")
 
   ---@type barbecue.Entry[]
   local entries = {}
@@ -92,7 +94,8 @@ end
 ---@return barbecue.Entry|nil
 function M.get_basename(winnr, bufnr)
   local filename = vim.api.nvim_buf_get_name(bufnr)
-  local basename = vim.fn.fnamemodify(filename, config.user.modifiers.basename .. ":t")
+  local basename =
+    vim.fn.fnamemodify(filename, config.user.modifiers.basename .. ":t")
   if basename == "" then return nil end
 
   local icon
