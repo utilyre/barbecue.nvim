@@ -150,7 +150,7 @@ return M
 
 - Title PRs the same way as commit headers.
 
-- Adopt [Karma](https://karma-runner.github.io/latest/dev/git-commit-msg.html)
+- Adopt [Karma](https://karma-runner.github.io/latest/dev/git-commit-msg.html)'s
   git commit conventions.
 
 ## FAQ
