@@ -44,7 +44,8 @@
 
 - Format your code with [stylua](https://github.com/johnnymorganz/stylua).
 
-  The following command will check if everything is formatted based on the [guidelines](/.stylua.toml)
+  The following command will check if everything is formatted based on the
+  [guidelines](/.stylua.toml)
 
   ```bash
   stylua -c .
@@ -53,9 +54,13 @@
 ## Best Practices
 
 - Create a draft PR for avoiding duplicate work.
+
 - Use feature branch.
+
 - Base your feature branch off of `dev` branch.
+
 - Title PRs the same way as commit headers.
+
 - Adopt [Karma](https://karma-runner.github.io/latest/dev/git-commit-msg.html)
   git commit conventions.
 
