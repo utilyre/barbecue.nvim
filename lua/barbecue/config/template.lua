@@ -32,6 +32,11 @@ local M = {
     return ""
   end,
 
+  ---theme to be used which should be located under `barbecue.theme` module
+  ---`auto` defaults to your current colorscheme
+  ---@type "auto"|string|barbecue.Theme
+  theme = "auto",
+
   ---whether to replace file icon with the modified symbol when buffer is modified
   ---@type boolean
   show_modified = false,
@@ -55,32 +60,31 @@ local M = {
   ---@type table<string, string>|false
   kinds = {
     File = "",
-    Package = "",
     Module = "",
     Namespace = "",
-    Macro = "",
+    Package = "",
     Class = "",
-    Constructor = "",
-    Field = "",
-    Property = "",
     Method = "",
-    Struct = "",
-    Event = "",
-    Interface = "",
+    Property = "",
+    Field = "",
+    Constructor = "",
     Enum = "",
-    EnumMember = "",
-    Constant = "",
+    Interface = "",
     Function = "",
-    TypeParameter = "",
     Variable = "",
-    Operator = "",
-    Null = "",
-    Boolean = "",
-    Number = "",
+    Constant = "",
     String = "",
-    Key = "",
+    Number = "",
+    Boolean = "",
     Array = "",
     Object = "",
+    Key = "",
+    Null = "",
+    EnumMember = "",
+    Struct = "",
+    Event = "",
+    Operator = "",
+    TypeParameter = "",
   },
 }
 

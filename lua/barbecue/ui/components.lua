@@ -1,16 +1,52 @@
 local navic = require("nvim-navic")
 local devicons_ok, devicons = pcall(require, "nvim-web-devicons")
 local config = require("barbecue.config")
+local theme = require("barbecue.theme")
 local Entry = require("barbecue.ui.entry")
 
 local M = {}
+
+---returns and caches the icon of `filename`
+---@param filename string
+---@return barbecue.Entry.icon|nil
+local function get_file_icon(filename)
+  if not devicons_ok then return nil end
+
+  local basename = vim.fn.fnamemodify(filename, ":t")
+  local extension = vim.fn.fnamemodify(filename, ":e")
+
+  local devicons_icon, devicons_highlight =
+    devicons.get_icon(basename, extension, { default = true })
+  if devicons_icon == nil or devicons_highlight == nil then return nil end
+
+  local key = string.format("filetype_%s", devicons_highlight)
+  if theme.highlights[key] == nil then
+    theme.highlights[key] = string.format("barbecue_%s", key)
+
+    vim.api.nvim_set_hl(
+      0,
+      theme.highlights[key],
+      vim.tbl_extend(
+        "force",
+        vim.api.nvim_get_hl_by_name(theme.highlights.normal, true),
+        vim.api.nvim_get_hl_by_name(devicons_highlight, true)
+      )
+    )
+  end
+
+  return {
+    devicons_icon,
+    highlight = theme.highlights[key],
+  }
+end
 
 ---returns dirname of `bufnr`
 ---@param bufnr number
 ---@return barbecue.Entry[]
 function M.get_dirname(bufnr)
   local filename = vim.api.nvim_buf_get_name(bufnr)
-  local dirname = vim.fn.fnamemodify(filename, config.user.modifiers.dirname .. ":h")
+  local dirname =
+    vim.fn.fnamemodify(filename, config.user.modifiers.dirname .. ":h")
 
   ---@type barbecue.Entry[]
   local entries = {}
@@ -21,7 +57,7 @@ function M.get_dirname(bufnr)
       entries,
       Entry.new({
         "/",
-        highlight = "BarbecueDirname",
+        highlight = theme.highlights.dirname,
       })
     )
   end
@@ -33,7 +69,7 @@ function M.get_dirname(bufnr)
       entries,
       Entry.new({
         protocol,
-        highlight = "BarbecueDirname",
+        highlight = theme.highlights.dirname,
       })
     )
 
@@ -46,7 +82,7 @@ function M.get_dirname(bufnr)
       entries,
       Entry.new({
         dir,
-        highlight = "BarbecueDirname",
+        highlight = theme.highlights.dirname,
       })
     )
   end
@@ -60,24 +96,24 @@ end
 ---@return barbecue.Entry|nil
 function M.get_basename(winnr, bufnr)
   local filename = vim.api.nvim_buf_get_name(bufnr)
-  local basename = vim.fn.fnamemodify(filename, config.user.modifiers.basename .. ":t")
+  local basename =
+    vim.fn.fnamemodify(filename, config.user.modifiers.basename .. ":t")
   if basename == "" then return nil end
 
   local icon
   if vim.bo[bufnr].modified and config.user.show_modified then
     icon = {
       config.user.symbols.modified,
-      highlight = "BarbecueModified",
+      highlight = theme.highlights.modified,
     }
   elseif devicons_ok then
-    local ic, hl = devicons.get_icon_by_filetype(vim.bo[bufnr].filetype)
-    if ic ~= nil and hl ~= nil then icon = { ic, highlight = hl } end
+    icon = get_file_icon(filename)
   end
 
   return Entry.new(
     {
       basename,
-      highlight = "BarbecueBasename",
+      highlight = theme.highlights.basename,
     },
     icon,
     {
@@ -85,6 +121,78 @@ function M.get_basename(winnr, bufnr)
       pos = { 1, 0 },
     }
   )
+end
+
+local kind_to_type = {
+  [1] = "File",
+  [2] = "Module",
+  [3] = "Namespace",
+  [4] = "Package",
+  [5] = "Class",
+  [6] = "Method",
+  [7] = "Property",
+  [8] = "Field",
+  [9] = "Constructor",
+  [10] = "Enum",
+  [11] = "Interface",
+  [12] = "Function",
+  [13] = "Variable",
+  [14] = "Constant",
+  [15] = "String",
+  [16] = "Number",
+  [17] = "Boolean",
+  [18] = "Array",
+  [19] = "Object",
+  [20] = "Key",
+  [21] = "Null",
+  [22] = "EnumMember",
+  [23] = "Struct",
+  [24] = "Event",
+  [25] = "Operator",
+  [26] = "TypeParameter",
+}
+
+local kind_to_highlight = {
+  [1] = "context_file",
+  [2] = "context_module",
+  [3] = "context_namespace",
+  [4] = "context_package",
+  [5] = "context_class",
+  [6] = "context_method",
+  [7] = "context_property",
+  [8] = "context_field",
+  [9] = "context_constructor",
+  [10] = "context_enum",
+  [11] = "context_interface",
+  [12] = "context_function",
+  [13] = "context_variable",
+  [14] = "context_constant",
+  [15] = "context_string",
+  [16] = "context_number",
+  [17] = "context_boolean",
+  [18] = "context_array",
+  [19] = "context_object",
+  [20] = "context_key",
+  [21] = "context_null",
+  [22] = "context_enum_member",
+  [23] = "context_struct",
+  [24] = "context_event",
+  [25] = "context_operator",
+  [26] = "context_type_parameter",
+}
+
+---returns a kind entry icon based on `kind`
+---@param kind number
+---@return barbecue.Entry.icon|nil
+local function get_kind_icon(kind)
+  local type = kind_to_type[kind]
+  local highlight = kind_to_highlight[kind]
+  if type == nil or highlight == nil then return nil end
+
+  return {
+    config.user.kinds[kind_to_type[kind]],
+    highlight = theme.highlights[kind_to_highlight[kind]],
+  }
 end
 
 ---returns context of `bufnr`
@@ -98,20 +206,12 @@ function M.get_context(winnr, bufnr)
   if nestings == nil then return {} end
 
   return vim.tbl_map(function(nesting)
-    local icon
-    if config.user.kinds ~= false then
-      icon = {
-        config.user.kinds[nesting.type],
-        highlight = "BarbecueContext" .. nesting.type,
-      }
-    end
-
     return Entry.new(
       {
         nesting.name,
-        highlight = "BarbecueContext",
+        highlight = theme.highlights.context,
       },
-      icon,
+      config.user.kinds == false and nil or get_kind_icon(nesting.kind),
       {
         win = winnr,
         pos = { nesting.scope.start.line, nesting.scope.start.character },

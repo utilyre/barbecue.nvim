@@ -1,4 +1,5 @@
 local config = require("barbecue.config")
+local theme = require("barbecue.theme")
 local utils = require("barbecue.utils")
 local Entry = require("barbecue.ui.entry")
 local state = require("barbecue.ui.state")
@@ -13,7 +14,7 @@ local visible = true
 
 local ENTRY_ELLIPSIS = Entry.new({
   config.user.symbols.ellipsis,
-  highlight = "BarbecueEllipsis",
+  highlight = theme.highlights.ellipsis,
 })
 
 ---truncates `entries` based on `max_length`
@@ -33,7 +34,9 @@ local function truncate_entries(entries, length, max_length, basename_position)
 
     length = length - entries[i]:len()
     if has_ellipsis then
-      if i < #entries then length = length - (utils.str_len(config.user.symbols.separator) + 2) end
+      if i < #entries then
+        length = length - (utils.str_len(config.user.symbols.separator) + 2)
+      end
 
       table.remove(entries, i)
       n = n + 1
@@ -67,9 +70,16 @@ local function create_entries(winnr, bufnr, extra_length)
   local length = extra_length
   for i, entry in ipairs(entries) do
     length = length + entry:len()
-    if i < #entries then length = length + utils.str_len(config.user.symbols.separator) + 2 end
+    if i < #entries then
+      length = length + utils.str_len(config.user.symbols.separator) + 2
+    end
   end
-  truncate_entries(entries, length, vim.api.nvim_win_get_width(winnr), #dirname + 1)
+  truncate_entries(
+    entries,
+    length,
+    vim.api.nvim_win_get_width(winnr),
+    #dirname + 1
+  )
 
   return entries
 end
@@ -79,18 +89,24 @@ end
 ---@param custom_section string
 ---@return string
 local function build_winbar(entries, custom_section)
-  local winbar = "%#BarbecueNormal# "
+  local winbar = string.format("%%#%s# ", theme.highlights.normal)
   for i, entry in ipairs(entries) do
     winbar = winbar .. entry:to_string()
     if i < #entries then
       winbar = winbar
-        .. "%#BarbecueNormal# %#BarbecueSeparator#"
+        .. string.format(
+          "%%#%s# %%#%s#",
+          theme.highlights.normal,
+          theme.highlights.separator
+        )
         .. config.user.symbols.separator
-        .. "%#BarbecueNormal# "
+        .. string.format("%%#%s# ", theme.highlights.normal)
     end
   end
 
-  return winbar .. "%#BarbecueNormal#%=%#WinBar#" .. custom_section
+  return winbar
+    .. string.format("%%#%s#%%=%%#WinBar#", theme.highlights.normal)
+    .. custom_section
 end
 
 ---@async
@@ -126,7 +142,8 @@ function M.update(winnr)
     end
 
     local custom_section = config.user.custom_section(bufnr)
-    local entries = create_entries(winnr, bufnr, 2 + utils.str_len(custom_section))
+    local entries =
+      create_entries(winnr, bufnr, 2 + utils.str_len(custom_section))
     state.save(winnr, entries)
 
     local winbar
@@ -140,7 +157,7 @@ end
 function M.toggle(shown)
   if shown == nil then shown = not visible end
 
-  visible = shown
+  visible = shown --[[ @as boolean ]]
   for _, winnr in ipairs(vim.api.nvim_list_wins()) do
     M.update(winnr)
   end
@@ -160,7 +177,9 @@ function M.navigate(index, winnr)
   local clickable_entries = vim.tbl_filter(function(entry)
     return entry.to ~= nil
   end, entries)
-  if index < -#clickable_entries or index > #clickable_entries then error("index out of range", 2) end
+  if index < -#clickable_entries or index > #clickable_entries then
+    error("index out of range", 2)
+  end
 
   if index < 0 then index = #clickable_entries + index + 1 end
   mouse.navigate(clickable_entries[index].to)

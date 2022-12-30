@@ -1,4 +1,4 @@
-<h1 align="center">Barbecue</h1>
+<h1 align="center">barbecue.nvim</h1>
 
 <p align="center">
   This is a VS Code like winbar that uses
@@ -11,16 +11,27 @@ https://user-images.githubusercontent.com/91974155/208309076-00b3d5e4-e0cc-4990-
 ## ✨ Features
 
 - 🖱️ Jump to any context by _just_ clicking on it.
-- 🌲 Have a deeply nested **file-tree/context**? It's gonna get rid of the _less_ useful parts smartly.
+
+- 🌲 Have a deeply nested **file-tree/context**? It's gonna get rid of the
+  _less_ useful parts smartly.
+
 - 📂 _Easily_ tell where your file is located at by looking at your **winbar**.
+
 - 📜 Put _whatever_ your heart desires in the **custom section**.
 
 ## 📬 Dependencies
 
-- [NVIM v0.8+](https://github.com/neovim/neovim/releases/latest): Winbar support.
-- [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig): Dependency of nvim-navic.
-- [nvim-navic](https://github.com/smiteshp/nvim-navic): LSP `textDocument/documentSymbol` provider.
-- [nvim-web-devicons](https://github.com/kyazdani42/nvim-web-devicons): File icon provider. _(optional)_
+- [NVIM v0.8+](https://github.com/neovim/neovim/releases/latest): Winbar
+  support.
+
+- [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig): Dependency of
+  nvim-navic.
+
+- [nvim-navic](https://github.com/smiteshp/nvim-navic): LSP
+  `textDocument/documentSymbol` provider.
+
+- [nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons): File icon
+  provider. _(optional)_
 
 ## 📦 Installation
 
@@ -35,7 +46,7 @@ Install barbecue and its dependencies
     dependencies = {
       "neovim/nvim-lspconfig",
       "smiteshp/nvim-navic",
-      "kyazdani42/nvim-web-devicons", -- optional dependency
+      "nvim-tree/nvim-web-devicons", -- optional dependency
     },
   }
 
@@ -55,7 +66,7 @@ Install barbecue and its dependencies
     requires = {
       "neovim/nvim-lspconfig",
       "smiteshp/nvim-navic",
-      "kyazdani42/nvim-web-devicons", -- optional dependency
+      "nvim-tree/nvim-web-devicons", -- optional dependency
     },
     after = "nvim-web-devicons", -- keep this if you're using NvChad
     config = function()
@@ -108,46 +119,52 @@ several things you should be aware of.
 
 - Gain better performance when moving the cursor around
 
-```lua
-require("barbecue").setup({
-  create_autocmd = false, -- prevent barbecue from updating itself automatically
-})
+  ```lua
+  require("barbecue").setup({
+    create_autocmd = false, -- prevent barbecue from updating itself automatically
+  })
 
-vim.api.nvim_create_autocmd({
-  "WinScrolled",
-  "BufWinEnter",
-  "CursorHold",
-  "InsertLeave",
+  vim.api.nvim_create_autocmd({
+    "WinScrolled",
+    "BufWinEnter",
+    "CursorHold",
+    "InsertLeave",
 
-  -- include these if you have set `show_modified` to `true`
-  "BufWritePost",
-  "TextChanged",
-  "TextChangedI",
-}, {
-  group = vim.api.nvim_create_augroup("barbecue", {}),
-  callback = function()
-    require("barbecue.ui").update()
-  end,
-})
-```
+    -- include these if you have set `show_modified` to `true`
+    "BufWritePost",
+    "TextChanged",
+    "TextChangedI",
+  }, {
+    group = vim.api.nvim_create_augroup("barbecue", {}),
+    callback = function()
+      require("barbecue.ui").update()
+    end,
+  })
+  ```
 
 - Get nvim-navic working with multiple tabs ([#35](/../../issues/35))
 
-```lua
-require("barbecue").setup({
-  attach_navic = false, -- prevent barbecue from automatically attaching nvim-navic
-})
+  ```lua
+  require("barbecue").setup({
+    attach_navic = false, -- prevent barbecue from automatically attaching nvim-navic
+  })
 
-require("lspconfig")[server].setup({
-  -- ...
+  require("lspconfig")[server].setup({
+    -- ...
 
-  on_attach = function(client, bufnr)
-    require("nvim-navic").attach(client, bufnr)
-  end,
+    on_attach = function(client, bufnr)
+      -- ...
 
-  -- ...
-})
-```
+      if client.server_capabilities["documentSymbolProvider"] then
+        require("nvim-navic").attach(client, bufnr)
+      end
+
+      -- ...
+    end,
+
+    -- ...
+  })
+  ```
 
 ## 🚠 Configuration
 
@@ -188,6 +205,11 @@ require("lspconfig")[server].setup({
       return ""
     end,
 
+    ---theme to be used which should be located under `barbecue.theme` module
+    ---`auto` defaults to your current colorscheme
+    ---@type "auto"|string|barbecue.Theme
+    theme = "auto",
+
     ---whether to replace file icon with the modified symbol when buffer is modified
     ---@type boolean
     show_modified = false,
@@ -211,75 +233,36 @@ require("lspconfig")[server].setup({
     ---@type table<string, string>|false
     kinds = {
       File = "",
-      Package = "",
       Module = "",
       Namespace = "",
-      Macro = "",
+      Package = "",
       Class = "",
-      Constructor = "",
-      Field = "",
-      Property = "",
       Method = "",
-      Struct = "",
-      Event = "",
-      Interface = "",
+      Property = "",
+      Field = "",
+      Constructor = "",
       Enum = "",
-      EnumMember = "",
-      Constant = "",
+      Interface = "",
       Function = "",
-      TypeParameter = "",
       Variable = "",
-      Operator = "",
-      Null = "",
-      Boolean = "",
-      Number = "",
+      Constant = "",
       String = "",
-      Key = "",
+      Number = "",
+      Boolean = "",
       Array = "",
       Object = "",
+      Key = "",
+      Null = "",
+      EnumMember = "",
+      Struct = "",
+      Event = "",
+      Operator = "",
+      TypeParameter = "",
     },
   }
   ```
 </details>
 
-## 🎨 Highlight Groups
+## 🔥 Contribution
 
-<details>
-  <summary>Click to see highlight groups</summary>
-
-  | Highlight Group                  | Default Group              |
-  | -------------------------------- | -------------------------- |
-  | **BarbecueNormal**               | _WinBar_                   |
-  | **BarbecueModified**             | _BufferVisibleMod_         |
-  | **BarbecueEllipsis**             | _Conceal_                  |
-  | **BarbecueSeparator**            | _Conceal_                  |
-  | **BarbecueDirname**              | _Normal_                   |
-  | **BarbecueBasename**             | _Normal_                   |
-  | **BarbecueContext**              | _Normal_                   |
-  | **BarbecueContextFile**          | _CmpItemKindFile_          |
-  | **BarbecueContextModule**        | _CmpItemKindModule_        |
-  | **BarbecueContextNamespace**     | _CmpItemKindModule_        |
-  | **BarbecueContextPackage**       | _CmpItemKindFolder_        |
-  | **BarbecueContextClass**         | _CmpItemKindClass_         |
-  | **BarbecueContextMethod**        | _CmpItemKindMethod_        |
-  | **BarbecueContextProperty**      | _CmpItemKindProperty_      |
-  | **BarbecueContextField**         | _CmpItemKindField_         |
-  | **BarbecueContextConstructor**   | _CmpItemKindConstructor_   |
-  | **BarbecueContextEnum**          | _CmpItemKindEnum_          |
-  | **BarbecueContextInterface**     | _CmpItemKindInterface_     |
-  | **BarbecueContextFunction**      | _CmpItemKindFunction_      |
-  | **BarbecueContextVariable**      | _CmpItemKindVariable_      |
-  | **BarbecueContextConstant**      | _CmpItemKindConstant_      |
-  | **BarbecueContextString**        | _CmpItemKindValue_         |
-  | **BarbecueContextNumber**        | _CmpItemKindValue_         |
-  | **BarbecueContextBoolean**       | _CmpItemKindValue_         |
-  | **BarbecueContextArray**         | _CmpItemKindValue_         |
-  | **BarbecueContextObject**        | _CmpItemKindValue_         |
-  | **BarbecueContextKey**           | _CmpItemKindValue_         |
-  | **BarbecueContextNull**          | _CmpItemKindValue_         |
-  | **BarbecueContextEnumMember**    | _CmpItemKindEnumMember_    |
-  | **BarbecueContextStruct**        | _CmpItemKindStruct_        |
-  | **BarbecueContextEvent**         | _CmpItemKindEvent_         |
-  | **BarbecueContextOperator**      | _CmpItemKindOperator_      |
-  | **BarbecueContextTypeParameter** | _CmpItemKindTypeParameter_ |
-</details>
+See [Code of Conduct](/CODEOFCONDUCT.md).
