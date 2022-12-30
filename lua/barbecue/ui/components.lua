@@ -19,11 +19,13 @@ local function get_file_icon(filename)
     devicons.get_icon(basename, extension, { default = true })
   if devicons_icon == nil or devicons_highlight == nil then return nil end
 
-  local highlight = string.format("filetype_%s", devicons_highlight)
-  if theme.highlights[highlight] == nil then
+  local key = string.format("filetype_%s", devicons_highlight)
+  if theme.highlights[key] == nil then
+    theme.highlights[key] = string.format("barbecue_%s", key)
+
     vim.api.nvim_set_hl(
       0,
-      theme.highlights:add(highlight),
+      theme.highlights[key],
       vim.tbl_extend(
         "force",
         vim.api.nvim_get_hl_by_name(theme.highlights.normal, true),
@@ -34,7 +36,7 @@ local function get_file_icon(filename)
 
   return {
     devicons_icon,
-    highlight = theme.highlights[highlight],
+    highlight = theme.highlights[key],
   }
 end
 

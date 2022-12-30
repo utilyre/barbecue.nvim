@@ -42,11 +42,6 @@ M.highlights = {
   context_type_parameter = "barbecue_context_type_parameter",
 }
 
-function M.highlights:add(name)
-  self[name] = string.format("barbecue_%s", name)
-  return self[name]
-end
-
 ---loads theme from module `barbecue.theme` by `name`
 ---@param name string?
 ---@return barbecue.Theme
@@ -74,17 +69,11 @@ function M.load()
   end
 
   for key, name in pairs(M.highlights) do
-    if type(name) ~= "string" then
-      goto continue
-    end
-
     vim.api.nvim_set_hl(
       0,
       name,
       vim.tbl_extend("force", theme.normal, theme[key])
     )
-
-    ::continue::
   end
 end
 
