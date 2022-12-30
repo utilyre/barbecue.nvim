@@ -1,0 +1,30 @@
+name: Vim Help Tag
+
+on:
+  push:
+    paths:
+      - README.md
+
+jobs:
+  generate:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout the latest commit
+        uses: actions/checkout@v3
+      - name: Generate vimdoc
+        uses: kdheepak/panvimdoc@v2
+        with:
+          vimdoc: barbecue
+          description: A VS Code like winbar for Neovim
+          version: NVIM v0.8.0
+          pandoc: README.md
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: |
+            chore(docs): generate vimdoc
+
+            Convert `README.md` at project root to vimdoc located at
+            `doc/barbecue.txt`.
+
+            Author: GitHub Workflow
