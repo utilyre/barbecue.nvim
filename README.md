@@ -263,6 +263,6 @@ several things you should be aware of.
   ```
 </details>
 
-## 🔥 Contribution
+## 👥 Contribution
 
 See [Code of Conduct](/CODEOFCONDUCT.md).
