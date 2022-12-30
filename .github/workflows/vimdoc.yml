@@ -12,7 +12,7 @@ jobs:
       - name: Checkout the latest commit
         uses: actions/checkout@v3
       - name: Generate vimdoc
-        uses: kdheepak/panvimdoc@v2
+        uses: kdheepak/panvimdoc@main
         with:
           vimdoc: barbecue
           description: A VS Code like winbar for Neovim
