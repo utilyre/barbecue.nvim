@@ -17,10 +17,11 @@ jobs:
           vimdoc: barbecue
           description: A VS Code like winbar for Neovim
           version: NVIM v0.8.0
-          pandoc: README.md
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
+          branch: ${{ github.head_ref }}
+          file_pattern: doc/lualine.txt
           commit_message: |
             chore(docs): generate vimdoc
 
