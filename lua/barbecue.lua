@@ -7,10 +7,9 @@ local utils = require("barbecue.utils")
 local M = {}
 
 ---attaches navic to capable language servers on initialization
----@param augroup string
-local function attach_navic(augroup)
+local function attach_navic()
   vim.api.nvim_create_autocmd("LspAttach", {
-    group = augroup,
+    group = vim.api.nvim_create_augroup("barbecue#attach_navic", {}),
     callback = function(a)
       local client = vim.lsp.get_client_by_id(a.data.client_id)
       if client.server_capabilities["documentSymbolProvider"] then
@@ -21,8 +20,7 @@ local function attach_navic(augroup)
 end
 
 ---creates the main autocmd
----@param augroup string
-local function create_autocmd(augroup)
+local function create_autocmd()
   local events = {
     "WinScrolled",
     "BufWinEnter",
@@ -39,7 +37,7 @@ local function create_autocmd(augroup)
   end
 
   vim.api.nvim_create_autocmd(events, {
-    group = augroup,
+    group = vim.api.nvim_create_augroup("barbecue#create_autocmd", {}),
     callback = function()
       ui.update()
     end,
@@ -52,9 +50,8 @@ function M.setup(cfg)
   config.apply_config(cfg or {})
   theme.load()
 
-  local augroup = vim.api.nvim_create_augroup("barbecue", {})
-  if config.user.attach_navic then attach_navic(augroup) end
-  if config.user.create_autocmd then create_autocmd(augroup) end
+  if config.user.attach_navic then attach_navic() end
+  if config.user.create_autocmd then create_autocmd() end
 
   utils.create_user_command("Barbecue", {
     hide = function()

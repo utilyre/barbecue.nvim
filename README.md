@@ -135,7 +135,7 @@ several things you should be aware of.
     "TextChanged",
     "TextChangedI",
   }, {
-    group = vim.api.nvim_create_augroup("barbecue", {}),
+    group = vim.api.nvim_create_augroup("barbecue#create_autocmd", {}),
     callback = function()
       require("barbecue.ui").update()
     end,
