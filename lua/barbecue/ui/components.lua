@@ -3,36 +3,9 @@ local devicons_ok, devicons = pcall(require, "nvim-web-devicons")
 local config = require("barbecue.config")
 local theme = require("barbecue.theme")
 local Entry = require("barbecue.ui.entry")
+local utils = require("barbecue.utils")
 
 local M = {}
-
-local function get_hl_by_name(name)
-  local version = vim.version()
-  if
-    version.prerelease
-    and version.api_prerelease
-    and version.major == 0
-    and version.minor == 9
-    and version.patch == 0
-  then
-    -- HACK: extract colors using string manipulation
-    -- TODO: should be removed once nvim highlight APIs are fixed
-    local background =
-      vim.fn.matchstr(vim.fn.execute("hi " .. name), "guibg=\\zs\\S*")
-    local foreground =
-      vim.fn.matchstr(vim.fn.execute("hi " .. name), "guifg=\\zs\\S*")
-
-    if background == "" then background = nil end
-    if foreground == "" then foreground = nil end
-
-    return {
-      background = background,
-      foreground = foreground,
-    }
-  end
-
-  return vim.api.nvim_get_hl_by_name(name, true)
-end
 
 ---returns and caches the icon of `filename`
 ---@param filename string
@@ -56,8 +29,8 @@ local function get_file_icon(filename)
       theme.highlights[key],
       vim.tbl_extend(
         "force",
-        get_hl_by_name(theme.highlights.normal),
-        get_hl_by_name(devicons_highlight)
+        utils.get_hl_by_name(theme.highlights.normal),
+        utils.get_hl_by_name(devicons_highlight)
       )
     )
   end
