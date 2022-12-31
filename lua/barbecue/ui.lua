@@ -60,8 +60,11 @@ end
 local function create_entries(winnr, bufnr, extra_length)
   local dirname = components.get_dirname(bufnr)
   local basename = components.get_basename(winnr, bufnr)
-  local context = components.get_context(winnr, bufnr)
   if basename == nil then return {} end
+
+  local context = config.user.show_navic
+      and components.get_context(winnr, bufnr)
+    or {}
 
   ---@type barbecue.Entry[]
   local entries = {}

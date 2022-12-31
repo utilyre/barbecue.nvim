@@ -1,5 +1,9 @@
 ---@class barbecue.Config
 local M = {
+  ---whether to show/use navic in the winbar
+  ---@type boolean
+  show_navic = true,
+
   ---whether to attach navic to language servers automatically
   ---@type boolean
   attach_navic = true,
