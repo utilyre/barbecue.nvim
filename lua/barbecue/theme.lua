@@ -65,7 +65,7 @@ function M.load()
   elseif type(config.user.theme) == "string" then
     theme = load_theme(config.user.theme --[[ @as string ]])
   elseif type(config.user.theme) == "table" then
-    theme = config.user.theme
+    theme = vim.tbl_deep_extend("force", load_theme(), config.user.theme)
   end
 
   for key, name in pairs(M.highlights) do
