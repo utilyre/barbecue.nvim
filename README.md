@@ -75,6 +75,8 @@ Install barbecue and its dependencies
   })
   ```
 
+**NOTE**: Make sure barbecue loads _after_ your colorscheme.
+
 ## 🚀 Usage
 
 Barbecue will work right after [installation](#-installation), but there are
