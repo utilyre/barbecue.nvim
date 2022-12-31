@@ -69,12 +69,8 @@ function M.load()
   end
 
   for key, name in pairs(M.highlights) do
-    vim.api.nvim_set_hl(
-      0,
-      name,
-      vim.tbl_extend("force", theme.normal, theme[key])
-    )
-  end
+    vim.api.nvim_set_hl(0, name, vim.tbl_extend('force', {}, theme.normal, theme[key]))
+    end
 end
 
 return M

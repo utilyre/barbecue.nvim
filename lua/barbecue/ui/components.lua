@@ -22,15 +22,20 @@ local function get_file_icon(filename)
   local key = string.format("filetype_%s", devicons_highlight)
   if theme.highlights[key] == nil then
     theme.highlights[key] = string.format("barbecue_%s", key)
+    local theme_highlight_normal_tbl = {
+      foreground = vim.fn.matchstr(vim.fn.execute('hi '..theme.highlights.normal), 'guifg=\\zs\\S*'),
+      background = vim.fn.matchstr(vim.fn.execute('hi '..theme.highlights.normal), 'guibg=\\zs\\S*'),
+    }
+
+    local devicons_highlight_tbl = {
+      foreground = vim.fn.matchstr(vim.fn.execute('hi '..devicons_highlight), 'guifg=\\zs\\S*'),
+      background = vim.fn.matchstr(vim.fn.execute('hi '..devicons_highlight), 'guibg=\\zs\\S*'),
+    }
 
     vim.api.nvim_set_hl(
       0,
       theme.highlights[key],
-      vim.tbl_extend(
-        "force",
-        vim.api.nvim_get_hl_by_name(theme.highlights.normal, true),
-        vim.api.nvim_get_hl_by_name(devicons_highlight, true)
-      )
+      vim.tbl_extend('force', {}, theme_highlight_normal_tbl, devicons_highlight_tbl)
     )
   end
 
