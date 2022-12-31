@@ -6,6 +6,34 @@ local Entry = require("barbecue.ui.entry")
 
 local M = {}
 
+local function get_hl_by_name(name)
+  local version = vim.version()
+  if
+    version.prerelease
+    and version.api_prerelease
+    and version.major == 0
+    and version.minor == 9
+    and version.patch == 0
+  then
+    -- HACK: extract colors using string manipulation
+    -- TODO: should be removed once nvim highlight APIs are fixed
+    local background =
+      vim.fn.matchstr(vim.fn.execute("hi " .. name), "guibg=\\zs\\S*")
+    local foreground =
+      vim.fn.matchstr(vim.fn.execute("hi " .. name), "guifg=\\zs\\S*")
+
+    if background == "" then background = nil end
+    if foreground == "" then foreground = nil end
+
+    return {
+      background = background,
+      foreground = foreground,
+    }
+  end
+
+  return vim.api.nvim_get_hl_by_name(name, true)
+end
+
 ---returns and caches the icon of `filename`
 ---@param filename string
 ---@return barbecue.Entry.icon|nil
@@ -28,8 +56,8 @@ local function get_file_icon(filename)
       theme.highlights[key],
       vim.tbl_extend(
         "force",
-        vim.api.nvim_get_hl_by_name(theme.highlights.normal, true),
-        vim.api.nvim_get_hl_by_name(devicons_highlight, true)
+        get_hl_by_name(theme.highlights.normal),
+        get_hl_by_name(devicons_highlight)
       )
     )
   end
