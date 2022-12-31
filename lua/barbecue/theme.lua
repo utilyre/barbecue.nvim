@@ -171,11 +171,27 @@ function M.load()
   end
 
   for key, name in pairs(M.highlights) do
-    vim.api.nvim_set_hl(
-      0,
-      name,
-      vim.tbl_extend("force", theme.normal, theme[key])
-    )
+    if not vim.startswith(key, "filetype_") then
+      vim.api.nvim_set_hl(
+        0,
+        name,
+        vim.tbl_extend("force", theme.normal, theme[key])
+      )
+    end
+  end
+
+  for key, name in pairs(M.highlights) do
+    if vim.startswith(key, "filetype_") then
+      vim.api.nvim_set_hl(
+        0,
+        name,
+        vim.tbl_extend(
+          "force",
+          utils.get_hl_by_name(M.highlights.normal),
+          utils.get_hl_by_name(key:gsub("^filetype_", ""))
+        )
+      )
+    end
   end
 end
 
