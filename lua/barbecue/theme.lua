@@ -149,7 +149,7 @@ end
 ---@param name string?
 ---@return barbecue.Theme
 local function load_theme(name)
-  name = name or vim.g.colors_name
+  name = name or vim.g.colors_name or ""
   local theme_ok, theme = pcall(require, "barbecue.theme." .. name)
   if theme_ok then return theme end
 
