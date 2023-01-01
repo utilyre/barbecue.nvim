@@ -170,17 +170,13 @@ function M.load()
     theme = vim.tbl_deep_extend("force", load_theme(), config.user.theme)
   end
 
+  vim.api.nvim_set_hl(0, M.highlights.normal, theme.normal)
   for key, name in pairs(M.highlights) do
-    if not vim.startswith(key, "filetype_") then
-      vim.api.nvim_set_hl(
-        0,
-        name,
-        vim.tbl_extend("force", theme.normal, theme[key])
-      )
+    if key == "normal" then
+      goto continue
     end
-  end
 
-  for key, name in pairs(M.highlights) do
+    -- re-defines devicon highlights
     if vim.startswith(key, "filetype_") then
       vim.api.nvim_set_hl(
         0,
@@ -191,7 +187,18 @@ function M.load()
           utils.get_hl_by_name(key:gsub("^filetype_", ""))
         )
       )
+
+      goto continue
     end
+
+    -- defines/re-defines the rest of the highlights
+    vim.api.nvim_set_hl(
+      0,
+      name,
+      vim.tbl_extend("force", theme.normal, theme[key])
+    )
+
+    ::continue::
   end
 end
 
