@@ -1,0 +1,284 @@
+*barbecue.txt*                                A VS Code like winbar for Neovim
+
+==============================================================================
+Table of Contents                                 *barbecue-table-of-contents*
+
+  - ✨ Features                                       |barbecue-✨-features|
+  - 📬 Dependencies                             |barbecue-📬-dependencies|
+  - 📦 Installation                             |barbecue-📦-installation|
+  - 🚀 Usage                                           |barbecue-🚀-usage|
+  - 🍴 Recipes                                       |barbecue-🍴-recipes|
+  - 🚠 Configuration                           |barbecue-🚠-configuration|
+  - 👥 Contribution                             |barbecue-👥-contribution|
+
+<h1 align="center">
+
+barbecue.nvim
+
+</h1>
+
+<p align="center">
+
+This is a VS Code like winbar that uses
+<a href="https://github.com/SmiteshP/nvim-navic">nvim-navic</a>
+in order to get LSP context from your language server.
+
+
+https://user-images.githubusercontent.com/91974155/208309076-00b3d5e4-e0cc-4990-9f55-2877fca4baa2.mp4
+
+✨ FEATURES                                           *barbecue-✨-features*
+
+
+- 🖱️ Jump to any context by _just_ clicking on it.
+- 🌲 Have a deeply nested **file-tree/context**? It’s gonna get rid of the
+    _less_ useful parts smartly.
+- 📂 _Easily_ tell where your file is located at by looking at your **winbar**.
+- 📜 Put _whatever_ your heart desires in the **custom section**.
+
+
+📬 DEPENDENCIES                                 *barbecue-📬-dependencies*
+
+
+- NVIM v0.8+ <https://github.com/neovim/neovim/releases/latest>: Winbar support.
+- nvim-lspconfig <https://github.com/neovim/nvim-lspconfig>: Dependency of
+    nvim-navic.
+- nvim-navic <https://github.com/smiteshp/nvim-navic>: LSP
+    `textDocument/documentSymbol` provider.
+- nvim-web-devicons <https://github.com/nvim-tree/nvim-web-devicons>: File icon
+    provider. _(optional)_
+
+
+📦 INSTALLATION                                 *barbecue-📦-installation*
+
+Install barbecue and its dependencies
+
+
+- lazy.nvim <https://github.com/folke/lazy.nvim>
+    >
+        local spec = {
+          "utilyre/barbecue.nvim",
+          branch = "dev", -- omit this if you only want stable updates
+          dependencies = {
+            "neovim/nvim-lspconfig",
+            "smiteshp/nvim-navic",
+            "nvim-tree/nvim-web-devicons", -- optional dependency
+          },
+        }
+        
+        function spec.config()
+          require("barbecue").setup()
+        end
+        
+        return spec
+    <
+- packer.nvim <https://github.com/wbthomason/packer.nvim>
+    >
+        use({
+          "utilyre/barbecue.nvim",
+          branch = "dev", -- omit this if you only want stable updates
+          requires = {
+            "neovim/nvim-lspconfig",
+            "smiteshp/nvim-navic",
+            "nvim-tree/nvim-web-devicons", -- optional dependency
+          },
+          after = "nvim-web-devicons", -- keep this if you're using NvChad
+          config = function()
+            require("barbecue").setup()
+          end,
+        })
+    <
+
+
+🚀 USAGE                                               *barbecue-🚀-usage*
+
+Barbecue will work right after |barbecue-installation|, but there are several
+things you should be aware of.
+
+COMMANDS ~
+
+
+- Hide/Show/Toggle winbar
+    >
+        Barbecue {hide,show,toggle}
+    <
+
+
+API ~
+
+
+- Hide/Show/Toggle winbar
+    >
+        require("barbecue.ui").toggle([false|true])
+    <
+- Update winbar in a single window
+    >
+        require("barbecue.ui").update([winnr])
+    <
+- Navigate to an entry by the given index
+    >
+        require("barbecue.ui").navigate(index --[[ negative values begin from the end ]], [winnr])
+    <
+- Get winbar entries in the given window
+    >
+        ---@type barbecue.Entry[]|nil
+        local entries = require("barbecue.ui.state").get_entries(winnr)
+    <
+
+
+🍴 RECIPES                                           *barbecue-🍴-recipes*
+
+
+- Gain better performance when moving the cursor around
+    >
+        require("barbecue").setup({
+          create_autocmd = false, -- prevent barbecue from updating itself automatically
+        })
+        
+        vim.api.nvim_create_autocmd({
+          "WinScrolled",
+          "BufWinEnter",
+          "CursorHold",
+          "InsertLeave",
+        
+          -- include these if you have set `show_modified` to `true`
+          "BufWritePost",
+          "TextChanged",
+          "TextChangedI",
+        }, {
+          group = vim.api.nvim_create_augroup("barbecue#create_autocmd", {}),
+          callback = function()
+            require("barbecue.ui").update()
+          end,
+        })
+    <
+- Get nvim-navic working with multiple tabs (#35 </../../issues/35>)
+    >
+        require("barbecue").setup({
+          attach_navic = false, -- prevent barbecue from automatically attaching nvim-navic
+        })
+        
+        require("lspconfig")[server].setup({
+          -- ...
+        
+          on_attach = function(client, bufnr)
+            -- ...
+        
+            if client.server_capabilities["documentSymbolProvider"] then
+              require("nvim-navic").attach(client, bufnr)
+            end
+        
+            -- ...
+          end,
+        
+          -- ...
+        })
+    <
+
+
+🚠 CONFIGURATION                               *barbecue-🚠-configuration*
+
+Click to see default config
+
+>
+      {
+        ---whether to show/use navic in the winbar
+        ---@type boolean
+        show_navic = true,
+    
+        ---whether to attach navic to language servers automatically
+        ---@type boolean
+        attach_navic = true,
+    
+        ---whether to create winbar updater autocmd
+        ---@type boolean
+        create_autocmd = true,
+    
+        ---buftypes to enable winbar in
+        ---@type string[]
+        include_buftypes = { "" },
+    
+        ---filetypes not to enable winbar in
+        ---@type string[]
+        exclude_filetypes = { "toggleterm" },
+    
+        modifiers = {
+          ---filename modifiers applied to dirname
+          ---@type string
+          dirname = ":~:.",
+    
+          ---filename modifiers applied to basename
+          ---@type string
+          basename = "",
+        },
+    
+        ---returns a string to be shown at the end of winbar
+        ---@type fun(bufnr: number): string
+        custom_section = function()
+          return ""
+        end,
+    
+        ---theme to be used which should be located under `barbecue.theme` module
+        ---`auto` defaults to your current colorscheme
+        ---@type "auto"|string|barbecue.Theme
+        theme = "auto",
+    
+        ---whether to replace file icon with the modified symbol when buffer is modified
+        ---@type boolean
+        show_modified = false,
+    
+        symbols = {
+          ---modification indicator
+          ---@type string
+          modified = "●",
+    
+          ---truncation indicator
+          ---@type string
+          ellipsis = "…",
+    
+          ---entry separator
+          ---@type string
+          separator = "",
+        },
+    
+        ---icons for different context entry kinds
+        ---`false` to disable kind icons
+        ---@type table<string, string>|false
+        kinds = {
+          File = "",
+          Module = "",
+          Namespace = "",
+          Package = "",
+          Class = "",
+          Method = "",
+          Property = "",
+          Field = "",
+          Constructor = "",
+          Enum = "",
+          Interface = "",
+          Function = "",
+          Variable = "",
+          Constant = "",
+          String = "",
+          Number = "",
+          Boolean = "",
+          Array = "",
+          Object = "",
+          Key = "",
+          Null = "",
+          EnumMember = "",
+          Struct = "",
+          Event = "",
+          Operator = "",
+          TypeParameter = "",
+        },
+      }
+<
+
+
+👥 CONTRIBUTION                                 *barbecue-👥-contribution*
+
+See Code of Conduct </CODEOFCONDUCT.md>.
+
+Generated by panvimdoc <https://github.com/kdheepak/panvimdoc>
+
+vim:tw=78:ts=8:noet:ft=help:norl:
