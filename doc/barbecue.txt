@@ -89,6 +89,8 @@ Install barbecue and its dependencies
     <
 
 
+**NOTE**: Make sure barbecue loads _after_ your colorscheme.
+
 🚀 USAGE                                               *barbecue-🚀-usage*
 
 Barbecue will work right after |barbecue-installation|, but there are several
@@ -199,7 +201,7 @@ Click to see default config
     
         ---filetypes not to enable winbar in
         ---@type string[]
-        exclude_filetypes = { "toggleterm" },
+        exclude_filetypes = { "gitcommit", "toggleterm" },
     
         modifiers = {
           ---filename modifiers applied to dirname
