@@ -1,5 +1,6 @@
 local config = require("barbecue.config")
 local utils = require("barbecue.utils")
+local default = require("barbecue.theme.default")
 
 local M = {}
 
@@ -51,7 +52,7 @@ local function load_theme(name)
   local theme_ok, theme = pcall(require, "barbecue.theme." .. name)
   if theme_ok then return theme end
 
-  return require("barbecue.theme.default")
+  return default
 end
 
 ---defines highlight groups according to `config.user.theme`
