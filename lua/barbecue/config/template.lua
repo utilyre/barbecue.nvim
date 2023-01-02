@@ -18,7 +18,7 @@ local M = {
 
   ---filetypes not to enable winbar in
   ---@type string[]
-  exclude_filetypes = { "toggleterm" },
+  exclude_filetypes = { "gitcommit", "toggleterm" },
 
   modifiers = {
     ---filename modifiers applied to dirname

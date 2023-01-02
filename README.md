@@ -193,7 +193,7 @@ several things you should be aware of.
 
     ---filetypes not to enable winbar in
     ---@type string[]
-    exclude_filetypes = { "toggleterm" },
+    exclude_filetypes = { "gitcommit", "toggleterm" },
 
     modifiers = {
       ---filename modifiers applied to dirname
