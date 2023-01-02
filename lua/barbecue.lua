@@ -47,7 +47,7 @@ end
 ---configures and starts barbecue
 ---@param cfg barbecue.Config?
 function M.setup(cfg)
-  config.apply_config(cfg or {})
+  config.apply(cfg or {})
   theme.load()
 
   if config.user.attach_navic then attach_navic() end
