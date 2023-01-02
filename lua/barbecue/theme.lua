@@ -47,7 +47,7 @@ M.highlights = {
 ---loads theme from module `barbecue.theme` by `name`
 ---@param name string?
 ---@return barbecue.Theme
-local function load_theme(name)
+local function get_theme(name)
   name = name or vim.g.colors_name or ""
   local theme_ok, theme = pcall(require, "barbecue.theme." .. name)
   if theme_ok then return theme end
@@ -59,11 +59,11 @@ end
 function M.load()
   local theme
   if config.user.theme == "auto" then
-    theme = load_theme()
+    theme = get_theme()
   elseif type(config.user.theme) == "string" then
-    theme = load_theme(config.user.theme --[[ @as string ]])
+    theme = get_theme(config.user.theme --[[ @as string ]])
   elseif type(config.user.theme) == "table" then
-    theme = vim.tbl_deep_extend("force", load_theme(), config.user.theme)
+    theme = vim.tbl_deep_extend("force", get_theme(), config.user.theme)
   end
 
   vim.api.nvim_set_hl(0, M.highlights.normal, theme.normal)
