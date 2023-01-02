@@ -50,6 +50,13 @@ function M.setup(cfg)
   config.apply(cfg or {})
   theme.load()
 
+  vim.api.nvim_create_autocmd("ColorScheme", {
+    group = vim.api.nvim_create_augroup("barbecue#colorscheme", {}),
+    callback = function()
+      theme.load()
+    end,
+  })
+
   if config.user.attach_navic then attach_navic() end
   if config.user.create_autocmd then create_autocmd() end
 

@@ -1,4 +1,6 @@
 local config = require("barbecue.config")
+local utils = require("barbecue.utils")
+local default = require("barbecue.theme.default")
 
 local M = {}
 
@@ -45,35 +47,54 @@ M.highlights = {
 ---loads theme from module `barbecue.theme` by `name`
 ---@param name string?
 ---@return barbecue.Theme
-local function load_theme(name)
-  name = name or vim.g.colors_name
+local function get_theme(name)
+  name = name or vim.g.colors_name or ""
+  local theme_ok, theme = pcall(require, "barbecue.theme." .. name)
+  if theme_ok then return theme end
 
-  local theme
-  if name ~= nil then
-    local t_ok, t = pcall(require, "barbecue.theme." .. name)
-    if t_ok then theme = t end
-  end
-
-  return theme or require("barbecue.theme.default")
+  return default
 end
 
 ---defines highlight groups according to `config.user.theme`
 function M.load()
   local theme
   if config.user.theme == "auto" then
-    theme = load_theme()
+    theme = get_theme()
   elseif type(config.user.theme) == "string" then
-    theme = load_theme(config.user.theme --[[ @as string ]])
+    theme = get_theme(config.user.theme --[[ @as string ]])
   elseif type(config.user.theme) == "table" then
-    theme = vim.tbl_deep_extend("force", load_theme(), config.user.theme)
+    theme = vim.tbl_deep_extend("force", get_theme(), config.user.theme)
   end
 
+  vim.api.nvim_set_hl(0, M.highlights.normal, theme.normal)
   for key, name in pairs(M.highlights) do
+    if key == "normal" then
+      goto continue
+    end
+
+    -- re-defines devicon highlights
+    if vim.startswith(key, "filetype_") then
+      vim.api.nvim_set_hl(
+        0,
+        name,
+        vim.tbl_extend(
+          "force",
+          utils.get_hl_by_name(M.highlights.normal),
+          utils.get_hl_by_name(key:gsub("^filetype_", ""))
+        )
+      )
+
+      goto continue
+    end
+
+    -- defines/re-defines the rest of the highlights
     vim.api.nvim_set_hl(
       0,
       name,
       vim.tbl_extend("force", theme.normal, theme[key])
     )
+
+    ::continue::
   end
 end
 
