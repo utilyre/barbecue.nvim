@@ -27,7 +27,7 @@ https://user-images.githubusercontent.com/91974155/208309076-00b3d5e4-e0cc-4990-
 - [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig): Dependency of
   nvim-navic.
 
-- [nvim-navic](https://github.com/smiteshp/nvim-navic): LSP
+- [nvim-navic](https://github.com/SmiteshP/nvim-navic): LSP
   `textDocument/documentSymbol` provider.
 
 - [nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons): File icon
@@ -44,7 +44,7 @@ Install barbecue and its dependencies
     "utilyre/barbecue.nvim",
     dependencies = {
       "neovim/nvim-lspconfig",
-      "smiteshp/nvim-navic",
+      "SmiteshP/nvim-navic",
       "nvim-tree/nvim-web-devicons", -- optional dependency
     },
   }
@@ -63,7 +63,7 @@ Install barbecue and its dependencies
     "utilyre/barbecue.nvim",
     requires = {
       "neovim/nvim-lspconfig",
-      "smiteshp/nvim-navic",
+      "SmiteshP/nvim-navic",
       "nvim-tree/nvim-web-devicons", -- optional dependency
     },
     after = "nvim-web-devicons", -- keep this if you're using NvChad
