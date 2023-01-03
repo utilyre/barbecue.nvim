@@ -53,7 +53,7 @@ function M.create_updater()
 end
 
 ---keeps the theme in sync with the current colorscheme
-function M.create_colorscheme_syncer()
+function M.create_colorscheme_synchronizer()
   vim.api.nvim_create_autocmd("ColorScheme", {
     group = vim.api.nvim_create_augroup(
       string.format("%s#colorscheme", PREFIX),

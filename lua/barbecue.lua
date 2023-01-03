@@ -12,7 +12,7 @@ function M.setup(cfg)
   config.apply(cfg or {})
   theme.load()
 
-  autocmd.create_colorscheme_syncer()
+  autocmd.create_colorscheme_synchronizer()
   if config.user.attach_navic then autocmd.create_navic_attacher() end
   if config.user.create_autocmd then autocmd.create_updater() end
 
