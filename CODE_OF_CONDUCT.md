@@ -95,7 +95,7 @@ return M
    repository
 
    ```bash
-   git clone --branch=dev https://github.com/[user]/barbecue.nvim.git
+   git clone https://github.com/[user]/barbecue.nvim.git
    ```
 
 2. Change your config so that neovim will load your locally cloned plugin
@@ -119,7 +119,7 @@ return M
     })
     ```
 
-3. Create feature branch and do stuff
+3. Create a feature branch and do what you want to do
 
    ```bash
    git checkout -b feature/[pr-subject]
@@ -146,8 +146,6 @@ return M
 
 - Use feature branch.
 
-- Base your feature branch off of `dev` branch.
-
 - Title PRs the same way as commit headers.
 
 - Adopt [Karma](https://karma-runner.github.io/latest/dev/git-commit-msg.html)'s
@@ -155,28 +153,12 @@ return M
 
 ## FAQ
 
-- What if I accidentally create a branch based on `main`?
+- How can I keep my branch up to date with `main`?
 
-  1. Change branch from `main` to `dev` on GitHub web.
-
-  2. Rebase your branch towards `dev`
+  1. Rebase towards `main`
 
      ```bash
-     git rebase remotes/origin/dev
-     ```
-
-  3. Force push
-
-     ```bash
-     git push -f
-     ```
-
-- How can I keep my branch up to date with `dev`?
-
-  1. Rebase towards `dev`
-
-     ```bash
-     git rebase dev
+     git rebase main
      ```
 
   2. Force push
