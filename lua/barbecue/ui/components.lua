@@ -20,8 +20,7 @@ local function get_file_icon(filename, filetype)
   local devicons_icon, devicons_highlight =
     devicons.get_icon(basename, extension, { default = false })
   if devicons_icon == nil then
-    devicons_icon, devicons_highlight =
-      devicons.get_icon_by_filetype(filetype, { default = true })
+    devicons_icon, devicons_highlight = devicons.get_icon_by_filetype(filetype)
     if devicons_icon == nil then return nil end
   end
 
