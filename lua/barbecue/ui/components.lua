@@ -9,16 +9,21 @@ local M = {}
 
 ---returns and caches the icon of `filename`
 ---@param filename string
+---@param filetype string
 ---@return barbecue.Entry.icon|nil
-local function get_file_icon(filename)
+local function get_file_icon(filename, filetype)
   if not devicons_ok then return nil end
 
   local basename = vim.fn.fnamemodify(filename, ":t")
   local extension = vim.fn.fnamemodify(filename, ":e")
 
   local devicons_icon, devicons_highlight =
-    devicons.get_icon(basename, extension, { default = true })
-  if devicons_icon == nil or devicons_highlight == nil then return nil end
+    devicons.get_icon(basename, extension, { default = false })
+  if devicons_icon == nil then
+    devicons_icon, devicons_highlight =
+      devicons.get_icon_by_filetype(filetype, { default = true })
+    if devicons_icon == nil then return nil end
+  end
 
   local key = string.format("filetype_%s", devicons_highlight)
   if theme.highlights[key] == nil then
@@ -108,7 +113,7 @@ function M.get_basename(winnr, bufnr)
       highlight = theme.highlights.modified,
     }
   elseif devicons_ok then
-    icon = get_file_icon(filename)
+    icon = get_file_icon(filename, vim.bo[bufnr].filetype)
   end
 
   return Entry.new(
