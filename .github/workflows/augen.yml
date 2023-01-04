@@ -11,9 +11,11 @@ jobs:
     runs-on: ubuntu-22.04
     permissions:
       contents: write
+
     steps:
       - name: Checkout the latest commit
         uses: actions/checkout@v3
+
       - name: Generate vimdoc
         uses: kdheepak/panvimdoc@v2.7.1
         with:
@@ -21,6 +23,7 @@ jobs:
           description: A VS Code like winbar for Neovim
           version: NVIM v0.8.0
           pandoc: README.md
+
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
