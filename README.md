@@ -270,4 +270,4 @@ several things you should be aware of.
 
 ## 👥 Contribution
 
-See [Code of Conduct](/CODEOFCONDUCT.md).
+See [Contributing](/CONTRIBUTING.md).
