@@ -116,9 +116,8 @@ function M.get_file_icon(filename, filetype)
   local icons = devicons.get_icons()
   local icon = icons[basename] or icons[extension]
   if icon == nil then
-    -- FIXME: respect devicons' default_icon
     local name = devicons.get_icon_name_by_filetype(filetype)
-    icon = icons[name]
+    icon = icons[name] or devicons.get_default_icon()
     if icon == nil then return nil end
   end
 
