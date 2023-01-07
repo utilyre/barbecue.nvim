@@ -1,6 +1,5 @@
 local devicons_ok, devicons = pcall(require, "nvim-web-devicons")
 local config = require("barbecue.config")
-local utils = require("barbecue.utils")
 local default = require("barbecue.theme.default")
 
 local M = {}
