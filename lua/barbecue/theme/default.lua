@@ -1,99 +1,55 @@
 local utils = require("barbecue.utils")
 
+---returns `attr` of the highlight that is named `name`
+---@param name string
+---@param attr string
+---@return table
+local function hl(name, attr)
+  if attr == "bg" then attr = "background" end
+  if attr == "fg" then attr = "foreground" end
+
+  return utils.get_hl_by_name(name)[attr]
+end
+
 ---@alias barbecue.Theme table<string, table>
 ---@type barbecue.Theme
 local M = {
-  normal = {
-    background = utils.get_hl_by_name("SignColumn").background,
-    foreground = utils.get_hl_by_name("Normal").foreground,
-  },
+  normal = { bg = hl("SignColumn", "bg"), fg = hl("Normal", "fg") },
 
-  ellipsis = { foreground = utils.get_hl_by_name("Conceal").foreground },
-  separator = { foreground = utils.get_hl_by_name("Conceal").foreground },
-  modified = { foreground = utils.get_hl_by_name("@string").foreground },
+  ellipsis = { fg = hl("Conceal", "fg") },
+  separator = { fg = hl("Conceal", "fg") },
+  modified = { fg = hl("@string", "fg") },
 
-  dirname = { foreground = utils.get_hl_by_name("Conceal").foreground },
+  dirname = { fg = hl("Conceal", "fg") },
   basename = { bold = true },
   context = {},
 
-  context_file = {
-    foreground = utils.get_hl_by_name("@namespace").foreground,
-  },
-  context_module = {
-    foreground = utils.get_hl_by_name("@namespace").foreground,
-  },
-  context_namespace = {
-    foreground = utils.get_hl_by_name("@namespace").foreground,
-  },
-  context_package = {
-    foreground = utils.get_hl_by_name("@namespace").foreground,
-  },
-  context_class = {
-    foreground = utils.get_hl_by_name("@class").foreground,
-  },
-  context_method = {
-    foreground = utils.get_hl_by_name("@method").foreground,
-  },
-  context_property = {
-    foreground = utils.get_hl_by_name("@property").foreground,
-  },
-  context_field = {
-    foreground = utils.get_hl_by_name("@field").foreground,
-  },
-  context_constructor = {
-    foreground = utils.get_hl_by_name("@constructor").foreground,
-  },
-  context_enum = {
-    foreground = utils.get_hl_by_name("@enum").foreground,
-  },
-  context_interface = {
-    foreground = utils.get_hl_by_name("@interface").foreground,
-  },
-  context_function = {
-    foreground = utils.get_hl_by_name("@function").foreground,
-  },
-  context_variable = {
-    foreground = utils.get_hl_by_name("@variable").foreground,
-  },
-  context_constant = {
-    foreground = utils.get_hl_by_name("@constant").foreground,
-  },
-  context_string = {
-    foreground = utils.get_hl_by_name("@string").foreground,
-  },
-  context_number = {
-    foreground = utils.get_hl_by_name("@number").foreground,
-  },
-  context_boolean = {
-    foreground = utils.get_hl_by_name("@boolean").foreground,
-  },
-  context_array = {
-    foreground = utils.get_hl_by_name("@struct").foreground,
-  },
-  context_object = {
-    foreground = utils.get_hl_by_name("@struct").foreground,
-  },
-  context_key = {
-    foreground = utils.get_hl_by_name("@variable").foreground,
-  },
-  context_null = {
-    foreground = utils.get_hl_by_name("@keyword").foreground,
-  },
-  context_enum_member = {
-    foreground = utils.get_hl_by_name("@enumMember").foreground,
-  },
-  context_struct = {
-    foreground = utils.get_hl_by_name("@struct").foreground,
-  },
-  context_event = {
-    foreground = utils.get_hl_by_name("@event").foreground,
-  },
-  context_operator = {
-    foreground = utils.get_hl_by_name("@operator").foreground,
-  },
-  context_type_parameter = {
-    foreground = utils.get_hl_by_name("@typeParameter").foreground,
-  },
+  context_file = { fg = hl("@namespace", "fg") },
+  context_module = { fg = hl("@namespace", "fg") },
+  context_namespace = { fg = hl("@namespace", "fg") },
+  context_package = { fg = hl("@namespace", "fg") },
+  context_class = { fg = hl("@class", "fg") },
+  context_method = { fg = hl("@method", "fg") },
+  context_property = { fg = hl("@property", "fg") },
+  context_field = { fg = hl("@field", "fg") },
+  context_constructor = { fg = hl("@constructor", "fg") },
+  context_enum = { fg = hl("@enum", "fg") },
+  context_interface = { fg = hl("@interface", "fg") },
+  context_function = { fg = hl("@function", "fg") },
+  context_variable = { fg = hl("@variable", "fg") },
+  context_constant = { fg = hl("@constant", "fg") },
+  context_string = { fg = hl("@string", "fg") },
+  context_number = { fg = hl("@number", "fg") },
+  context_boolean = { fg = hl("@boolean", "fg") },
+  context_array = { fg = hl("@struct", "fg") },
+  context_object = { fg = hl("@struct", "fg") },
+  context_key = { fg = hl("@variable", "fg") },
+  context_null = { fg = hl("@keyword", "fg") },
+  context_enum_member = { fg = hl("@enumMember", "fg") },
+  context_struct = { fg = hl("@struct", "fg") },
+  context_event = { fg = hl("@event", "fg") },
+  context_operator = { fg = hl("@operator", "fg") },
+  context_type_parameter = { fg = hl("@typeParameter", "fg") },
 }
 
 return M
