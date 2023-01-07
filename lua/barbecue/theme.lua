@@ -5,6 +5,9 @@ local default = require("barbecue.theme.default")
 
 local M = {}
 
+---@type barbecue.Theme|nil
+local current_theme
+
 ---an abstraction layer for highlight groups
 M.highlights = {
   normal = "barbecue_normal",
@@ -45,6 +48,9 @@ M.highlights = {
   context_type_parameter = "barbecue_context_type_parameter",
 }
 
+---@type { name: string, icon: string, color: string }[]
+local file_icons = {}
+
 ---loads theme from module `barbecue.theme` by `name`
 ---@param name string?
 ---@return barbecue.Theme
@@ -79,12 +85,21 @@ function M.load()
     theme = vim.tbl_deep_extend("force", get_theme(), config.user.theme)
   end
   normalize_theme(theme)
+  current_theme = theme
 
   for key, name in pairs(M.highlights) do
     vim.api.nvim_set_hl(
       0,
       name,
       vim.tbl_extend("force", theme.normal, theme[key])
+    )
+  end
+
+  for _, icon in pairs(file_icons) do
+    vim.api.nvim_set_hl(
+      0,
+      string.format("barbecue_fi_%s", icon.name),
+      vim.tbl_extend("force", theme.normal, { foreground = icon.color })
     )
   end
 end
@@ -99,31 +114,33 @@ function M.get_file_icon(filename, filetype)
   local basename = vim.fn.fnamemodify(filename, ":t")
   local extension = vim.fn.fnamemodify(filename, ":e")
 
-  local devicons_icon, devicons_highlight =
-    devicons.get_icon(basename, extension, { default = false })
-  if devicons_icon == nil then
-    devicons_icon, devicons_highlight = devicons.get_icon_by_filetype(filetype)
-    if devicons_icon == nil then return nil end
+  local icons = devicons.get_icons()
+  local icon = icons[basename] or icons[extension]
+  if icon == nil then
+    -- FIXME: respect devicons' default_icon
+    local name = devicons.get_icon_name_by_filetype(filetype)
+    icon = icons[name]
+    if icon == nil then return nil end
   end
 
-  local key = string.format("filetype_%s", devicons_highlight)
-  if M.highlights[key] == nil then
-    M.highlights[key] = string.format("barbecue_%s", key)
+  local highlight = string.format("barbecue_fi_%s", icon.name)
+  if file_icons[icon.name] == nil then
+    file_icons[icon.name] = icon
 
     vim.api.nvim_set_hl(
       0,
-      M.highlights[key],
+      highlight,
       vim.tbl_extend(
         "force",
-        utils.get_hl_by_name(M.highlights.normal),
-        utils.get_hl_by_name(devicons_highlight)
+        current_theme ~= nil and current_theme.normal or {},
+        { foreground = icon.color }
       )
     )
   end
 
   return {
-    devicons_icon,
-    highlight = M.highlights[key],
+    icon.icon,
+    highlight = highlight,
   }
 end
 
