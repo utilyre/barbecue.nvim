@@ -1,0 +1,21 @@
+name: Continuous Integration
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  formatting:
+    name: Formatting
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout the latest commit
+        uses: actions/checkout@v3
+
+      - name: Check formatting
+        uses: johnnymorganz/stylua-action@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          version: v0.15.3
+          args: --check .
