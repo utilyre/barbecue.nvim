@@ -111,7 +111,7 @@ function M.get_basename(winnr, bufnr)
       config.user.symbols.modified,
       highlight = theme.highlights.modified,
     }
-  elseif devicons_ok then
+  else
     icon = get_file_icon(filename, vim.bo[bufnr].filetype)
   end
 
