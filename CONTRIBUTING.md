@@ -125,8 +125,6 @@ return M
    git checkout -b feature/[pr-subject]
    # or
    git checkout -b bugfix/[pr-subject]
-   # or
-   git checkout -b hotfix/[pr-subject]
    ```
 
 ## Development Tools
