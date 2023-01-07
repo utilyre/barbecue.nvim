@@ -1,6 +1,5 @@
 local config = require("barbecue.config")
 local utils = require("barbecue.utils")
-local default = require("barbecue.theme.default")
 
 local M = {}
 
@@ -49,10 +48,39 @@ M.highlights = {
 ---@return barbecue.Theme
 local function get_theme(name)
   name = name or vim.g.colors_name or ""
-  local theme_ok, theme = pcall(require, "barbecue.theme." .. name)
-  if theme_ok then return theme end
 
-  return default
+  ---@type string[]
+  local found_files = {}
+  utils.tbl_merge(
+    found_files,
+    vim.api.nvim_get_runtime_file(
+      string.format("lua/barbecue/theme/%s.lua", name),
+      true
+    ),
+    vim.api.nvim_get_runtime_file(
+      string.format("lua/barbecue/theme/%s/init.lua", name),
+      true
+    )
+  )
+
+  if #found_files == 0 then
+    return dofile(
+      vim.api.nvim_get_runtime_file("lua/barbecue/theme/default.lua", false)[1]
+    )
+  end
+
+  local config_path = vim.fn.stdpath("config")
+  table.sort(found_files, function(a, b)
+    return vim.startswith(a, config_path) or not vim.startswith(b, config_path)
+  end)
+
+  for _, found_file in ipairs(found_files) do
+    if not found_file:find("barbecue.nvim/lua/barbecue") then
+      return dofile(found_file)
+    end
+  end
+
+  return dofile(found_files[1])
 end
 
 ---normalizes `theme` by expanding alias keys (e.g. `fg` -> `foreground`)
