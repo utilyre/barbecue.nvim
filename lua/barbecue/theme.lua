@@ -55,6 +55,18 @@ local function get_theme(name)
   return default
 end
 
+---normalizes `theme` by expanding alias keys (e.g. `fg` -> `foreground`)
+---@param theme barbecue.Theme
+local function normalize_theme(theme)
+  for _, value in pairs(theme) do
+    value.background = value.background or value.bg
+    value.foreground = value.foreground or value.fg
+
+    value.bg = nil
+    value.fg = nil
+  end
+end
+
 ---defines highlight groups according to `config.user.theme`
 function M.load()
   local theme
@@ -65,13 +77,9 @@ function M.load()
   elseif type(config.user.theme) == "table" then
     theme = vim.tbl_deep_extend("force", get_theme(), config.user.theme)
   end
+  normalize_theme(theme)
 
-  vim.api.nvim_set_hl(0, M.highlights.normal, theme.normal)
   for key, name in pairs(M.highlights) do
-    if key == "normal" then
-      goto continue
-    end
-
     -- re-defines devicon highlights
     if vim.startswith(key, "filetype_") then
       vim.api.nvim_set_hl(
@@ -79,7 +87,7 @@ function M.load()
         name,
         vim.tbl_extend(
           "force",
-          utils.get_hl_by_name(M.highlights.normal),
+          theme.normal,
           utils.get_hl_by_name(key:gsub("^filetype_", ""))
         )
       )
