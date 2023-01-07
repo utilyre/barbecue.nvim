@@ -1,3 +1,4 @@
+local devicons_ok, devicons = pcall(require, "nvim-web-devicons")
 local config = require("barbecue.config")
 local utils = require("barbecue.utils")
 local default = require("barbecue.theme.default")
@@ -86,6 +87,44 @@ function M.load()
       vim.tbl_extend("force", theme.normal, theme[key])
     )
   end
+end
+
+---returns and caches the icon of `filename`
+---@param filename string
+---@param filetype string
+---@return barbecue.Entry.icon|nil
+function M.get_file_icon(filename, filetype)
+  if not devicons_ok then return nil end
+
+  local basename = vim.fn.fnamemodify(filename, ":t")
+  local extension = vim.fn.fnamemodify(filename, ":e")
+
+  local devicons_icon, devicons_highlight =
+    devicons.get_icon(basename, extension, { default = false })
+  if devicons_icon == nil then
+    devicons_icon, devicons_highlight = devicons.get_icon_by_filetype(filetype)
+    if devicons_icon == nil then return nil end
+  end
+
+  local key = string.format("filetype_%s", devicons_highlight)
+  if M.highlights[key] == nil then
+    M.highlights[key] = string.format("barbecue_%s", key)
+
+    vim.api.nvim_set_hl(
+      0,
+      M.highlights[key],
+      vim.tbl_extend(
+        "force",
+        utils.get_hl_by_name(M.highlights.normal),
+        utils.get_hl_by_name(devicons_highlight)
+      )
+    )
+  end
+
+  return {
+    devicons_icon,
+    highlight = M.highlights[key],
+  }
 end
 
 return M
