@@ -108,7 +108,11 @@ local function build_winbar(entries, custom_section)
   end
 
   return winbar
-    .. string.format("%%#%s#%%=%%#WinBar#", theme.highlights.normal)
+    .. string.format(
+      "%%#%s#%%=%%#%s#",
+      theme.highlights.normal,
+      theme.highlights.normal
+    )
     .. custom_section
 end
 
