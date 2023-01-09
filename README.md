@@ -82,7 +82,7 @@ several things you should be aware of.
 
 ### Commands
 
-- Hide/Show/Toggle winbar
+#### Hide/Show/Toggle winbar
 
   ```vim
   Barbecue {hide,show,toggle}
@@ -90,25 +90,25 @@ several things you should be aware of.
 
 ### API
 
-- Hide/Show/Toggle winbar
+#### Hide/Show/Toggle winbar
 
   ```lua
   require("barbecue.ui").toggle([false|true])
   ```
 
-- Update winbar in a single window
+#### Update winbar in a single window
 
   ```lua
   require("barbecue.ui").update([winnr])
   ```
 
-- Navigate to an entry by the given index
+#### Navigate to an entry by the given index
 
   ```lua
   require("barbecue.ui").navigate(index --[[ negative values begin from the end ]], [winnr])
   ```
 
-- Get winbar entries in the given window
+#### Get winbar entries in the given window
 
   ```lua
   ---@type barbecue.Entry[]|nil
@@ -117,7 +117,7 @@ several things you should be aware of.
 
 ## 🍴 Recipes
 
-- Gain better performance when moving the cursor around
+### Gain better performance when moving the cursor around
 
   ```lua
   require("barbecue").setup({
@@ -142,7 +142,7 @@ several things you should be aware of.
   })
   ```
 
-- Customize theme
+### Customize theme
 
   You can pass a `theme` table to the `setup` function and override the default
   theme. This `theme` table links each highlight to its value (value is the same
@@ -197,7 +197,7 @@ several things you should be aware of.
   })
   ```
 
-- Get nvim-navic working with multiple tabs ([#35](/../../issues/35))
+### Get nvim-navic working with multiple tabs ([#35](/../../issues/35))
 
   ```lua
   require("barbecue").setup({
