@@ -47,7 +47,7 @@ M.highlights = {
   context_type_parameter = "barbecue_context_type_parameter",
 }
 
----@type { name: string, icon: string, color: string }[]
+---@type { highlight: string, color: string }[]
 local file_icons = {}
 
 ---loads theme from module `barbecue.theme` by `name`
@@ -97,7 +97,7 @@ function M.load()
   for _, icon in pairs(file_icons) do
     vim.api.nvim_set_hl(
       0,
-      string.format("barbecue_fi_%s", icon.name),
+      icon.highlight,
       vim.tbl_extend("force", theme.normal, { foreground = icon.color })
     )
   end
@@ -121,9 +121,12 @@ function M.get_file_icon(filename, filetype)
     if icon == nil then return nil end
   end
 
-  local highlight = string.format("barbecue_fi_%s", icon.name)
+  local highlight = string.format("barbecue_fileicon_%s", icon.name)
   if file_icons[icon.name] == nil then
-    file_icons[icon.name] = icon
+    file_icons[icon.name] = {
+      highlight = highlight,
+      color = icon.color,
+    }
 
     vim.api.nvim_set_hl(
       0,
