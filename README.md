@@ -120,6 +120,9 @@ several things you should be aware of.
 - Gain better performance when moving the cursor around
 
   ```lua
+  -- triggers CursorHold event faster
+  vim.opt.updatetime = 200
+
   require("barbecue").setup({
     create_autocmd = false, -- prevent barbecue from updating itself automatically
   })
