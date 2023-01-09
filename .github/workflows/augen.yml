@@ -19,6 +19,9 @@ jobs:
       - name: Ensure doc/ exists
         run: mkdir -p doc
 
+      - name: Remove emojis from headings
+        run: sed -i "s/^## ./##/" README.md
+
       - name: Generate vimdoc
         uses: kdheepak/panvimdoc@v2.7.1
         with:
