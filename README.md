@@ -328,4 +328,4 @@ several things you should be aware of.
 
 ## 👥 Contribution
 
-See [Contributing](/CONTRIBUTING.md).
+See [CONTRIBUTING.md](/CONTRIBUTING.md).
