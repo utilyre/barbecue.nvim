@@ -1,49 +1,9 @@
 local navic = require("nvim-navic")
-local devicons_ok, devicons = pcall(require, "nvim-web-devicons")
 local config = require("barbecue.config")
 local theme = require("barbecue.theme")
 local Entry = require("barbecue.ui.entry")
-local utils = require("barbecue.utils")
 
 local M = {}
-
----returns and caches the icon of `filename`
----@param filename string
----@param filetype string
----@return barbecue.Entry.icon|nil
-local function get_file_icon(filename, filetype)
-  if not devicons_ok then return nil end
-
-  local basename = vim.fn.fnamemodify(filename, ":t")
-  local extension = vim.fn.fnamemodify(filename, ":e")
-
-  local devicons_icon, devicons_highlight =
-    devicons.get_icon(basename, extension, { default = false })
-  if devicons_icon == nil then
-    devicons_icon, devicons_highlight = devicons.get_icon_by_filetype(filetype)
-    if devicons_icon == nil then return nil end
-  end
-
-  local key = string.format("filetype_%s", devicons_highlight)
-  if theme.highlights[key] == nil then
-    theme.highlights[key] = string.format("barbecue_%s", key)
-
-    vim.api.nvim_set_hl(
-      0,
-      theme.highlights[key],
-      vim.tbl_extend(
-        "force",
-        utils.get_hl_by_name(theme.highlights.normal),
-        utils.get_hl_by_name(devicons_highlight)
-      )
-    )
-  end
-
-  return {
-    devicons_icon,
-    highlight = theme.highlights[key],
-  }
-end
 
 ---returns dirname of `bufnr`
 ---@param bufnr number
@@ -112,7 +72,7 @@ function M.get_basename(winnr, bufnr)
       highlight = theme.highlights.modified,
     }
   else
-    icon = get_file_icon(filename, vim.bo[bufnr].filetype)
+    icon = theme.get_file_icon(filename, vim.bo[bufnr].filetype)
   end
 
   return Entry.new(

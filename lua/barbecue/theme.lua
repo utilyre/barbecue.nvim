@@ -1,7 +1,11 @@
+local devicons_ok, devicons = pcall(require, "nvim-web-devicons")
 local config = require("barbecue.config")
 local utils = require("barbecue.utils")
 
 local M = {}
+
+---@type barbecue.Theme|nil
+local current_theme
 
 ---an abstraction layer for highlight groups
 M.highlights = {
@@ -42,6 +46,9 @@ M.highlights = {
   context_operator = "barbecue_context_operator",
   context_type_parameter = "barbecue_context_type_parameter",
 }
+
+---@type { highlight: string, color: string }[]
+local file_icons = {}
 
 ---loads theme from module `barbecue.theme` by `name`
 ---@param name string?
@@ -106,32 +113,65 @@ function M.load()
     theme = vim.tbl_deep_extend("force", get_theme(), config.user.theme)
   end
   normalize_theme(theme)
+  current_theme = theme
 
   for key, name in pairs(M.highlights) do
-    -- re-defines devicon highlights
-    if vim.startswith(key, "filetype_") then
-      vim.api.nvim_set_hl(
-        0,
-        name,
-        vim.tbl_extend(
-          "force",
-          theme.normal,
-          utils.get_hl_by_name(key:gsub("^filetype_", ""))
-        )
-      )
-
-      goto continue
-    end
-
-    -- defines/re-defines the rest of the highlights
     vim.api.nvim_set_hl(
       0,
       name,
       vim.tbl_extend("force", theme.normal, theme[key])
     )
-
-    ::continue::
   end
+
+  for _, icon in pairs(file_icons) do
+    vim.api.nvim_set_hl(
+      0,
+      icon.highlight,
+      vim.tbl_extend("force", theme.normal, { foreground = icon.color })
+    )
+  end
+end
+
+---returns and caches the icon of `filename`
+---@param filename string
+---@param filetype string
+---@return barbecue.Entry.icon|nil
+function M.get_file_icon(filename, filetype)
+  if not devicons_ok then return nil end
+
+  local basename = vim.fn.fnamemodify(filename, ":t")
+  local extension = vim.fn.fnamemodify(filename, ":e")
+
+  local icons = devicons.get_icons()
+  local icon = icons[basename] or icons[extension]
+  if icon == nil then
+    local name = devicons.get_icon_name_by_filetype(filetype)
+    icon = icons[name] or devicons.get_default_icon()
+    if icon == nil then return nil end
+  end
+
+  local highlight = string.format("barbecue_fileicon_%s", icon.name)
+  if file_icons[icon.name] == nil then
+    file_icons[icon.name] = {
+      highlight = highlight,
+      color = icon.color,
+    }
+
+    vim.api.nvim_set_hl(
+      0,
+      highlight,
+      vim.tbl_extend(
+        "force",
+        current_theme ~= nil and current_theme.normal or {},
+        { foreground = icon.color }
+      )
+    )
+  end
+
+  return {
+    icon.icon,
+    highlight = highlight,
+  }
 end
 
 return M
