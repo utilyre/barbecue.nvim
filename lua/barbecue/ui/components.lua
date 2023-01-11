@@ -170,19 +170,22 @@ function M.get_context(winnr, bufnr)
   local nestings = navic.get_data(bufnr)
   if nestings == nil then return {} end
 
-  return vim.tbl_map(function(nesting)
-    return Entry.new(
-      {
-        nesting.name,
-        highlight = theme.highlights.context,
-      },
-      config.user.kinds == false and nil or get_kind_icon(nesting.kind),
-      {
-        win = winnr,
-        pos = { nesting.scope.start.line, nesting.scope.start.character },
-      }
-    )
-  end, nestings)
+  return vim.tbl_map(
+    function(nesting)
+      return Entry.new(
+        {
+          nesting.name,
+          highlight = theme.highlights.context,
+        },
+        config.user.kinds == false and nil or get_kind_icon(nesting.kind),
+        {
+          win = winnr,
+          pos = { nesting.scope.start.line, nesting.scope.start.character },
+        }
+      )
+    end,
+    nestings
+  )
 end
 
 return M

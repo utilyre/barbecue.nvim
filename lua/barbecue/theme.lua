@@ -77,9 +77,13 @@ local function get_theme(name)
   end
 
   local config_path = vim.fn.stdpath("config")
-  table.sort(found_files, function(a, b)
-    return vim.startswith(a, config_path) or not vim.startswith(b, config_path)
-  end)
+  table.sort(
+    found_files,
+    function(a, b)
+      return vim.startswith(a, config_path)
+        or not vim.startswith(b, config_path)
+    end
+  )
 
   for _, found_file in ipairs(found_files) do
     if not found_file:find("barbecue.nvim/lua/barbecue") then

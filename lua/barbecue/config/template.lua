@@ -32,9 +32,7 @@ local M = {
 
   ---returns a string to be shown at the end of winbar
   ---@type fun(bufnr: number): string
-  custom_section = function()
-    return ""
-  end,
+  custom_section = function() return "" end,
 
   ---`auto` uses your current colorscheme's theme or generates a theme based on it
   ---`string` is the theme name to be used (theme should be located under `barbecue.theme` module)

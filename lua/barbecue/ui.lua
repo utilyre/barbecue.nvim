@@ -181,9 +181,10 @@ function M.navigate(index, winnr)
   if entries == nil then return end
 
   ---@type barbecue.Entry[]
-  local clickable_entries = vim.tbl_filter(function(entry)
-    return entry.to ~= nil
-  end, entries)
+  local clickable_entries = vim.tbl_filter(
+    function(entry) return entry.to ~= nil end,
+    entries
+  )
   if index < -#clickable_entries or index > #clickable_entries then
     error("index out of range", 2)
   end

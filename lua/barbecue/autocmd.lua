@@ -46,9 +46,7 @@ function M.create_updater()
       string.format("%s#create_autocmd", PREFIX),
       {}
     ),
-    callback = function()
-      ui.update()
-    end,
+    callback = function() ui.update() end,
   })
 end
 
@@ -59,9 +57,7 @@ function M.create_colorscheme_synchronizer()
       string.format("%s#colorscheme", PREFIX),
       {}
     ),
-    callback = function()
-      theme.load()
-    end,
+    callback = function() theme.load() end,
   })
 end
 

@@ -38,9 +38,10 @@ local function create_barbecue_command(actions)
       local args = vim.split(line, "%s+")
       if #args ~= 2 then return {} end
 
-      return vim.tbl_filter(function(subcommand)
-        return vim.startswith(subcommand, args[2])
-      end, subcommands)
+      return vim.tbl_filter(
+        function(subcommand) return vim.startswith(subcommand, args[2]) end,
+        subcommands
+      )
     end,
   })
 end
@@ -56,15 +57,9 @@ function M.setup(cfg)
   if config.user.create_autocmd then autocmd.create_updater() end
 
   create_barbecue_command({
-    hide = function()
-      ui.toggle(false)
-    end,
-    show = function()
-      ui.toggle(true)
-    end,
-    toggle = function()
-      ui.toggle()
-    end,
+    hide = function() ui.toggle(false) end,
+    show = function() ui.toggle(true) end,
+    toggle = function() ui.toggle() end,
   })
 end
 
