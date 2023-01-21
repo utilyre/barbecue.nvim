@@ -120,11 +120,6 @@ API ~
     >
         require("barbecue.ui").navigate(index --[[ negative values begin from the end ]], [winnr])
     <
-- Get winbar entries in the given window
-    >
-        ---@type barbecue.Entry[]|nil
-        local entries = require("barbecue.ui.state").get_entries(winnr)
-    <
 
 
 RECIPES                                                     *barbecue-recipes*
