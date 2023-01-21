@@ -42,6 +42,7 @@ Install barbecue and its dependencies
   ```lua
   local spec = {
     "utilyre/barbecue.nvim",
+    version = "*",
     dependencies = {
       "neovim/nvim-lspconfig",
       "SmiteshP/nvim-navic",
@@ -61,6 +62,7 @@ Install barbecue and its dependencies
   ```lua
   use({
     "utilyre/barbecue.nvim",
+    tag = "*",
     requires = {
       "neovim/nvim-lspconfig",
       "SmiteshP/nvim-navic",
