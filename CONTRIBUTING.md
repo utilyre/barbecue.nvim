@@ -100,24 +100,24 @@ return M
 
 2. Change your config so that neovim will load your locally cloned plugin
 
-  - [lazy.nvim](https://github.com/folke/lazy.nvim)
+   - [lazy.nvim](https://github.com/folke/lazy.nvim)
 
-    ```lua
-    local spec = {
-      "utilyre/barbecue.nvim",
-      dev = true,
-      -- ...
-    }
-    ```
+     ```lua
+     local spec = {
+       "utilyre/barbecue.nvim",
+       dev = true,
+       -- ...
+     }
+     ```
 
-  - [packer.nvim](https://github.com/wbthomason/packer.nvim)
+   - [packer.nvim](https://github.com/wbthomason/packer.nvim)
 
-    ```lua
-    use({
-      "~/projects/barbecue.nvim",
-      -- ...
-    })
-    ```
+     ```lua
+     use({
+       "~/projects/barbecue.nvim",
+       -- ...
+     })
+     ```
 
 3. Create a feature branch and do what you want to do
 
