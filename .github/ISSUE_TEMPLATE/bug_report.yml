@@ -94,7 +94,9 @@ body:
   - type: textarea
     attributes:
       label: Reproduction
-      description: A percise set of instructions to expose the bug (Please keep it as few as possible).
+      description: |
+        A percise set of instructions to expose the bug.
+        Keep the steps as few and simple as possible.
       render: Markdown
       placeholder: |
         1. `nvim -u repro.lua`.
