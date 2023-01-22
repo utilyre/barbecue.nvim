@@ -9,6 +9,8 @@ local M = {}
 ---@param bufnr number
 ---@return barbecue.Entry[]
 function M.get_dirname(bufnr)
+  if not config.user.show_dirname then return {} end
+
   local filename = vim.api.nvim_buf_get_name(bufnr)
   local dirname =
     vim.fn.fnamemodify(filename, config.user.modifiers.dirname .. ":h")
