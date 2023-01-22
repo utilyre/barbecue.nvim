@@ -9,7 +9,7 @@ body:
     attributes:
       label: Requirements
       options:
-        - label: I have scammed [other issues](/../../issues) to see if this bug has already been reported.
+        - label: I have scammed [other issues](/) to see if this bug has already been reported.
           required: true
         - label: This plugin and its dependencies are up to date with the latest commit.
           required: true
