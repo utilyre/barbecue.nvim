@@ -18,8 +18,6 @@ body:
     attributes:
       label: Expected Behavior
       render: Markdown
-    validations:
-      required: true
 
   - type: textarea
     attributes:
