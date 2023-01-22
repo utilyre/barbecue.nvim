@@ -37,7 +37,9 @@ body:
   - type: textarea
     attributes:
       label: Minimal Configuration
-      description: The minimum amount of configuration needed to reproduce the bug. Save the following into `repro.lua` and apply changes from your config until exposing the bug.
+      description: |
+        The minimum amount of configuration needed to reproduce the bug.
+        Save the following into `repro.lua`, then apply changes until you get it to expose the bug you were encountering.
       render: Lua
       value: |
         local root = vim.fn.fnamemodify("./.repro", ":p")
@@ -91,7 +93,7 @@ body:
 
   - type: textarea
     attributes:
-      label: Steps to reproduce
+      label: Reproduction
       description: A percise set of instructions to expose the bug (Please keep it as few as possible).
       render: Markdown
       placeholder: |
