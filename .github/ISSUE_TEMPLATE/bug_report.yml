@@ -1,0 +1,103 @@
+name: Bug Report
+description: File a bug report
+labels:
+  - bug
+
+title: "[BUG]: "
+body:
+  - type: checkboxes
+    attributes:
+      label: Requirements
+      options:
+        - label: I have scammed [other issues](/../../issues) to see if this bug has already been reported.
+          required: true
+        - label: This plugin and its dependencies are up to date with the latest commit.
+          required: true
+
+  - type: textarea
+    attributes:
+      label: Expected Behavior
+      render: Markdown
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Actual Behavior
+      render: Markdown
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Neovim Version
+      description: Dump the output of `nvim --version` here.
+      render: plain text
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Minimal Configuration
+      description: The minimum amount of configuration needed to reproduce the bug. Save the following into `repro.lua` and apply changes from your config until exposing the bug.
+      render: Lua
+      value: |
+        local root = vim.fn.fnamemodify("./.repro", ":p")
+
+        -- set stdpaths to use .repro
+        for _, name in ipairs({ "config", "data", "state", "cache" }) do
+          vim.env[("XDG_%s_HOME"):format(name:upper())] = root .. "/" .. name
+        end
+
+        -- bootstrap lazy
+        local lazypath = root .. "/plugins/lazy.nvim"
+        if not vim.loop.fs_stat(lazypath) then
+          vim.fn.system({
+            "git",
+            "clone",
+            "--filter=blob:none",
+            "--single-branch",
+            "https://github.com/folke/lazy.nvim.git",
+            lazypath,
+          })
+        end
+        vim.opt.runtimepath:prepend(lazypath)
+
+        -- install plugins
+        local plugins = {
+          -- do not remove the colorscheme!
+          "folke/tokyonight.nvim",
+
+          {
+            "utilyre/barbecue.nvim",
+            dependencies = {
+              "neovim/nvim-lspconfig",
+              "SmiteshP/nvim-navic",
+              "nvim-tree/nvim-web-devicons",
+            },
+            config = function() 
+              require("barbecue").setup()
+            end,
+          },
+        }
+        require("lazy").setup(plugins, {
+          root = root .. "/plugins",
+        })
+
+        -- add anything else here
+        vim.opt.termguicolors = true
+        -- do not remove the colorscheme!
+        vim.cmd([[colorscheme tokyonight]])
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Steps to reproduce
+      description: A percise set of instructions to expose the bug (Please keep it as few as possible).
+      render: Markdown
+      placeholder: |
+        1. `nvim -u repro.lua`.
+        2. ...
+    validations:
+      required: true
