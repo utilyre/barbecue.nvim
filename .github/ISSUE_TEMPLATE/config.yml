@@ -1,5 +1,9 @@
 blank_issues_enabled: false
 contact_links:
+  - name: Idea
+    about: Share your idea.
+    url: https://github.com/utilyre/barbecue.nvim/discussions/new?category=ideas
+
   - name: Q&A
     about: Ask a question.
     url: https://github.com/utilyre/barbecue.nvim/discussions/new?category=q-a
