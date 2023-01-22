@@ -1,0 +1,27 @@
+name: Continuous Deployment
+
+on:
+  push:
+    tags:
+      - v*.*.*
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Generate change log
+        id: changelog
+        uses: mikepenz/release-changelog-builder-action@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create new release
+        if: ${{ steps.changelog.outputs.failed == false }}
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          name: ${{ github.ref_name }}-stable
+          body: ${{ steps.changelog.outputs.changelog }}
