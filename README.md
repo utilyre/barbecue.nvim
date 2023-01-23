@@ -35,7 +35,7 @@ https://user-images.githubusercontent.com/91974155/208309076-00b3d5e4-e0cc-4990-
 
 ## 📦 Installation
 
-Install barbecue and its dependencies
+**NOTE**: Make sure barbecue loads _after_ your colorscheme.
 
 - [lazy.nvim](https://github.com/folke/lazy.nvim)
 
@@ -74,8 +74,6 @@ Install barbecue and its dependencies
     end,
   })
   ```
-
-**NOTE**: Make sure barbecue loads _after_ your colorscheme.
 
 ## 🚀 Usage
 
