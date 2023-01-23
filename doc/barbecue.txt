@@ -50,7 +50,7 @@ DEPENDENCIES                                           *barbecue-dependencies*
 
 INSTALLATION                                           *barbecue-installation*
 
-Install barbecue and its dependencies
+**NOTE**: Make sure barbecue loads _after_ your colorscheme.
 
 
 - lazy.nvim <https://github.com/folke/lazy.nvim>
@@ -88,8 +88,6 @@ Install barbecue and its dependencies
         })
     <
 
-
-**NOTE**: Make sure barbecue loads _after_ your colorscheme.
 
 USAGE                                                         *barbecue-usage*
 
