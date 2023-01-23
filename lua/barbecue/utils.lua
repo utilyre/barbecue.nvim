@@ -43,9 +43,9 @@ function M.get_hl_by_name(name)
     -- HACK: extract colors using string manipulation
     -- TODO: should be removed once nvim highlight APIs are fixed
     local background =
-      vim.fn.matchstr(vim.fn.execute("hi " .. name), "guibg=\\zs\\S*")
+      vim.fn.matchstr(vim.fn.execute("hi " .. name), "guibg=\\zs\\S\\k*")
     local foreground =
-      vim.fn.matchstr(vim.fn.execute("hi " .. name), "guifg=\\zs\\S*")
+      vim.fn.matchstr(vim.fn.execute("hi " .. name), "guifg=\\zs\\S\\k*")
 
     if background == "" then background = nil end
     if foreground == "" then foreground = nil end
