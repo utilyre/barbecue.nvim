@@ -24,7 +24,7 @@ https://user-images.githubusercontent.com/91974155/208309076-00b3d5e4-e0cc-4990-
 
 ## 📬 Dependencies
 
-- [NVIM v0.8+][nvim-latest]: Winbar support.
+- [NVIM v0.8+][neovim-latest]: Winbar support.
 
 - [nvim-lspconfig][nvim-lspconfig]: Dependency of nvim-navic.
 
@@ -79,8 +79,8 @@ https://user-images.githubusercontent.com/91974155/208309076-00b3d5e4-e0cc-4990-
   })
   ```
 
-- [lazy.nvim]: https://github.com/folke/lazy.nvim
-- [packer.nvim]: https://github.com/wbthomason/packer.nvim
+[lazy.nvim]: https://github.com/folke/lazy.nvim
+[packer.nvim]: https://github.com/wbthomason/packer.nvim
 
 ## 🚀 Usage
 
