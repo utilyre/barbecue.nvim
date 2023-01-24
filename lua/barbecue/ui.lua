@@ -123,22 +123,6 @@ function M.update(winnr)
   winnr = winnr or vim.api.nvim_get_current_win()
   local bufnr = vim.api.nvim_win_get_buf(winnr)
 
-  if
-    not vim.tbl_contains(config.user.include_buftypes, vim.bo[bufnr].buftype)
-    or vim.tbl_contains(config.user.exclude_filetypes, vim.bo[bufnr].filetype)
-    or vim.api.nvim_win_get_config(winnr).relative ~= ""
-  then
-    vim.wo[winnr].winbar = state.get_last_winbar(winnr)
-    state.clear(winnr)
-
-    return
-  end
-
-  if not visible then
-    vim.wo[winnr].winbar = nil
-    return
-  end
-
   vim.schedule(function()
     if
       not vim.api.nvim_buf_is_valid(bufnr)
@@ -155,7 +139,13 @@ function M.update(winnr)
 
     local winbar
     if #entries > 0 then winbar = build_winbar(entries, custom_section) end
-    vim.wo[winnr].winbar = winbar
+    if
+        vim.tbl_contains(config.user.include_buftypes, vim.bo[bufnr].buftype)
+        and not vim.tbl_contains(config.user.exclude_filetypes, vim.bo[bufnr].filetype)
+        and not vim.api.nvim_win_get_config(winnr).relative ~= ""
+    then
+      vim.wo[winnr].winbar = winbar
+    end
   end)
 end
 
