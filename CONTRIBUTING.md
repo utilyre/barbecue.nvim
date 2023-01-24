@@ -149,6 +149,9 @@ return M
 - Adopt [Karma](https://karma-runner.github.io/latest/dev/git-commit-msg.html)'s
   git commit conventions.
 
+- Consider opening a dedicated issue explaining the bug or the missing feature
+  and referring to that issue in the PR.
+
 ## FAQ
 
 - How can I keep my branch up to date with `main`?

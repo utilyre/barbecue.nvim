@@ -13,6 +13,7 @@ body:
           required: true
         - label: I'm completely sure that this feature fits into this plugin.
           required: true
+        - label: I'm willing to implement this through a PR.
 
   - type: textarea
     attributes:

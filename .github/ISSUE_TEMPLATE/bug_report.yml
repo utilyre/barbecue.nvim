@@ -13,6 +13,7 @@ body:
           required: true
         - label: This plugin and its dependencies are up to date with the latest commit.
           required: true
+        - label: I'm willing to fix this through a PR.
 
   - type: textarea
     attributes:
