@@ -115,7 +115,7 @@ several things you should be aware of.
   require("barbecue.ui").navigate(index --[[ negative values begin from the end ]], [winnr])
   ```
 
-[installation]: https://github.com/utilyre/barbecue.nvim/#-installation
+[installation]: #-installation
 [toggle]: https://github.com/utilyre/barbecue.nvim/blob/ca4339fe9470c6a71f7efb55a03049bbd2c98972/lua/barbecue/ui.lua#L164
 [update]: https://github.com/utilyre/barbecue.nvim/blob/ca4339fe9470c6a71f7efb55a03049bbd2c98972/lua/barbecue/ui.lua#L122
 [navigate]: https://github.com/utilyre/barbecue.nvim/blob/ca4339fe9470c6a71f7efb55a03049bbd2c98972/lua/barbecue/ui.lua#L176
