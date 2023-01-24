@@ -13,7 +13,7 @@ easy to do so 👌 (just requires little knowledge of lua and highlight groups).
 1. Fork the colorscheme's repository.
 
 2. Create a file at `/lua/barbecue/theme/[name].lua` (in the colorscheme plugin)
-   and copy [template](#template) inside it.
+   and copy [template][template] inside it.
 
    **NOTICE**: `[name]` is the colorscheme's name (known by neovim). An easy way
    to achieve it is by running `:lua =vim.g.colors_name` inside neovim while you
@@ -22,13 +22,16 @@ easy to do so 👌 (just requires little knowledge of lua and highlight groups).
 3. In the colorscheme plugin, find the palette module which is being consumed by
    the entire theme (usually named `colors.lua` or `palette.lua`).
 
-   Examples: [colors.lua](https://github.com/folke/tokyonight.nvim/blob/2c2287db18732c30dba6b28d95c9a62481fdbc41/lua/tokyonight/colors.lua),
-   [palette.lua](https://github.com/navarasu/onedark.nvim/blob/master/lua/onedark/palette.lua).
+   Examples: [colors.lua][tokyonight.nvim], [palette.lua][onedark.nvim].
 
    **NOTE**: Find a use case for the module you've found and see how it's being
    `require`d.
 
 4. Open the file you copied in step 2 and follow its guidelines.
+
+[template]: #template
+[tokyonight.nvim]: https://github.com/folke/tokyonight.nvim/blob/2c2287db18732c30dba6b28d95c9a62481fdbc41/lua/tokyonight/colors.lua
+[onedark.nvim]: https://github.com/navarasu/onedark.nvim/blob/master/lua/onedark/palette.lua
 
 #### Template
 
@@ -91,8 +94,7 @@ return M
 
 ## Getting Started
 
-1. [Fork](/../../fork) and clone this
-   repository
+1. [Fork][fork] and clone this repository
 
    ```bash
    git clone https://github.com/[user]/barbecue.nvim.git
@@ -100,7 +102,7 @@ return M
 
 2. Change your config so that neovim will load your locally cloned plugin
 
-   - [lazy.nvim](https://github.com/folke/lazy.nvim)
+   - [lazy.nvim][lazy.nvim]
 
      ```lua
      local spec = {
@@ -110,7 +112,7 @@ return M
      }
      ```
 
-   - [packer.nvim](https://github.com/wbthomason/packer.nvim)
+   - [packer.nvim][packer.nvim]
 
      ```lua
      use({
@@ -127,16 +129,23 @@ return M
    git checkout -b bugfix/[pr-subject]
    ```
 
+[fork]: https://github.com/utilyre/barbecue.nvim/fork
+[lazy.nvim]: https://github.com/folke/lazy.nvim
+[packer.nvim]: https://github.com/wbthomason/packer.nvim
+
 ## Development Tools
 
-- Format your code with [stylua](https://github.com/johnnymorganz/stylua).
+- Format your code with [stylua][stylua].
 
   The following command will check if everything is formatted based on the
-  [guidelines](/.stylua.toml)
+  [guidelines][guidelines]
 
   ```bash
   stylua -c .
   ```
+
+[stylua]: https://github.com/johnnymorganz/stylua
+[guidelines]: https://github.com/utilyre/barbecue.nvim/blob/main/.stylua.toml
 
 ## Best Practices
 
@@ -146,11 +155,12 @@ return M
 
 - Title PRs the same way as commit headers.
 
-- Adopt [Karma](https://karma-runner.github.io/latest/dev/git-commit-msg.html)'s
-  git commit conventions.
+- Adopt [Karma][karma]'s git commit conventions.
 
 - Consider opening a dedicated issue explaining the bug or the missing feature
   and referring to that issue in the PR.
+
+[karma]: https://karma-runner.github.io/latest/dev/git-commit-msg.html
 
 ## FAQ
 
