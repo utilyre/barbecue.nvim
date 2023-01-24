@@ -4,7 +4,7 @@ local utils = require("barbecue.utils")
 ---@param name string
 ---@return table
 local function hl(name)
-  local highlight = utils.get_hl_by_name(name)
+  local highlight = vim.api.nvim_get_hl_by_name(name, true)
   setmetatable(highlight, {
     __index = function(self, key)
       if key == "bg" then return self.background end

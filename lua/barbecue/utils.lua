@@ -28,35 +28,4 @@ function M.tbl_merge(list, ...)
   end
 end
 
----similar to nvim_get_hl_by_name but with more control
----@param name string
----@return table
-function M.get_hl_by_name(name)
-  local version = vim.version()
-  if
-    version.prerelease
-    and version.api_prerelease
-    and version.major == 0
-    and version.minor == 9
-    and version.patch == 0
-  then
-    -- HACK: extract colors using string manipulation
-    -- TODO: should be removed once nvim highlight APIs are fixed
-    local background =
-      vim.fn.matchstr(vim.fn.execute("hi " .. name), "guibg=\\zs\\S*")
-    local foreground =
-      vim.fn.matchstr(vim.fn.execute("hi " .. name), "guifg=\\zs\\S*")
-
-    if background == "" then background = nil end
-    if foreground == "" then foreground = nil end
-
-    return {
-      background = background,
-      foreground = foreground,
-    }
-  end
-
-  return vim.api.nvim_get_hl_by_name(name, true)
-end
-
 return M
