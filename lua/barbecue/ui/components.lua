@@ -154,7 +154,9 @@ local kind_to_highlight = {
 local function get_kind_icon(kind)
   local type = kind_to_type[kind]
   local highlight = kind_to_highlight[kind]
-  if type == nil or highlight == nil then return nil end
+  if type == nil or highlight == nil or config.user.kinds == false then
+    return nil
+  end
 
   return {
     config.user.kinds[kind_to_type[kind]],
@@ -179,7 +181,7 @@ function M.get_context(winnr, bufnr)
           nesting.name,
           highlight = theme.highlights.context,
         },
-        config.user.kinds == false and nil or get_kind_icon(nesting.kind),
+        get_kind_icon(nesting.kind),
         {
           win = winnr,
           pos = { nesting.scope.start.line, nesting.scope.start.character },
