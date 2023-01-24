@@ -338,6 +338,6 @@ several things you should be aware of.
 
 ## 👥 Contribution
 
-See [CONTRIBUTING.md](/CONTRIBUTING.md).
+See [CONTRIBUTING.md][contributing].
 
 [contributing]: https://github.com/utilyre/barbecue.nvim/blob/main/CONTRIBUTING.md
