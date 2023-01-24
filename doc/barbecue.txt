@@ -35,7 +35,7 @@ FEATURES                                                   *barbecue-features*
 DEPENDENCIES                                           *barbecue-dependencies*
 
 
-- [NVIM v0.8+][nvim-latest]: Winbar support.
+- NVIM v0.8+ <https://github.com/neovim/neovim/releases/latest>: Winbar support.
 - nvim-lspconfig <https://github.com/neovim/nvim-lspconfig>: Dependency of
     nvim-navic.
 - nvim-navic <https://github.com/SmiteshP/nvim-navic>: LSP
@@ -83,8 +83,6 @@ INSTALLATION                                           *barbecue-installation*
           end,
         })
     <
-
-
 
 
 USAGE                                                         *barbecue-usage*
