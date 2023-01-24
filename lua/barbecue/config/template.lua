@@ -40,6 +40,10 @@ local M = {
   ---@type "auto"|string|barbecue.Theme
   theme = "auto",
 
+  ---whether to display path to file
+  ---@type boolean
+  show_dirname = true,
+
   ---whether to replace file icon with the modified symbol when buffer is modified
   ---@type boolean
   show_modified = false,
