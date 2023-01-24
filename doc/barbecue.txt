@@ -3,6 +3,7 @@
 ==============================================================================
 Table of Contents                                 *barbecue-table-of-contents*
 
+1. barbecue.nvim                                      |barbecue-barbecue.nvim|
   - Features                                               |barbecue-features|
   - Dependencies                                       |barbecue-dependencies|
   - Installation                                       |barbecue-installation|
@@ -11,17 +12,12 @@ Table of Contents                                 *barbecue-table-of-contents*
   - Configuration                                     |barbecue-configuration|
   - Contribution                                       |barbecue-contribution|
 
-<h1 align="center">
+==============================================================================
+1. barbecue.nvim                                      *barbecue-barbecue.nvim*
 
-barbecue.nvim
-
-</h1>
-
-<p align="center">
-
-This is a VS Code like winbar that uses
-<a href="https://github.com/SmiteshP/nvim-navic">nvim-navic</a>
-in order to get LSP context from your language server.
+This is a VS Code like winbar that uses nvim-navic
+<https://github.com/SmiteshP/nvim-navic> in order to get LSP context from your
+language server.
 
 
 https://user-images.githubusercontent.com/91974155/208309076-00b3d5e4-e0cc-4990-9f55-2877fca4baa2.mp4
@@ -39,7 +35,7 @@ FEATURES                                                   *barbecue-features*
 DEPENDENCIES                                           *barbecue-dependencies*
 
 
-- NVIM v0.8+ <https://github.com/neovim/neovim/releases/latest>: Winbar support.
+- [NVIM v0.8+][nvim-latest]: Winbar support.
 - nvim-lspconfig <https://github.com/neovim/nvim-lspconfig>: Dependency of
     nvim-navic.
 - nvim-navic <https://github.com/SmiteshP/nvim-navic>: LSP
@@ -89,10 +85,13 @@ INSTALLATION                                           *barbecue-installation*
     <
 
 
+
+
 USAGE                                                         *barbecue-usage*
 
-Barbecue will work right after |barbecue-installation|, but there are several
-things you should be aware of.
+Barbecue will work right after installation
+<https://github.com/utilyre/barbecue.nvim/#-installation>, but there are
+several things you should be aware of.
 
 COMMANDS ~
 
@@ -106,15 +105,18 @@ COMMANDS ~
 API ~
 
 
-- Hide/Show/Toggle winbar
+- Hide/Show/Toggle winbar (source
+    <https://github.com/utilyre/barbecue.nvim/blob/ca4339fe9470c6a71f7efb55a03049bbd2c98972/lua/barbecue/ui.lua#L164>)
     >
         require("barbecue.ui").toggle([false|true])
     <
-- Update winbar in a single window
+- Update winbar in a single window (source
+    <https://github.com/utilyre/barbecue.nvim/blob/ca4339fe9470c6a71f7efb55a03049bbd2c98972/lua/barbecue/ui.lua#L122>)
     >
         require("barbecue.ui").update([winnr])
     <
-- Navigate to an entry by the given index
+- Navigate to an entry by the given index (source
+    <https://github.com/utilyre/barbecue.nvim/blob/ca4339fe9470c6a71f7efb55a03049bbd2c98972/lua/barbecue/ui.lua#L176>)
     >
         require("barbecue.ui").navigate(index --[[ negative values begin from the end ]], [winnr])
     <
@@ -201,7 +203,8 @@ RECIPES                                                     *barbecue-recipes*
           },
         })
     <
-- Get nvim-navic working with multiple tabs (#35 </../../issues/35>)
+- Get nvim-navic working with multiple tabs (#35
+    <https://github.com/utilyre/barbecue.nvim/issues/35>)
     >
         require("barbecue").setup({
           attach_navic = false, -- prevent barbecue from automatically attaching nvim-navic
