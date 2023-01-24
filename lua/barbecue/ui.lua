@@ -144,7 +144,12 @@ function M.update(winnr)
         and not vim.tbl_contains(config.user.exclude_filetypes, vim.bo[bufnr].filetype)
         and not vim.api.nvim_win_get_config(winnr).relative ~= ""
     then
-      vim.wo[winnr].winbar = winbar
+      if not visible then
+        vim.wo[winnr].winbar = nil
+        return
+      else
+        vim.wo[winnr].winbar = winbar
+      end
     end
   end)
 end
