@@ -131,6 +131,19 @@ function M.update(winnr)
     then
       return
     end
+      
+    if
+      not vim.tbl_contains(config.user.include_buftypes, vim.bo[bufnr].buftype)
+      or vim.tbl_contains(config.user.exclude_filetypes, vim.bo[bufnr].filetype)
+      or vim.api.nvim_win_get_config(winnr).relative ~= ""
+    then
+      return
+    end
+      
+    if not visible then
+      vim.wo[winnr].winbar = nil
+      return
+    end
 
     local custom_section = config.user.custom_section(bufnr)
     local entries =
@@ -139,18 +152,7 @@ function M.update(winnr)
 
     local winbar
     if #entries > 0 then winbar = build_winbar(entries, custom_section) end
-    if
-        vim.tbl_contains(config.user.include_buftypes, vim.bo[bufnr].buftype)
-        and not vim.tbl_contains(config.user.exclude_filetypes, vim.bo[bufnr].filetype)
-        and not vim.api.nvim_win_get_config(winnr).relative ~= ""
-    then
-      if not visible then
-        vim.wo[winnr].winbar = nil
-        return
-      else
-        vim.wo[winnr].winbar = winbar
-      end
-    end
+    vim.wo[winnr].winbar = winbar
   end)
 end
 
