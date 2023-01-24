@@ -222,103 +222,104 @@ several things you should be aware of.
 <details>
   <summary>Click to see default config</summary>
 
-  ```lua
-  {
-    ---whether to show/use navic in the winbar
-    ---@type boolean
-    show_navic = true,
+```lua
+{
+  ---whether to show/use navic in the winbar
+  ---@type boolean
+  show_navic = true,
 
-    ---whether to attach navic to language servers automatically
-    ---@type boolean
-    attach_navic = true,
+  ---whether to attach navic to language servers automatically
+  ---@type boolean
+  attach_navic = true,
 
-    ---whether to create winbar updater autocmd
-    ---@type boolean
-    create_autocmd = true,
+  ---whether to create winbar updater autocmd
+  ---@type boolean
+  create_autocmd = true,
 
-    ---buftypes to enable winbar in
-    ---@type string[]
-    include_buftypes = { "" },
+  ---buftypes to enable winbar in
+  ---@type string[]
+  include_buftypes = { "" },
 
-    ---filetypes not to enable winbar in
-    ---@type string[]
-    exclude_filetypes = { "gitcommit", "toggleterm" },
+  ---filetypes not to enable winbar in
+  ---@type string[]
+  exclude_filetypes = { "gitcommit", "toggleterm" },
 
-    modifiers = {
-      ---filename modifiers applied to dirname
-      ---@type string
-      dirname = ":~:.",
+  modifiers = {
+    ---filename modifiers applied to dirname
+    ---@type string
+    dirname = ":~:.",
 
-      ---filename modifiers applied to basename
-      ---@type string
-      basename = "",
-    },
+    ---filename modifiers applied to basename
+    ---@type string
+    basename = "",
+  },
 
-    ---returns a string to be shown at the end of winbar
-    ---@type fun(bufnr: number): string
-    custom_section = function() return "" end,
+  ---returns a string to be shown at the end of winbar
+  ---@type fun(bufnr: number): string
+  custom_section = function() return "" end,
 
-    ---`auto` uses your current colorscheme's theme or generates a theme based on it
-    ---`string` is the theme name to be used (theme should be located under `barbecue.theme` module)
-    ---`barbecue.Theme` is a table that overrides the `auto` theme detection/generation
-    ---@type "auto"|string|barbecue.Theme
-    theme = "auto",
+  ---`auto` uses your current colorscheme's theme or generates a theme based on it
+  ---`string` is the theme name to be used (theme should be located under `barbecue.theme` module)
+  ---`barbecue.Theme` is a table that overrides the `auto` theme detection/generation
+  ---@type "auto"|string|barbecue.Theme
+  theme = "auto",
 
-    ---whether to display path to file
-    ---@type boolean
-    show_dirname = true,
+  ---whether to display path to file
+  ---@type boolean
+  show_dirname = true,
 
-    ---whether to replace file icon with the modified symbol when buffer is modified
-    ---@type boolean
-    show_modified = false,
+  ---whether to replace file icon with the modified symbol when buffer is modified
+  ---@type boolean
+  show_modified = false,
 
-    symbols = {
-      ---modification indicator
-      ---@type string
-      modified = "●",
+  symbols = {
+    ---modification indicator
+    ---@type string
+    modified = "●",
 
-      ---truncation indicator
-      ---@type string
-      ellipsis = "…",
+    ---truncation indicator
+    ---@type string
+    ellipsis = "…",
 
-      ---entry separator
-      ---@type string
-      separator = "",
-    },
+    ---entry separator
+    ---@type string
+    separator = "",
+  },
 
-    ---icons for different context entry kinds
-    ---`false` to disable kind icons
-    ---@type table<string, string>|false
-    kinds = {
-      File = "",
-      Module = "",
-      Namespace = "",
-      Package = "",
-      Class = "",
-      Method = "",
-      Property = "",
-      Field = "",
-      Constructor = "",
-      Enum = "",
-      Interface = "",
-      Function = "",
-      Variable = "",
-      Constant = "",
-      String = "",
-      Number = "",
-      Boolean = "",
-      Array = "",
-      Object = "",
-      Key = "",
-      Null = "",
-      EnumMember = "",
-      Struct = "",
-      Event = "",
-      Operator = "",
-      TypeParameter = "",
-    },
-  }
-  ```
+  ---icons for different context entry kinds
+  ---`false` to disable kind icons
+  ---@type table<string, string>|false
+  kinds = {
+    File = "",
+    Module = "",
+    Namespace = "",
+    Package = "",
+    Class = "",
+    Method = "",
+    Property = "",
+    Field = "",
+    Constructor = "",
+    Enum = "",
+    Interface = "",
+    Function = "",
+    Variable = "",
+    Constant = "",
+    String = "",
+    Number = "",
+    Boolean = "",
+    Array = "",
+    Object = "",
+    Key = "",
+    Null = "",
+    EnumMember = "",
+    Struct = "",
+    Event = "",
+    Operator = "",
+    TypeParameter = "",
+  },
+}
+```
+
 </details>
 
 ## 👥 Contribution
