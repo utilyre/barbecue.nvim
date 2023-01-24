@@ -1,12 +1,15 @@
-<h1 align="center">barbecue.nvim</h1>
+<div align="center">
 
-<p align="center">
-  This is a VS Code like winbar that uses
-  <a href="https://github.com/SmiteshP/nvim-navic">nvim-navic</a>
-  in order to get LSP context from your language server.
-</p>
+# barbecue.nvim
+
+This is a VS Code like winbar that uses [nvim-navic][nvim-navic] in order to get
+LSP context from your language server.
+
+</div>
 
 https://user-images.githubusercontent.com/91974155/208309076-00b3d5e4-e0cc-4990-9f55-2877fca4baa2.mp4
+
+[nvim-navic]: https://github.com/SmiteshP/nvim-navic
 
 ## ✨ Features
 
@@ -21,23 +24,24 @@ https://user-images.githubusercontent.com/91974155/208309076-00b3d5e4-e0cc-4990-
 
 ## 📬 Dependencies
 
-- [NVIM v0.8+](https://github.com/neovim/neovim/releases/latest): Winbar
-  support.
+- [NVIM v0.8+][nvim-latest]: Winbar support.
 
-- [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig): Dependency of
-  nvim-navic.
+- [nvim-lspconfig][nvim-lspconfig]: Dependency of nvim-navic.
 
-- [nvim-navic](https://github.com/SmiteshP/nvim-navic): LSP
-  `textDocument/documentSymbol` provider.
+- [nvim-navic][nvim-navic]: LSP `textDocument/documentSymbol` provider.
 
-- [nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons): File icon
-  provider. _(optional)_
+- [nvim-web-devicons][nvim-web-devicons]: File icon provider. _(optional)_
+
+[neovim-latest]: https://github.com/neovim/neovim/releases/latest
+[nvim-lspconfig]: https://github.com/neovim/nvim-lspconfig
+[nvim-navic]: https://github.com/SmiteshP/nvim-navic
+[nvim-web-devicons]: https://github.com/nvim-tree/nvim-web-devicons
 
 ## 📦 Installation
 
 **NOTE**: Make sure barbecue loads _after_ your colorscheme.
 
-- [lazy.nvim](https://github.com/folke/lazy.nvim)
+- [lazy.nvim][lazy.nvim]
 
   ```lua
   local spec = {
@@ -57,7 +61,7 @@ https://user-images.githubusercontent.com/91974155/208309076-00b3d5e4-e0cc-4990-
   return spec
   ```
 
-- [packer.nvim](https://github.com/wbthomason/packer.nvim)
+- [packer.nvim][packer.nvim]
 
   ```lua
   use({
@@ -75,9 +79,12 @@ https://user-images.githubusercontent.com/91974155/208309076-00b3d5e4-e0cc-4990-
   })
   ```
 
+- [lazy.nvim]: https://github.com/folke/lazy.nvim
+- [packer.nvim]: https://github.com/wbthomason/packer.nvim
+
 ## 🚀 Usage
 
-Barbecue will work right after [installation](#-installation), but there are
+Barbecue will work right after [installation][installation], but there are
 several things you should be aware of.
 
 ### Commands
@@ -90,23 +97,28 @@ several things you should be aware of.
 
 ### API
 
-- Hide/Show/Toggle winbar
+- Hide/Show/Toggle winbar ([source][toggle])
 
   ```lua
   require("barbecue.ui").toggle([false|true])
   ```
 
-- Update winbar in a single window
+- Update winbar in a single window ([source][update])
 
   ```lua
   require("barbecue.ui").update([winnr])
   ```
 
-- Navigate to an entry by the given index
+- Navigate to an entry by the given index ([source][navigate])
 
   ```lua
   require("barbecue.ui").navigate(index --[[ negative values begin from the end ]], [winnr])
   ```
+
+[installation]: https://github.com/utilyre/barbecue.nvim/#-installation
+[toggle]: https://github.com/utilyre/barbecue.nvim/blob/ca4339fe9470c6a71f7efb55a03049bbd2c98972/lua/barbecue/ui.lua#L164
+[update]: https://github.com/utilyre/barbecue.nvim/blob/ca4339fe9470c6a71f7efb55a03049bbd2c98972/lua/barbecue/ui.lua#L122
+[navigate]: https://github.com/utilyre/barbecue.nvim/blob/ca4339fe9470c6a71f7efb55a03049bbd2c98972/lua/barbecue/ui.lua#L176
 
 ## 🍴 Recipes
 
@@ -193,7 +205,7 @@ several things you should be aware of.
   })
   ```
 
-- Get nvim-navic working with multiple tabs ([#35](/../../issues/35))
+- Get nvim-navic working with multiple tabs ([#35][#35])
 
   ```lua
   require("barbecue").setup({
@@ -216,6 +228,8 @@ several things you should be aware of.
     -- ...
   })
   ```
+
+[#35]: https://github.com/utilyre/barbecue.nvim/issues/35
 
 ## 🚠 Configuration
 
@@ -325,3 +339,5 @@ several things you should be aware of.
 ## 👥 Contribution
 
 See [CONTRIBUTING.md](/CONTRIBUTING.md).
+
+[contributing]: https://github.com/utilyre/barbecue.nvim/blob/main/CONTRIBUTING.md
