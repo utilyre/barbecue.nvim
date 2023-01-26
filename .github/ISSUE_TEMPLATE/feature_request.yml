@@ -19,7 +19,6 @@ body:
     attributes:
       label: Problem
       description: A comprehensive description of a problem you'd like to be solved.
-      render: Markdown
     validations:
       required: true
 
@@ -27,7 +26,6 @@ body:
     attributes:
       label: Solution Suggestion
       description: The way you'd like the problem to be solved.
-      render: Markdown
     validations:
       required: true
 

@@ -18,12 +18,10 @@ body:
   - type: textarea
     attributes:
       label: Expected Behavior
-      render: Markdown
 
   - type: textarea
     attributes:
       label: Actual Behavior
-      render: Markdown
     validations:
       required: true
 
@@ -98,7 +96,6 @@ body:
       description: |
         A percise set of instructions to expose the bug.
         Keep the steps as few and simple as possible.
-      render: Markdown
       placeholder: |
         1. `nvim -u repro.lua`.
         2. ...
