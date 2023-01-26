@@ -149,8 +149,11 @@ function M.update(winnr)
     end
 
     local custom_section = config.user.custom_section(bufnr)
-    local entries =
-      create_entries(winnr, bufnr, 2 + utils.str_len(custom_section))
+    local entries = create_entries(
+      winnr,
+      bufnr,
+      2 + utils.str_len(custom_section:gsub("%%#[^#]+#", ""))
+    )
     state.save(winnr, entries)
 
     local winbar
