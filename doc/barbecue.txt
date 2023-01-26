@@ -102,18 +102,18 @@ COMMANDS ~
 API ~
 
 
-- Hide/Show/Toggle winbar (source
-    <https://github.com/utilyre/barbecue.nvim/blob/ca4339fe9470c6a71f7efb55a03049bbd2c98972/lua/barbecue/ui.lua#L164>)
+- Hide/Show/Toggle winbar [source
+    <https://github.com/utilyre/barbecue.nvim/blob/v0.2.0/lua/barbecue/ui.lua#L164>]
     >
         require("barbecue.ui").toggle([false|true])
     <
-- Update winbar in a single window (source
-    <https://github.com/utilyre/barbecue.nvim/blob/ca4339fe9470c6a71f7efb55a03049bbd2c98972/lua/barbecue/ui.lua#L122>)
+- Update winbar in a single window [source
+    <https://github.com/utilyre/barbecue.nvim/blob/v0.2.0/lua/barbecue/ui.lua#L122>]
     >
         require("barbecue.ui").update([winnr])
     <
-- Navigate to an entry by the given index (source
-    <https://github.com/utilyre/barbecue.nvim/blob/ca4339fe9470c6a71f7efb55a03049bbd2c98972/lua/barbecue/ui.lua#L176>)
+- Navigate to an entry by the given index [source
+    <https://github.com/utilyre/barbecue.nvim/blob/v0.2.0/lua/barbecue/ui.lua#L176>]
     >
         require("barbecue.ui").navigate(index --[[ negative values begin from the end ]], [winnr])
     <
