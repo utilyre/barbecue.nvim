@@ -97,19 +97,19 @@ several things you should be aware of.
 
 ### API
 
-- Hide/Show/Toggle winbar ([source][toggle])
+- Hide/Show/Toggle winbar [[source][toggle]]
 
   ```lua
   require("barbecue.ui").toggle([false|true])
   ```
 
-- Update winbar in a single window ([source][update])
+- Update winbar in a single window [[source][update]]
 
   ```lua
   require("barbecue.ui").update([winnr])
   ```
 
-- Navigate to an entry by the given index ([source][navigate])
+- Navigate to an entry by the given index [[source][navigate]]
 
   ```lua
   require("barbecue.ui").navigate(index --[[ negative values begin from the end ]], [winnr])
