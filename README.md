@@ -129,7 +129,7 @@ you've seen in the select menu of raw `:Barbecue`.
   -- navigate to the last entry
   require("barbecue.ui").navigate(-1)
 
-  -- just like before but on a given window
+  -- just like before but on the given window
   require("barbecue.ui").navigate(index, winnr)
   ```
 
