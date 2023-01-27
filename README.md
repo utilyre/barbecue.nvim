@@ -110,7 +110,7 @@ you've seen in the select menu of raw `:Barbecue`.
   require("barbecue.ui").toggle()
   ```
 
-- Update barbecue (e.g. in an autocmd) [[source]][update]
+- Updates barbecue (e.g. in an autocmd) [[source]][update]
 
   ```lua
   -- update the current window's winbar
@@ -120,7 +120,7 @@ you've seen in the select menu of raw `:Barbecue`.
   require("barbecue.ui").update(winnr)
   ```
 
-- Navigate to entry [[source]][navigate]
+- Navigates to entry [[source]][navigate]
 
   ```lua
   -- navigate to the second entry
