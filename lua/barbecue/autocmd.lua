@@ -6,15 +6,14 @@ local theme = require("barbecue.theme")
 
 local M = {}
 
-local PREFIX = "barbecue"
+local GROUP_NAVIC_ATTACHER = "barbecue.navic_attacher"
+local GROUP_UPDATER = "barbecue.updater"
+local GROUP_COLORSCHEME_SYNCHRONIZER = "barbecue.colorscheme_synchronizer"
 
 ---attaches navic to capable LSPs on their initialization
 function M.create_navic_attacher()
   vim.api.nvim_create_autocmd("LspAttach", {
-    group = vim.api.nvim_create_augroup(
-      string.format("%s#attach_navic", PREFIX),
-      {}
-    ),
+    group = vim.api.nvim_create_augroup(GROUP_NAVIC_ATTACHER, {}),
     callback = function(a)
       local client = vim.lsp.get_client_by_id(a.data.client_id)
       if client.server_capabilities["documentSymbolProvider"] then
@@ -42,10 +41,7 @@ function M.create_updater()
   end
 
   vim.api.nvim_create_autocmd(events, {
-    group = vim.api.nvim_create_augroup(
-      string.format("%s#create_autocmd", PREFIX),
-      {}
-    ),
+    group = vim.api.nvim_create_augroup(GROUP_UPDATER, {}),
     callback = function() ui.update() end,
   })
 end
@@ -53,10 +49,7 @@ end
 ---keeps the theme in sync with the current colorscheme
 function M.create_colorscheme_synchronizer()
   vim.api.nvim_create_autocmd("ColorScheme", {
-    group = vim.api.nvim_create_augroup(
-      string.format("%s#colorscheme", PREFIX),
-      {}
-    ),
+    group = vim.api.nvim_create_augroup(GROUP_COLORSCHEME_SYNCHRONIZER, {}),
     callback = function() theme.load() end,
   })
 end
