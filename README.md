@@ -161,7 +161,7 @@ you've seen in the select menu of raw `:Barbecue`.
     "TextChanged",
     "TextChangedI",
   }, {
-    group = vim.api.nvim_create_augroup("barbecue#create_autocmd", {}),
+    group = vim.api.nvim_create_augroup("barbecue.updater", {}),
     callback = function()
       require("barbecue.ui").update()
     end,
