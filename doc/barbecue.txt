@@ -90,32 +90,49 @@ USAGE                                                         *barbecue-usage*
 Barbecue will work right after |barbecue-installation|, but there are several
 things you should be aware of.
 
-COMMANDS ~
+COMMAND ~
 
+Run `:Barbecue` and you’ll be prompted to select a subcommand, choose one and
+press `<enter>` to execute.
 
-- Hide/Show/Toggle winbar
-    >
-        Barbecue {hide,show,toggle}
-    <
-
+You can also run `:Barbecue [sub]` where `[sub]` is one of the subcommands
+you’ve seen in the select menu of raw `:Barbecue`.
 
 API ~
 
 
-- Hide/Show/Toggle winbar [source
-    <https://github.com/utilyre/barbecue.nvim/blob/v0.2.0/lua/barbecue/ui.lua#L164>]
+- Toggles barbecue [source]
+    <https://github.com/utilyre/barbecue.nvim/blob/v0.2.0/lua/barbecue/ui.lua#L164>
     >
-        require("barbecue.ui").toggle([false|true])
+        -- hides barbecue globally
+        require("barbecue.ui").toggle(false)
+        
+        -- shows barbecue globally
+        require("barbecue.ui").toggle(true)
+        
+        -- toggles barbecue globally
+        require("barbecue.ui").toggle()
     <
-- Update winbar in a single window [source
-    <https://github.com/utilyre/barbecue.nvim/blob/v0.2.0/lua/barbecue/ui.lua#L122>]
+- Update barbecue (e.g. in an autocmd) [source]
+    <https://github.com/utilyre/barbecue.nvim/blob/v0.2.0/lua/barbecue/ui.lua#L122>
     >
-        require("barbecue.ui").update([winnr])
+        -- update the current window's winbar
+        require("barbecue.ui").update()
+        
+        -- update the given window's winbar
+        require("barbecue.ui").update(winnr)
     <
-- Navigate to an entry by the given index [source
-    <https://github.com/utilyre/barbecue.nvim/blob/v0.2.0/lua/barbecue/ui.lua#L176>]
+- Navigate to entry [source]
+    <https://github.com/utilyre/barbecue.nvim/blob/v0.2.0/lua/barbecue/ui.lua#L176>
     >
-        require("barbecue.ui").navigate(index --[[ negative values begin from the end ]], [winnr])
+        -- navigate to the second entry
+        require("barbecue.ui").navigate(2)
+        
+        -- navigate to the last entry
+        require("barbecue.ui").navigate(-1)
+        
+        -- just like before but on a given window
+        require("barbecue.ui").navigate(index, winnr)
     <
 
 
