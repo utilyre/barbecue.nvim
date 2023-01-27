@@ -6,24 +6,34 @@ local autocmd = require("barbecue.autocmd")
 local M = {}
 
 ---creates user command named `name` and defines subcommands according to `actions`
----@param actions table<string, fun()>
+---@param actions table<string, { [1]: fun(), desc: string? }>
 local function create_barbecue_command(actions)
   local subcommands = vim.tbl_keys(actions)
 
   vim.api.nvim_create_user_command("Barbecue", function(params)
-    if #params.fargs < 1 then
-      local msg = "Available subcommands:"
-      for _, subcommand in ipairs(subcommands) do
-        msg = string.format("%s\n  - %s", msg, subcommand)
-      end
+    if #params.fargs == 0 then
+      vim.ui.select(subcommands, {
+        kind = "barbecue_subcommand",
+        prompt = "Subcommands:",
+        format_item = function(subcommand)
+          local desc = actions[subcommand].desc
+          if desc == nil then return subcommand end
 
-      vim.notify(msg, vim.log.levels.INFO)
+          return string.format("%s (%s)", subcommand, desc)
+        end,
+      }, function(choice)
+        if choice == nil then return end
+
+        local action = actions[choice][1]
+        action()
+      end)
+
       return
     end
 
     local subcommand = params.fargs[1]
-    local action = actions[subcommand]
-    if action == nil then
+    local choice = actions[subcommand]
+    if choice == nil then
       vim.notify(
         string.format("'%s' is not a subcommand", subcommand),
         vim.log.levels.ERROR
@@ -31,6 +41,7 @@ local function create_barbecue_command(actions)
       return
     end
 
+    local action = actions[subcommand][1]
     action()
   end, {
     nargs = "*",
@@ -57,9 +68,18 @@ function M.setup(cfg)
   if config.user.create_autocmd then autocmd.create_updater() end
 
   create_barbecue_command({
-    hide = function() ui.toggle(false) end,
-    show = function() ui.toggle(true) end,
-    toggle = function() ui.toggle() end,
+    hide = {
+      function() ui.toggle(false) end,
+      desc = "Hides barbecue globally",
+    },
+    show = {
+      function() ui.toggle(true) end,
+      desc = "Shows barbecue globally",
+    },
+    toggle = {
+      function() ui.toggle() end,
+      desc = "Toggles barbecue globally",
+    },
   })
 end
 

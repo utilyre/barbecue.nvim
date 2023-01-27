@@ -87,13 +87,13 @@ https://user-images.githubusercontent.com/91974155/208309076-00b3d5e4-e0cc-4990-
 Barbecue will work right after [installation][installation], but there are
 several things you should be aware of.
 
-### Commands
+### Command
 
-- Hide/Show/Toggle winbar
+Run `:Barbecue` and you'll be prompted to select a subcommand, choose one and
+press `<enter>` to execute.
 
-  ```vim
-  Barbecue {hide,show,toggle}
-  ```
+You can also run `:Barbecue [sub]` where `[sub]` is one of the subcommands
+you've seen in the select menu of raw `:Barbecue`.
 
 ### API
 
