@@ -137,7 +137,7 @@ function M.update(winnr)
   end
 
   if not visible then
-    vim.wo[winnr].winbar = nil
+    vim.wo[winnr].winbar = ""
     return
   end
 
