@@ -150,7 +150,7 @@ return M
 ## Best Practices
 
 - Create a draft PR while working on your changes to prevent other people from
-  working on the same thing.
+  working on the same thing separately.
 
 - Use feature branch.
 
