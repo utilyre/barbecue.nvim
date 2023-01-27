@@ -128,7 +128,9 @@ function M.update(winnr)
     or vim.tbl_contains(config.user.exclude_filetypes, vim.bo[bufnr].filetype)
     or vim.api.nvim_win_get_config(winnr).relative ~= ""
   then
-    vim.wo[winnr].winbar = state.get_last_winbar(winnr)
+    local last_winbar = state.get_last_winbar(winnr)
+    if last_winbar ~= nil then vim.wo[winnr].winbar = last_winbar end
+
     state.clear(winnr)
 
     return

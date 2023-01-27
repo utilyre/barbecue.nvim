@@ -8,6 +8,10 @@ local VAR_ENTRIES = "barbecue_entries"
 ---@param winnr number
 ---@return string|nil
 function M.get_last_winbar(winnr)
+  local was_affected_ok, was_affected =
+    pcall(vim.api.nvim_win_get_var, winnr, VAR_WAS_AFFECTED)
+  if not was_affected_ok or not was_affected then return nil end
+
   local last_winbar_ok, last_winbar =
     pcall(vim.api.nvim_win_get_var, winnr, VAR_LAST_WINBAR)
 
@@ -42,9 +46,8 @@ end
 function M.save(winnr, entries)
   local was_affected_ok, was_affected =
     pcall(vim.api.nvim_win_get_var, winnr, VAR_WAS_AFFECTED)
-  if was_affected_ok and was_affected then
-    pcall(vim.api.nvim_win_del_var, winnr, VAR_LAST_WINBAR)
-  else
+
+  if not was_affected_ok or not was_affected then
     vim.api.nvim_win_set_var(winnr, VAR_WAS_AFFECTED, true)
     vim.api.nvim_win_set_var(winnr, VAR_LAST_WINBAR, vim.wo[winnr].winbar)
   end
