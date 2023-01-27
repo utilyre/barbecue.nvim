@@ -97,22 +97,40 @@ you've seen in the select menu of raw `:Barbecue`.
 
 ### API
 
-- Hide/Show/Toggle winbar [[source][toggle]]
+- Toggles barbecue [[source]][toggle]
 
   ```lua
-  require("barbecue.ui").toggle([false|true])
+  -- hides barbecue globally
+  require("barbecue.ui").toggle(false)
+
+  -- shows barbecue globally
+  require("barbecue.ui").toggle(true)
+
+  -- toggles barbecue globally
+  require("barbecue.ui").toggle()
   ```
 
-- Update winbar in a single window [[source][update]]
+- Update barbecue (e.g. in an autocmd) [[source]][update]
 
   ```lua
-  require("barbecue.ui").update([winnr])
+  -- update the current window's winbar
+  require("barbecue.ui").update()
+
+  -- update the given window's winbar
+  require("barbecue.ui").update(winnr)
   ```
 
-- Navigate to an entry by the given index [[source][navigate]]
+- Navigate to entry [[source]][navigate]
 
   ```lua
-  require("barbecue.ui").navigate(index --[[ negative values begin from the end ]], [winnr])
+  -- navigate to the second entry
+  require("barbecue.ui").navigate(2)
+
+  -- navigate to the last entry
+  require("barbecue.ui").navigate(-1)
+
+  -- just like before but on a given window
+  require("barbecue.ui").navigate(index, winnr)
   ```
 
 [installation]: #-installation
