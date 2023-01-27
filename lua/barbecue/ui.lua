@@ -2,7 +2,7 @@ local config = require("barbecue.config")
 local theme = require("barbecue.theme")
 local utils = require("barbecue.utils")
 local Entry = require("barbecue.ui.entry")
-local state = require("barbecue.ui.state")
+local State = require("barbecue.ui.state")
 local components = require("barbecue.ui.components")
 local mouse = require("barbecue.ui.mouse")
 
@@ -122,17 +122,17 @@ end
 function M.update(winnr)
   winnr = winnr or vim.api.nvim_get_current_win()
   local bufnr = vim.api.nvim_win_get_buf(winnr)
+  local state = State.new(winnr)
 
   if
     not vim.tbl_contains(config.user.include_buftypes, vim.bo[bufnr].buftype)
     or vim.tbl_contains(config.user.exclude_filetypes, vim.bo[bufnr].filetype)
     or vim.api.nvim_win_get_config(winnr).relative ~= ""
   then
-    local last_winbar = state.get_last_winbar(winnr)
+    local last_winbar = state:get_last_winbar()
     if last_winbar ~= nil then vim.wo[winnr].winbar = last_winbar end
 
-    state.clear(winnr)
-
+    state:clear()
     return
   end
 
@@ -156,7 +156,7 @@ function M.update(winnr)
       bufnr,
       2 + utils.str_len(custom_section:gsub("%%#[^#]+#", ""))
     )
-    state.save(winnr, entries)
+    state:save(entries)
 
     local winbar
     if #entries > 0 then winbar = build_winbar(entries, custom_section) end
@@ -182,7 +182,7 @@ function M.navigate(index, winnr)
   if index == 0 then error("expected non-zero index", 2) end
   winnr = winnr or vim.api.nvim_get_current_win()
 
-  local entries = state.get_entries(winnr)
+  local entries = State.new(winnr):get_entries()
   if entries == nil then return end
 
   ---@type barbecue.Entry[]
