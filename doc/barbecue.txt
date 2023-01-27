@@ -113,7 +113,7 @@ API ~
         -- toggles barbecue globally
         require("barbecue.ui").toggle()
     <
-- Update barbecue (e.g. in an autocmd) [source]
+- Updates barbecue (e.g. in an autocmd) [source]
     <https://github.com/utilyre/barbecue.nvim/blob/v0.2.0/lua/barbecue/ui.lua#L122>
     >
         -- update the current window's winbar
@@ -122,7 +122,7 @@ API ~
         -- update the given window's winbar
         require("barbecue.ui").update(winnr)
     <
-- Navigate to entry [source]
+- Navigates to entry [source]
     <https://github.com/utilyre/barbecue.nvim/blob/v0.2.0/lua/barbecue/ui.lua#L176>
     >
         -- navigate to the second entry
