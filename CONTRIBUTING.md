@@ -156,12 +156,13 @@ return M
 
 - Title PRs the same way as commit headers.
 
-- Adopt [Karma][karma]'s git commit conventions.
+- Adopt [Conventional Commits][conventionalcommits]' specification for commit
+  messages.
 
 - Consider opening a dedicated issue explaining the bug or the missing feature
   and referring to that issue in the PR.
 
-[karma]: https://karma-runner.github.io/latest/dev/git-commit-msg.html
+[conventionalcommits]: https://www.conventionalcommits.org/en/v1.0.0
 
 ## FAQ
 
