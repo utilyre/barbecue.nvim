@@ -2,6 +2,10 @@
 
 ## Help Wanted
 
+<details>
+
+<summary>Click to see contents</summary>
+
 ### Theming
 
 This plugin is in its early stages, so not many colorschemes support it. If you
@@ -91,6 +95,8 @@ local M = {
 
 return M
 ```
+
+</details>
 
 ## Getting Started
 
