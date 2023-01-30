@@ -5,8 +5,9 @@ local Entry = require("barbecue.ui.entry")
 
 local M = {}
 
----returns dirname of `bufnr`
----@param bufnr number
+---Component that displays dirname.
+---
+---@param bufnr number Buffer to extract information from.
 ---@return barbecue.Entry[]
 function M.dirname(bufnr)
   if not config.user.show_dirname then return {} end
@@ -57,9 +58,10 @@ function M.dirname(bufnr)
   return entries
 end
 
----returns basename of `bufnr`
----@param winnr number
----@param bufnr number
+---Component that displays basename alongside a web-devicon if any.
+---
+---@param winnr number Window to extract information from.
+---@param bufnr number Buffer to extract information from.
 ---@return barbecue.Entry|nil
 function M.basename(winnr, bufnr)
   local filename = vim.api.nvim_buf_get_name(bufnr)
@@ -148,8 +150,9 @@ local kind_to_highlight = {
   [26] = "context_type_parameter",
 }
 
----returns a kind entry icon based on `kind`
----@param kind number
+---Get context kind icon.
+---
+---@param kind number Index for looking up the kind icon.
 ---@return barbecue.Entry.icon|nil
 local function get_kind_icon(kind)
   local type = kind_to_type[kind]
@@ -164,9 +167,10 @@ local function get_kind_icon(kind)
   }
 end
 
----returns context of `bufnr`
----@param winnr number
----@param bufnr number
+---Component that displays LSP context using nvim-navic.
+---
+---@param winnr number Window to extract information from.
+---@param bufnr number Buffer to extract information from.
 ---@return barbecue.Entry[]
 function M.context(winnr, bufnr)
   if not config.user.show_navic then return {} end

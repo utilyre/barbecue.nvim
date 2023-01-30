@@ -8,8 +8,6 @@ local mouse = require("barbecue.ui.mouse")
 
 local M = {}
 
----whether winbar is visible
----@type boolean
 local visible = true
 
 local ENTRY_ELLIPSIS = Entry.new({
@@ -17,11 +15,14 @@ local ENTRY_ELLIPSIS = Entry.new({
   highlight = theme.highlights.ellipsis,
 })
 
----truncates `entries` based on `max_length`
----@param entries barbecue.Entry[]
----@param length number
----@param max_length number
----@param basename_position number
+---Truncate entries keeping the basename.
+---
+---NOTE: This function mutates the given entries.
+---
+---@param entries barbecue.Entry[] Entries to be truncated.
+---@param length number Visible length of entries' contents.
+---@param max_length number Highest length possible.
+---@param basename_position number Position of the basename entry.
 local function truncate_entries(entries, length, max_length, basename_position)
   local has_ellipsis, i, n = false, 1, 0
   while i <= #entries do
@@ -52,10 +53,12 @@ local function truncate_entries(entries, length, max_length, basename_position)
   end
 end
 
----combines dirname, basename, and context entries
----@param winnr number
----@param bufnr number
----@param extra_length number
+---Gathers all the entries and combines them, then truncates the less useful
+---parts if there's shortage of room.
+---
+---@param winnr number Window to be passed to components.
+---@param bufnr number Buffer to be passed to components.
+---@param extra_length number Additional length to consider when truncating.
 ---@return barbecue.Entry[]
 local function create_entries(winnr, bufnr, extra_length)
   local dirname = components.dirname(bufnr)
@@ -84,9 +87,10 @@ local function create_entries(winnr, bufnr, extra_length)
   return entries
 end
 
----builds the winbar string from `entries` and `custom_section`
----@param entries barbecue.Entry[]
----@param custom_section string
+---Builds a specialized string to be shown at winbar.
+---
+---@param entries barbecue.Entry[] Entries to create the string from.
+---@param custom_section string Additional section to be appended at the very end.
 ---@return string
 local function build_winbar(entries, custom_section)
   local winbar = string.format("%%#%s# ", theme.highlights.normal)
@@ -113,9 +117,11 @@ local function build_winbar(entries, custom_section)
     .. custom_section
 end
 
+---Gathers up-to-date data and updates the winbar unless the window or the
+---buffer contained by it is excluded.
+---
 ---@async
----updates winbar on `winnr`
----@param winnr number?
+---@param winnr number? Window to update the winbar of or `nil` for the current window.
 function M.update(winnr)
   winnr = winnr or vim.api.nvim_get_current_win()
   local bufnr = vim.api.nvim_win_get_buf(winnr)
@@ -161,8 +167,9 @@ function M.update(winnr)
   end)
 end
 
----toggles visibility
----@param shown boolean?
+---Toggles the visibility globally.
+---
+---@param shown boolean? New visibility state or `nil` to toggle.
 function M.toggle(shown)
   if shown == nil then shown = not visible end
 
@@ -172,9 +179,10 @@ function M.toggle(shown)
   end
 end
 
----navigates to `index` in `winnr` entries
----@param index number
----@param winnr number?
+---Navigate to a specific entry.
+---
+---@param index number Index of the desired entry.
+---@param winnr number? Window that contains the entry or `nil` for the current window.
 function M.navigate(index, winnr)
   if index == 0 then error("expected non-zero index", 2) end
   winnr = winnr or vim.api.nvim_get_current_win()

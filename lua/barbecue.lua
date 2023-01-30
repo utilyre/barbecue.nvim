@@ -5,8 +5,13 @@ local autocmd = require("barbecue.autocmd")
 
 local M = {}
 
----creates user command named `name` and defines subcommands according to `actions`
----@param actions table<string, { [1]: fun(), desc: string? }>
+---Create the generic `Barbecue` command which can be run without any arguments
+---to list all the available subcommands.
+---
+---It can potentially be followed by a subcommand to directly run a specific
+---action.
+---
+---@param actions table<string, { [1]: fun(), desc: string? }> Subcommand to options mapping of some actions to be provided.
 local function create_barbecue_command(actions)
   local subcommands = vim.tbl_keys(actions)
 
@@ -57,8 +62,9 @@ local function create_barbecue_command(actions)
   })
 end
 
----configures and starts barbecue
----@param cfg barbecue.Config?
+---Load and setup the plugin with potentially a table of configurations.
+---
+---@param cfg barbecue.Config? Table of of configurations to override the default behavior.
 function M.setup(cfg)
   config.apply(cfg or {})
   theme.load()

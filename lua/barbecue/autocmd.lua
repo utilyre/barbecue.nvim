@@ -10,7 +10,7 @@ local GROUP_NAVIC_ATTACHER = "barbecue.navic_attacher"
 local GROUP_UPDATER = "barbecue.updater"
 local GROUP_COLORSCHEME_SYNCHRONIZER = "barbecue.colorscheme_synchronizer"
 
----attaches navic to capable LSPs on their initialization
+---Attach navic to capable LSPs on their initialization.
 function M.create_navic_attacher()
   vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup(GROUP_NAVIC_ATTACHER, {}),
@@ -23,7 +23,7 @@ function M.create_navic_attacher()
   })
 end
 
----updates winbar on necessary events
+---Update winbar on necessary events.
 function M.create_updater()
   local events = {
     "WinResized",
@@ -46,7 +46,7 @@ function M.create_updater()
   })
 end
 
----keeps the theme in sync with the current colorscheme
+---Keep the theme in sync with the current colorscheme.
 function M.create_colorscheme_synchronizer()
   vim.api.nvim_create_autocmd("ColorScheme", {
     group = vim.api.nvim_create_augroup(GROUP_COLORSCHEME_SYNCHRONIZER, {}),

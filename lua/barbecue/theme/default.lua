@@ -1,7 +1,6 @@
-local utils = require("barbecue.utils")
-
----returns highlight by `name`
----@param name string
+---Get highlight group value by name.
+---
+---@param name string String for looking up highlight group.
 ---@return table
 local function hl(name)
   local highlight = vim.api.nvim_get_hl_by_name(name, true)

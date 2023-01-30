@@ -7,7 +7,7 @@ local M = {}
 ---@type barbecue.Theme|nil
 local current_theme
 
----an abstraction layer for highlight groups
+---Mapping of the used highlight groups throughout the plugin.
 M.highlights = {
   normal = "barbecue_normal",
 
@@ -50,8 +50,9 @@ M.highlights = {
 ---@type { highlight: string, color: string }[]
 local file_icons = {}
 
----loads theme from module `barbecue.theme` by `name`
----@param name string?
+---Find theme by its name.
+---
+---@param name string? Name to find the theme with.
 ---@return barbecue.Theme
 local function get_theme(name)
   name = name or vim.g.colors_name or ""
@@ -94,8 +95,11 @@ local function get_theme(name)
   return dofile(found_files[1])
 end
 
----normalizes `theme` by expanding alias keys (e.g. `fg` -> `foreground`)
----@param theme barbecue.Theme
+---Normalize a theme by expanding its key aliases.
+---
+---E.g Rename key `fg` to key `foreground`.
+---
+---@param theme barbecue.Theme Theme to be normalized.
 local function normalize_theme(theme)
   for _, value in pairs(theme) do
     value.background = value.background or value.bg
@@ -106,7 +110,7 @@ local function normalize_theme(theme)
   end
 end
 
----defines highlight groups according to `config.user.theme`
+---Detect/generate a theme and load it.
 function M.load()
   local theme
   if config.user.theme == "auto" then
@@ -136,9 +140,10 @@ function M.load()
   end
 end
 
----returns and caches the icon of `filename`
----@param filename string
----@param filetype string
+---Get a file's icon and additionally store the found icon for later use.
+---
+---@param filename string File name to be matched against the icons table.
+---@param filetype string File type to be matched against the icons table.
 ---@return barbecue.Entry.icon|nil
 function M.get_file_icon(filename, filetype)
   if not devicons_ok then return nil end

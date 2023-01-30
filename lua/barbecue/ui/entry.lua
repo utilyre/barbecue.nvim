@@ -6,16 +6,17 @@ local theme = require("barbecue.theme")
 ---@alias barbecue.Entry.to { win: number, pos: { [1]: number, [2]: number } }
 
 ---@class barbecue.Entry
----@field public text barbecue.Entry.text
----@field public icon barbecue.Entry.icon|nil
----@field public to barbecue.Entry.to|nil
+---@field public text barbecue.Entry.text Text to be displayed inside the entry.
+---@field public icon barbecue.Entry.icon|nil Icon to be displayed right before the text.
+---@field public to barbecue.Entry.to|nil Link to a position of a window.
 local Entry = {}
 Entry.__index = Entry
 
----creates a new instance
----@param text barbecue.Entry.text
----@param icon barbecue.Entry.icon?
----@param to barbecue.Entry.to?
+---Create a new Entry.
+---
+---@param text barbecue.Entry.text Text to be displayed inside the entry.
+---@param icon barbecue.Entry.icon? Icon to be displayed right before the text.
+---@param to barbecue.Entry.to? Link to a position of a window.
 ---@return barbecue.Entry
 function Entry.new(text, icon, to)
   local instance = setmetatable({}, Entry)
@@ -27,7 +28,8 @@ function Entry.new(text, icon, to)
   return instance
 end
 
----returns its length
+---Get visible length of contents.
+---
 ---@return number
 function Entry:len()
   local length = utils.str_len(self.text[1])
@@ -36,7 +38,8 @@ function Entry:len()
   return length
 end
 
----converts itself to a string
+---Convert to string.
+---
 ---@return string
 function Entry:to_string()
   return (

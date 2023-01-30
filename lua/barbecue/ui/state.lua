@@ -3,13 +3,14 @@ local VAR_LAST_WINBAR = "barbecue_last_winbar"
 local VAR_ENTRIES = "barbecue_entries"
 
 ---@class barbecue.State
----@field private winnr number
----@field private bufnr number
+---@field private winnr number Window to figure out current state from.
+---@field private bufnr number Buffer to store the state in.
 local State = {}
 State.__index = State
 
----creates a new instance
----@param winnr number
+---Creates a new State.
+---
+---@param winnr number Window to attach to.
 ---@return barbecue.State
 function State.new(winnr)
   local instance = setmetatable({}, State)
@@ -20,7 +21,8 @@ function State.new(winnr)
   return instance
 end
 
----returns `last_winbar` or `nil` when the winbar wasn't affected previously
+---Get the last unaffected winbar value.
+---
 ---@return string|nil
 function State:get_last_winbar()
   local was_affected_ok, was_affected =
@@ -33,7 +35,8 @@ function State:get_last_winbar()
   return last_winbar_ok and last_winbar or nil
 end
 
----returns `entries`
+---Get the latest generated entries.
+---
 ---@return barbecue.Entry[]|nil
 function State:get_entries()
   local serialized_entries_ok, serialized_entries =
@@ -43,7 +46,7 @@ function State:get_entries()
   return vim.json.decode(serialized_entries)
 end
 
----clears the unneeded saved state
+---Clear unnecessary variables.
 function State:clear()
   local was_affected_ok, was_affected =
     pcall(vim.api.nvim_buf_get_var, self.bufnr, VAR_WAS_AFFECTED)
@@ -53,8 +56,9 @@ function State:clear()
   end
 end
 
----save the current state
----@param entries barbecue.Entry[]
+---Save the current state.
+---
+---@param entries barbecue.Entry[] Entries to be saved.
 function State:save(entries)
   local was_affected_ok, was_affected =
     pcall(vim.api.nvim_buf_get_var, self.bufnr, VAR_WAS_AFFECTED)
