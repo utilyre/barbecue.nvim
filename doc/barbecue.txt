@@ -36,8 +36,6 @@ DEPENDENCIES                                           *barbecue-dependencies*
 
 
 - NVIM v0.8+ <https://github.com/neovim/neovim/releases/latest>: Winbar support.
-- nvim-lspconfig <https://github.com/neovim/nvim-lspconfig>: Dependency of
-    nvim-navic.
 - nvim-navic <https://github.com/SmiteshP/nvim-navic>: LSP
     `textDocument/documentSymbol` provider.
 - nvim-web-devicons <https://github.com/nvim-tree/nvim-web-devicons>: File icon
@@ -55,7 +53,6 @@ INSTALLATION                                           *barbecue-installation*
           "utilyre/barbecue.nvim",
           version = "*",
           dependencies = {
-            "neovim/nvim-lspconfig",
             "SmiteshP/nvim-navic",
             "nvim-tree/nvim-web-devicons", -- optional dependency
           },
@@ -73,7 +70,6 @@ INSTALLATION                                           *barbecue-installation*
           "utilyre/barbecue.nvim",
           tag = "*",
           requires = {
-            "neovim/nvim-lspconfig",
             "SmiteshP/nvim-navic",
             "nvim-tree/nvim-web-devicons", -- optional dependency
           },
@@ -149,7 +145,7 @@ RECIPES                                                     *barbecue-recipes*
         })
         
         vim.api.nvim_create_autocmd({
-          "WinScrolled",
+          "WinResized",
           "BufWinEnter",
           "CursorHold",
           "InsertLeave",
