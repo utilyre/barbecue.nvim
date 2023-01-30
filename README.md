@@ -26,14 +26,11 @@ https://user-images.githubusercontent.com/91974155/208309076-00b3d5e4-e0cc-4990-
 
 - [NVIM v0.8+][neovim-latest]: Winbar support.
 
-- [nvim-lspconfig][nvim-lspconfig]: Dependency of nvim-navic.
-
 - [nvim-navic][nvim-navic]: LSP `textDocument/documentSymbol` provider.
 
 - [nvim-web-devicons][nvim-web-devicons]: File icon provider. _(optional)_
 
 [neovim-latest]: https://github.com/neovim/neovim/releases/latest
-[nvim-lspconfig]: https://github.com/neovim/nvim-lspconfig
 [nvim-navic]: https://github.com/SmiteshP/nvim-navic
 [nvim-web-devicons]: https://github.com/nvim-tree/nvim-web-devicons
 
@@ -48,7 +45,6 @@ https://user-images.githubusercontent.com/91974155/208309076-00b3d5e4-e0cc-4990-
     "utilyre/barbecue.nvim",
     version = "*",
     dependencies = {
-      "neovim/nvim-lspconfig",
       "SmiteshP/nvim-navic",
       "nvim-tree/nvim-web-devicons", -- optional dependency
     },
@@ -68,7 +64,6 @@ https://user-images.githubusercontent.com/91974155/208309076-00b3d5e4-e0cc-4990-
     "utilyre/barbecue.nvim",
     tag = "*",
     requires = {
-      "neovim/nvim-lspconfig",
       "SmiteshP/nvim-navic",
       "nvim-tree/nvim-web-devicons", -- optional dependency
     },
