@@ -26,7 +26,7 @@ end
 ---updates winbar on necessary events
 function M.create_updater()
   local events = {
-    "WinScrolled",
+    "WinResized",
     "BufWinEnter",
     "CursorMoved",
     "InsertLeave",

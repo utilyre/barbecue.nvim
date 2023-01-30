@@ -151,7 +151,7 @@ you've seen in the select menu of raw `:Barbecue`.
   })
 
   vim.api.nvim_create_autocmd({
-    "WinScrolled",
+    "WinResized",
     "BufWinEnter",
     "CursorHold",
     "InsertLeave",
