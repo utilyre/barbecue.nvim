@@ -169,6 +169,7 @@ end
 ---@param bufnr number
 ---@return barbecue.Entry[]
 function M.get_context(winnr, bufnr)
+  if not config.user.show_navic then return {} end
   if not navic.is_available() then return {} end
 
   local nestings = navic.get_data(bufnr)
