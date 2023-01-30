@@ -58,10 +58,10 @@ end
 ---@param extra_length number
 ---@return barbecue.Entry[]
 local function create_entries(winnr, bufnr, extra_length)
-  local dirname = components.get_dirname(bufnr)
-  local basename = components.get_basename(winnr, bufnr)
+  local dirname = components.dirname(bufnr)
+  local basename = components.basename(winnr, bufnr)
   if basename == nil then return {} end
-  local context = components.get_context(winnr, bufnr)
+  local context = components.context(winnr, bufnr)
 
   ---@type barbecue.Entry[]
   local entries = {}

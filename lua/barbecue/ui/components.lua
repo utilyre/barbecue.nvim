@@ -8,7 +8,7 @@ local M = {}
 ---returns dirname of `bufnr`
 ---@param bufnr number
 ---@return barbecue.Entry[]
-function M.get_dirname(bufnr)
+function M.dirname(bufnr)
   if not config.user.show_dirname then return {} end
 
   local filename = vim.api.nvim_buf_get_name(bufnr)
@@ -61,7 +61,7 @@ end
 ---@param winnr number
 ---@param bufnr number
 ---@return barbecue.Entry|nil
-function M.get_basename(winnr, bufnr)
+function M.basename(winnr, bufnr)
   local filename = vim.api.nvim_buf_get_name(bufnr)
   local basename =
     vim.fn.fnamemodify(filename, config.user.modifiers.basename .. ":t")
@@ -168,7 +168,7 @@ end
 ---@param winnr number
 ---@param bufnr number
 ---@return barbecue.Entry[]
-function M.get_context(winnr, bufnr)
+function M.context(winnr, bufnr)
   if not config.user.show_navic then return {} end
   if not navic.is_available() then return {} end
 
