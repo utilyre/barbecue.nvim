@@ -3,7 +3,7 @@ local VAR_LAST_WINBAR = "barbecue_last_winbar"
 local VAR_ENTRIES = "barbecue_entries"
 
 ---@class barbecue.State
----@field public winnr number
+---@field private winnr number
 ---@field private bufnr number
 local State = {}
 State.__index = State
