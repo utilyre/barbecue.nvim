@@ -7,7 +7,7 @@ LSP context from your language server.
 
 </div>
 
-https://user-images.githubusercontent.com/91974155/208309076-00b3d5e4-e0cc-4990-9f55-2877fca4baa2.mp4
+https://user-images.githubusercontent.com/37078297/215765075-bc89050e-ad74-481a-9344-06ca997bf290.mp4
 
 [nvim-navic]: https://github.com/SmiteshP/nvim-navic
 
