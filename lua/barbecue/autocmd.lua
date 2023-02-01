@@ -26,18 +26,11 @@ end
 ---Update winbar on necessary events.
 function M.create_updater()
   local events = {
+    utils.since_nvim(0, 9) and "WinResized" or "WinScrolled",
     "BufWinEnter",
     "CursorMoved",
     "InsertLeave",
   }
-
-  local v = vim.version()
-
-  if v.major >= 0 and v.minor >= 9 then
-    table.insert(events, 1, "WinResized")
-  else
-    table.insert(events, 1, "WinScrolled")
-  end
 
   if config.user.show_modified then
     utils.tbl_merge(events, {
