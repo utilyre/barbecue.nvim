@@ -49,20 +49,18 @@ INSTALLATION                                           *barbecue-installation*
 
 - lazy.nvim <https://github.com/folke/lazy.nvim>
     >
-        local spec = {
+        {
           "utilyre/barbecue.nvim",
+          name = "barbecue",
           version = "*",
           dependencies = {
             "SmiteshP/nvim-navic",
             "nvim-tree/nvim-web-devicons", -- optional dependency
           },
+          opts = {
+            -- configurations go here
+          },
         }
-        
-        function spec.config()
-          require("barbecue").setup()
-        end
-        
-        return spec
     <
 - packer.nvim <https://github.com/wbthomason/packer.nvim>
     >
