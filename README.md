@@ -41,20 +41,18 @@ https://user-images.githubusercontent.com/37078297/215765075-bc89050e-ad74-481a-
 - [lazy.nvim][lazy.nvim]
 
   ```lua
-  local spec = {
+  {
     "utilyre/barbecue.nvim",
+    name = "barbecue",
     version = "*",
     dependencies = {
       "SmiteshP/nvim-navic",
       "nvim-tree/nvim-web-devicons", -- optional dependency
     },
+    opts = {
+      -- configurations go here
+    },
   }
-
-  function spec.config()
-    require("barbecue").setup()
-  end
-
-  return spec
   ```
 
 - [packer.nvim][packer.nvim]
