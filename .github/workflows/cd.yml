@@ -11,17 +11,21 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Generate change log
-        id: changelog
-        uses: mikepenz/release-changelog-builder-action@v3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout the latest commit
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Generate changelog
+        id: git-cliff
+        uses: orhun/git-cliff-action@v2
+        with:
+          args: -vu
 
       - name: Create new release
-        if: ${{ steps.changelog.outputs.failed == false }}
         uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: ${{ github.ref_name }}-stable
-          body: ${{ steps.changelog.outputs.changelog }}
+          name: Release ${{ github.ref_name }}
+          body: ${{ steps.git-cliff.outputs.changelog }}
