@@ -49,6 +49,7 @@ local function create_barbecue_command(actions)
     local action = actions[subcommand][1]
     action()
   end, {
+    desc = "Run subcommands through this general command",
     nargs = "?",
     complete = function(_, line)
       local args = vim.split(line, "%s+")
