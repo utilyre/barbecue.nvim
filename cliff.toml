@@ -17,6 +17,7 @@ footer = """
 """
 
 [git]
+filter_commits = true
 commit_parsers = [
   { message = "^feat", group = "Features" },
   { message = "^fix", group = "Bug Fixes" },
