@@ -49,7 +49,7 @@ local function create_barbecue_command(actions)
     local action = actions[subcommand][1]
     action()
   end, {
-    nargs = "*",
+    nargs = "?",
     complete = function(_, line)
       local args = vim.split(line, "%s+")
       if #args ~= 2 then return {} end
