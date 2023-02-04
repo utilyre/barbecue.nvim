@@ -90,20 +90,20 @@ you've seen in the select menu of raw `:Barbecue`.
 
 ### API
 
-- Toggles barbecue [[source]][toggle]
+- Toggle barbecue [[source]][toggle]
 
   ```lua
-  -- hides barbecue globally
+  -- hide barbecue globally
   require("barbecue.ui").toggle(false)
 
-  -- shows barbecue globally
+  -- show barbecue globally
   require("barbecue.ui").toggle(true)
 
-  -- toggles barbecue globally
+  -- toggle barbecue globally
   require("barbecue.ui").toggle()
   ```
 
-- Updates barbecue (e.g. in an autocmd) [[source]][update]
+- Update barbecue (e.g. in an autocmd) [[source]][update]
 
   ```lua
   -- update the current window's winbar
@@ -113,7 +113,7 @@ you've seen in the select menu of raw `:Barbecue`.
   require("barbecue.ui").update(winnr)
   ```
 
-- Navigates to entry [[source]][navigate]
+- Navigate to entry [[source]][navigate]
 
   ```lua
   -- navigate to the second entry

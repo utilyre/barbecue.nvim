@@ -77,15 +77,15 @@ function M.setup(cfg)
   create_barbecue_command({
     hide = {
       function() ui.toggle(false) end,
-      desc = "Hides barbecue globally",
+      desc = "Hide barbecue globally",
     },
     show = {
       function() ui.toggle(true) end,
-      desc = "Shows barbecue globally",
+      desc = "Show barbecue globally",
     },
     toggle = {
       function() ui.toggle() end,
-      desc = "Toggles barbecue globally",
+      desc = "Toggle barbecue globally",
     },
   })
 end
