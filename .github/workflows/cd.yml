@@ -17,7 +17,7 @@ jobs:
           fetch-depth: 0
 
       - name: Generate changelog
-        id: git-cliff
+        id: changelog
         uses: orhun/git-cliff-action@v2
         with:
           args: -vu
@@ -28,4 +28,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           name: Release ${{ github.ref_name }}
-          body: ${{ steps.git-cliff.outputs.changelog }}
+          body: ${{ steps.changelog.outputs.release_body }}
