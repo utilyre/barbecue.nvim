@@ -20,7 +20,7 @@ jobs:
         id: changelog
         uses: orhun/git-cliff-action@v2
         with:
-          args: -vu
+          args: -vl
 
       - name: Create new release
         uses: softprops/action-gh-release@v1
