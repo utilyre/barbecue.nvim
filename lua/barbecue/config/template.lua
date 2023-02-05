@@ -30,6 +30,10 @@ local M = {
   ---@type boolean
   show_dirname = true,
 
+  ---whether to display file name
+  ---@type boolean
+  show_basename = true,
+
   ---whether to replace file icon with the modified symbol when buffer is modified
   ---@type boolean
   show_modified = false,

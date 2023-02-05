@@ -33,7 +33,7 @@ function M.create_updater()
     "InsertLeave",
   }
 
-  if config.user.show_modified then
+  if config.user.show_basename and config.user.show_modified then
     utils.tbl_merge(events, {
       "BufWritePost",
       "TextChanged",

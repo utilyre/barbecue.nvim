@@ -63,7 +63,7 @@ end
 local function create_entries(winnr, bufnr, extra_length)
   local dirname = components.dirname(bufnr)
   local basename = components.basename(winnr, bufnr)
-  if basename == nil then return {} end
+  if basename == false then return {} end
   local context = components.context(winnr, bufnr)
 
   ---@type barbecue.Entry[]
