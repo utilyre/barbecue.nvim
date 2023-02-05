@@ -62,14 +62,13 @@ end
 ---
 ---@param winnr number Window to extract information from.
 ---@param bufnr number Buffer to extract information from.
----@return barbecue.Entry|nil|false
+---@return barbecue.Entry|nil
 function M.basename(winnr, bufnr)
   if not config.user.show_basename then return nil end
 
   local filename = vim.api.nvim_buf_get_name(bufnr)
   local basename =
     vim.fn.fnamemodify(filename, config.user.modifiers.basename .. ":t")
-  if basename == "" then return false end
 
   local icon
   if vim.bo[bufnr].modified and config.user.show_modified then

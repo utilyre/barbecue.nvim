@@ -59,11 +59,12 @@ end
 ---@param winnr number Window to be passed to components.
 ---@param bufnr number Buffer to be passed to components.
 ---@param extra_length number Additional length to consider when truncating.
----@return barbecue.Entry[]
+---@return barbecue.Entry[]|nil
 local function create_entries(winnr, bufnr, extra_length)
+  if vim.api.nvim_buf_get_name(bufnr) == "" then return nil end
+
   local dirname = components.dirname(bufnr)
   local basename = components.basename(winnr, bufnr)
-  if basename == false then return {} end
   local context = components.context(winnr, bufnr)
 
   ---@type barbecue.Entry[]
@@ -159,11 +160,10 @@ function M.update(winnr)
       bufnr,
       2 + utils.str_len(custom_section:gsub("%%#[^#]+#", ""))
     )
-    state:save(entries)
+    if entries == nil then return end
 
-    local winbar
-    if #entries > 0 then winbar = build_winbar(entries, custom_section) end
-    vim.wo[winnr].winbar = winbar
+    state:save(entries)
+    vim.wo[winnr].winbar = build_winbar(entries, custom_section)
   end)
 end
 
