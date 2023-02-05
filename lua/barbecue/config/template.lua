@@ -1,9 +1,5 @@
 ---@class barbecue.Config
 local M = {
-  ---whether to show/use navic in the winbar
-  ---@type boolean
-  show_navic = true,
-
   ---whether to attach navic to language servers automatically
   ---@type boolean
   attach_navic = true,
@@ -30,6 +26,18 @@ local M = {
     basename = "",
   },
 
+  ---whether to display path to file
+  ---@type boolean
+  show_dirname = true,
+
+  ---whether to replace file icon with the modified symbol when buffer is modified
+  ---@type boolean
+  show_modified = false,
+
+  ---whether to show/use navic in the winbar
+  ---@type boolean
+  show_navic = true,
+
   ---returns a string to be shown at the end of winbar
   ---@type fun(bufnr: number): string
   custom_section = function() return "" end,
@@ -39,14 +47,6 @@ local M = {
   ---`barbecue.Theme` is a table that overrides the `auto` theme detection/generation
   ---@type "auto"|string|barbecue.Theme
   theme = "auto",
-
-  ---whether to display path to file
-  ---@type boolean
-  show_dirname = true,
-
-  ---whether to replace file icon with the modified symbol when buffer is modified
-  ---@type boolean
-  show_modified = false,
 
   symbols = {
     ---modification indicator
