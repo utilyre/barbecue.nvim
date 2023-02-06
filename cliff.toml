@@ -8,7 +8,7 @@ happened on the commit.
 {% for group, commits in commits | group_by(attribute="group") %}
   ## {{ group }}
   {% for commit in commits %}
-    - `{{ commit.id | truncate(length=7,end="") }}`: {% if commit.breaking %}🚨 {% endif %}{{ commit.message | upper_first }}.
+    - [`{{ commit.id | truncate(length=7,end="") }}`](https://github.com/utilyre/barbecue.nvim/commit/{{ commit.id }}): {% if commit.breaking %}🚨 {% endif %}{{ commit.message | upper_first }}.
   {% endfor %}
 {% endfor %}
 """
