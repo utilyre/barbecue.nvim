@@ -162,7 +162,10 @@ function M.update(winnr)
     or vim.api.nvim_win_get_config(winnr).relative ~= ""
   then
     local last_winbar = state:get_last_winbar()
-    if last_winbar ~= nil then vim.wo[winnr].winbar = last_winbar end
+    if last_winbar ~= nil then
+      -- HACK: this exists because of Vim:E36 error. See neovim/neovim#19464
+      pcall(function() vim.wo[winnr].winbar = last_winbar end)
+    end
 
     state:clear()
     return
