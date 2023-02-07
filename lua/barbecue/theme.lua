@@ -118,7 +118,7 @@ function M.load()
   elseif type(config.user.theme) == "string" then
     theme = get_theme(config.user.theme --[[ @as string ]])
   elseif type(config.user.theme) == "table" then
-    theme = vim.tbl_deep_extend("force", get_theme(), config.user.theme)
+    theme = vim.tbl_extend("force", get_theme(), config.user.theme)
   end
   normalize_theme(theme)
   current_theme = theme
