@@ -31,7 +31,7 @@ function M.tbl_merge(list, ...)
   end
 end
 
----Checks whether the current neovim version surpasses the given version.
+---Check whether the current neovim version surpasses the given version.
 ---
 ---See: [Semantic Versioning](https://semver.org)
 ---
