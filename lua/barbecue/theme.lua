@@ -62,18 +62,21 @@ local function get_theme(name)
   utils.tbl_merge(
     found_files,
     vim.api.nvim_get_runtime_file(
-      string.format("lua/barbecue/theme/%s.lua", name),
+      utils.path_join("lua", "barbecue", "theme", string.format("%s.lua", name)),
       true
     ),
     vim.api.nvim_get_runtime_file(
-      string.format("lua/barbecue/theme/%s/init.lua", name),
+      utils.path_join("lua", "barbecue", "theme", name, "init.lua"),
       true
     )
   )
 
   if #found_files == 0 then
     return dofile(
-      vim.api.nvim_get_runtime_file("lua/barbecue/theme/default.lua", false)[1]
+      vim.api.nvim_get_runtime_file(
+        utils.path_join("lua", "barbecue", "theme", "default.lua"),
+        false
+      )[1]
     )
   end
 
@@ -87,7 +90,9 @@ local function get_theme(name)
   )
 
   for _, found_file in ipairs(found_files) do
-    if not found_file:find("barbecue.nvim/lua/barbecue") then
+    if
+      not found_file:find(utils.path_join("barbecue.nvim", "lua", "barbecue"))
+    then
       return dofile(found_file)
     end
   end
