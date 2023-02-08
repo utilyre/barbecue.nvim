@@ -30,4 +30,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           name: Release ${{ github.ref_name }}
-          body: ${{ steps.changelog.outputs.release_body }}
+          body_path: ${{ steps.changelog.outputs.changelog }}
