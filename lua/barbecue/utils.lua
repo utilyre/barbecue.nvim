@@ -1,3 +1,5 @@
+local PATH_SEPARATOR = package.config:sub(1, 1)
+
 local M = {}
 
 ---Escape string from statusline/winbar expansion.
@@ -54,8 +56,6 @@ function M.since_nvim(major, minor, patch)
 
   return false
 end
-
-local PATH_SEPARATOR = package.config:sub(1, 1)
 
 ---Join any number of path elements into a single path, separating them with an
 ---OS specific separator.

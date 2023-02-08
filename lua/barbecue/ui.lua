@@ -6,14 +6,14 @@ local State = require("barbecue.ui.state")
 local components = require("barbecue.ui.components")
 local mouse = require("barbecue.ui.mouse")
 
-local M = {}
-
-local visible = true
-
 local ENTRY_ELLIPSIS = Entry.new({
   config.user.symbols.ellipsis,
   highlight = theme.highlights.ellipsis,
 })
+
+local M = {}
+
+local visible = true
 
 ---Truncate entries keeping the basename.
 ---

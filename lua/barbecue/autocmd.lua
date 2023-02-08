@@ -4,11 +4,11 @@ local ui = require("barbecue.ui")
 local utils = require("barbecue.utils")
 local theme = require("barbecue.theme")
 
-local M = {}
-
 local GROUP_NAVIC_ATTACHER = "barbecue.navic_attacher"
 local GROUP_UPDATER = "barbecue.updater"
 local GROUP_COLORSCHEME_SYNCHRONIZER = "barbecue.colorscheme_synchronizer"
+
+local M = {}
 
 ---Attach navic to capable LSPs on their initialization.
 function M.create_navic_attacher()
