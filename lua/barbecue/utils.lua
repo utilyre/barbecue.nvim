@@ -55,14 +55,13 @@ function M.since_nvim(major, minor, patch)
   return false
 end
 
+local PATH_SEPARATOR = package.config:sub(1, 1)
+
 ---Join any number of path elements into a single path, separating them with an
 ---OS specific separator.
 ---
 ---@param ... string
 ---@return string
-function M.path_join(...)
-  local separator = package.config:sub(1, 1)
-  return table.concat({ ... }, separator)
-end
+function M.path_join(...) return table.concat({ ... }, PATH_SEPARATOR) end
 
 return M
