@@ -242,71 +242,106 @@ Click to see default config
 
 >
     {
-      ---whether to attach navic to language servers automatically
+      ---Whether to attach navic to language servers automatically.
+      ---
       ---@type boolean
       attach_navic = true,
     
-      ---whether to create winbar updater autocmd
+      ---Whether to create winbar updater autocmd.
+      ---
       ---@type boolean
       create_autocmd = true,
     
-      ---buftypes to enable winbar in
+      ---Buftypes to enable winbar in.
+      ---
       ---@type string[]
       include_buftypes = { "" },
     
-      ---filetypes not to enable winbar in
+      ---Filetypes not to enable winbar in.
+      ---
       ---@type string[]
       exclude_filetypes = { "gitcommit", "toggleterm" },
     
       modifiers = {
-        ---filename modifiers applied to dirname
+        ---Filename modifiers applied to dirname.
+        ---
+        ---See: `:help filename-modifiers`
+        ---
         ---@type string
         dirname = ":~:.",
     
-        ---filename modifiers applied to basename
+        ---Filename modifiers applied to basename.
+        ---
+        ---See: `:help filename-modifiers`
+        ---
         ---@type string
         basename = "",
       },
     
-      ---whether to display path to file
+      ---Whether to display path to file.
+      ---
       ---@type boolean
       show_dirname = true,
     
-      ---whether to replace file icon with the modified symbol when buffer is modified
+      ---Whether to display file name.
+      ---
+      ---@type boolean
+      show_basename = true,
+    
+      ---Whether to replace file icon with the modified symbol when buffer is
+      ---modified.
+      ---
       ---@type boolean
       show_modified = false,
     
-      ---whether to show/use navic in the winbar
+      ---Whether to show/use navic in the winbar.
+      ---
       ---@type boolean
       show_navic = true,
     
-      ---returns a string to be shown at the end of winbar
+      ---Get custom section contents.
+      ---
+      ---NOTE: This function shouldn't do any expensive actions as it is run on each
+      ---render.
+      ---
       ---@type fun(bufnr: number): string
       custom_section = function() return "" end,
     
-      ---`auto` uses your current colorscheme's theme or generates a theme based on it
-      ---`string` is the theme name to be used (theme should be located under `barbecue.theme` module)
-      ---`barbecue.Theme` is a table that overrides the `auto` theme detection/generation
-      ---@type "auto"|string|barbecue.Theme
+    
+      ---@alias barbecue.Config.theme
+      ---|'"auto"' # Use your current colorscheme's theme or generate a theme based on it.
+      ---|string # Theme located under `barbecue.theme` module.
+      ---|barbecue.Theme # Same as '"auto"' but override it with the given table.
+      ---
+      ---Theme to be used for generating highlight groups dynamically.
+      ---
+      ---@type barbecue.Config.theme
       theme = "auto",
     
       symbols = {
-        ---modification indicator
+        ---Modification indicator.
+        ---
         ---@type string
         modified = "●",
     
-        ---truncation indicator
+        ---Truncation indicator.
+        ---
         ---@type string
         ellipsis = "…",
     
-        ---entry separator
+        ---Entry separator.
+        ---
         ---@type string
         separator = "",
       },
     
-      ---icons for different context entry kinds
-      ---`false` to disable kind icons
-      ---@type table<string, string>|false
+      ---@alias barbecue.Config.kinds
+      ---|false # Disable kind icons.
+      ---|table<string, string> # Type to icon mapping.
+      ---
+      ---Icons for different context entry kinds.
+      ---
+      ---@type barbecue.Config.kinds
       kinds = {
         File = "",
         Module = "",
