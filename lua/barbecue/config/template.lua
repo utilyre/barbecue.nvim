@@ -52,9 +52,9 @@ local M = {
   ---@type boolean
   show_modified = false,
 
-  ---Get modified status of file
-  --
-  ---NOTE: This can be used to get file modified status from SCM (eg. git)
+  ---Get modified status of file.
+  ---
+  ---NOTE: This can be used to get file modified status from SCM (e.g. git)
   ---
   ---@type fun(bufnr: number): boolean
   modified = function(bufnr) return vim.bo[bufnr].modified end,
