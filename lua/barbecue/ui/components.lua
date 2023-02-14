@@ -73,7 +73,7 @@ function M.basename(winnr, bufnr)
     vim.fn.fnamemodify(filename, config.user.modifiers.basename .. ":t")
 
   local icon
-  if vim.bo[bufnr].modified and config.user.show_modified then
+  if config.user.modified(bufnr) and config.user.show_modified then
     icon = {
       config.user.symbols.modified,
       highlight = theme.highlights.modified,
