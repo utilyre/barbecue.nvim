@@ -55,11 +55,12 @@ end
 
 ---Get custom section and its length.
 ---
+---@param fn fun(bufnr: number): barbecue.Config.custom_section
 ---@param bufnr number
 ---@return string custom_section
 ---@return number length
-local function get_custom_section(bufnr)
-  local custom_section = config.user.custom_section(bufnr)
+local function get_custom_section(fn, bufnr)
+  local custom_section = fn(bufnr)
   local length = 0
   local content = ""
 
@@ -118,14 +119,15 @@ end
 ---Builds a specialized string to be shown at winbar.
 ---
 ---@param entries barbecue.Entry[] Entries to create the string from.
+---@param lead_custom_section string Additional section to be prepended at the very beginning.
 ---@param custom_section string Additional section to be appended at the very end.
 ---@return string
-local function build_winbar(entries, custom_section)
-  local winbar = string.format("%%#%s# ", theme.highlights.normal)
+local function build_winbar(entries, lead_custom_section, custom_section)
+  local entries_str = ""
   for i, entry in ipairs(entries) do
-    winbar = winbar .. entry:to_string()
+    entries_str = entries_str .. entry:to_string()
     if i < #entries then
-      winbar = winbar
+      entries_str = entries_str
         .. string.format(
           "%%#%s# %%#%s#",
           theme.highlights.normal,
@@ -136,13 +138,15 @@ local function build_winbar(entries, custom_section)
     end
   end
 
-  return winbar
-    .. string.format(
-      "%%#%s#%%=%%#%s#",
-      theme.highlights.normal,
-      theme.highlights.normal
-    )
-    .. custom_section
+  return string.format(
+    "%%#%s#%s%s%%#%s#%%=%%#%s#%s",
+    theme.highlights.normal,
+    lead_custom_section,
+    entries_str,
+    theme.highlights.normal,
+    theme.highlights.normal,
+    custom_section
+  )
 end
 
 ---Gathers up-to-date data and updates the winbar unless the window or the
@@ -181,13 +185,20 @@ function M.update(winnr)
       return
     end
 
-    local custom_section, custom_section_length = get_custom_section(bufnr)
-    -- NOTE: `1` represents the leading whitespace length.
-    local entries = create_entries(winnr, bufnr, 1 + custom_section_length)
+    local lead_custom_section, lead_custom_section_length =
+      get_custom_section(config.user.lead_custom_section, bufnr)
+    local custom_section, custom_section_length =
+      get_custom_section(config.user.custom_section, bufnr)
+    local entries = create_entries(
+      winnr,
+      bufnr,
+      lead_custom_section_length + custom_section_length
+    )
     if entries == nil then return end
 
     state:save(entries)
-    vim.wo[winnr].winbar = build_winbar(entries, custom_section)
+    vim.wo[winnr].winbar =
+      build_winbar(entries, lead_custom_section, custom_section)
   end)
 end
 
