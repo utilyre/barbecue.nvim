@@ -293,7 +293,7 @@ Click to see default config
       ---
       ---@type boolean
       show_modified = false,
-
+    
       ---Get modified status of file
       --
       ---NOTE: This can be used to get file modified status from SCM (eg. git)
