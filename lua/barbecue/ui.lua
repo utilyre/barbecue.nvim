@@ -182,7 +182,8 @@ function M.update(winnr)
     end
 
     local custom_section, custom_section_length = get_custom_section(bufnr)
-    local entries = create_entries(winnr, bufnr, 2 + custom_section_length)
+    -- NOTE: `1` represents the leading whitespace length.
+    local entries = create_entries(winnr, bufnr, 1 + custom_section_length)
     if entries == nil then return end
 
     state:save(entries)
