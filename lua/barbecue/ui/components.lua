@@ -187,7 +187,9 @@ function M.context(winnr, bufnr)
       return Entry.new(
         {
           nesting.name,
-          highlight = theme.highlights.context,
+          highlight = config.user.context_follow_icon_color
+              and theme.highlights[kind_to_highlight[nesting.kind]]
+            or theme.highlights.context,
         },
         get_kind_icon(nesting.kind),
         {

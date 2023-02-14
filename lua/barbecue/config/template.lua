@@ -86,6 +86,11 @@ local M = {
   ---@type barbecue.Config.theme
   theme = "auto",
 
+  ---Whether context text should follow its icon's color.
+  ---
+  ---@type boolean
+  context_follow_icon_color = false,
+
   symbols = {
     ---Modification indicator.
     ---
