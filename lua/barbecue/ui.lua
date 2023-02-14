@@ -53,12 +53,12 @@ local function truncate_entries(entries, length, max_length, basename_position)
   end
 end
 
----Get custom section and its length.
+---Extract custom section and its length from given function.
 ---
----@param fn fun(bufnr: number): barbecue.Config.custom_section
----@param bufnr number
----@return string custom_section
----@return number length
+---@param fn fun(bufnr: number): barbecue.Config.custom_section Function to extract custom section from.
+---@param bufnr number Buffer to be passed to `fn`.
+---@return string custom_section Styled custom section.
+---@return number length Length of custom section.
 local function get_custom_section(fn, bufnr)
   local custom_section = fn(bufnr)
   local length = 0
