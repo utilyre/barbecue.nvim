@@ -331,7 +331,7 @@ you've seen in the select menu of raw `:Barbecue`.
   ---render.
   ---
   ---@type fun(bufnr: number): barbecue.Config.custom_section
-  custom_section = function() return "" end,
+  custom_section = function() return " " end,
 
   ---@alias barbecue.Config.theme
   ---|'"auto"' # Use your current colorscheme's theme or generate a theme based on it.
