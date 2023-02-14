@@ -313,14 +313,17 @@ you've seen in the select menu of raw `:Barbecue`.
   ---@type boolean
   show_navic = true,
 
+  ---@alias barbecue.Config.custom_section
+  ---|string # Literal string.
+  ---|{ [1]: string, [2]: string? }[] # List-like table of `[text, highlight?]` tuples in which `highlight` is optional.
+  ---
   ---Get custom section contents.
   ---
   ---NOTE: This function shouldn't do any expensive actions as it is run on each
   ---render.
   ---
-  ---@type fun(bufnr: number): string
+  ---@type fun(bufnr: number): barbecue.Config.custom_section
   custom_section = function() return "" end,
-
 
   ---@alias barbecue.Config.theme
   ---|'"auto"' # Use your current colorscheme's theme or generate a theme based on it.

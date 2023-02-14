@@ -53,6 +53,33 @@ local function truncate_entries(entries, length, max_length, basename_position)
   end
 end
 
+---Get custom section and its length.
+---
+---@param bufnr number
+---@return string custom_section
+---@return number length
+local function get_custom_section(bufnr)
+  local custom_section = config.user.custom_section(bufnr)
+  local length = 0
+  local content = ""
+
+  if type(custom_section) == "string" then
+    length = utils.str_len(custom_section)
+    content = custom_section
+  elseif type(custom_section) == "table" then
+    for _, part in ipairs(custom_section) do
+      length = length + utils.str_len(part[1])
+
+      if part[2] ~= nil then
+        content = content .. string.format("%%#%s#", part[2])
+      end
+      content = content .. part[1]
+    end
+  end
+
+  return content, length
+end
+
 ---Gathers all the entries and combines them, then truncates the less useful
 ---parts if there's shortage of room.
 ---
@@ -154,12 +181,8 @@ function M.update(winnr)
       return
     end
 
-    local custom_section = config.user.custom_section(bufnr)
-    local entries = create_entries(
-      winnr,
-      bufnr,
-      2 + utils.str_len(custom_section:gsub("%%#[^#]+#", ""))
-    )
+    local custom_section, custom_section_length = get_custom_section(bufnr)
+    local entries = create_entries(winnr, bufnr, 2 + custom_section_length)
     if entries == nil then return end
 
     state:save(entries)
