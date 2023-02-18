@@ -28,6 +28,18 @@ function Entry.new(text, icon, to)
   return instance
 end
 
+---Associate Entry methods with table.
+---
+---WARNING: It might be unsafe to call arbitrary methods on the returned
+---instance.
+---
+---@param tbl table
+---@return barbecue.Entry
+function Entry.from(tbl)
+  local instance = setmetatable(tbl, Entry)
+  return instance
+end
+
 ---Get visible length of contents.
 ---
 ---@return number
@@ -65,6 +77,12 @@ function Entry:to_string()
     )
     .. (self.to == nil and "" or "%X")
   )
+end
+
+---Move cursor to where the Entry points to.
+function Entry:navigate()
+  vim.api.nvim_set_current_win(self.to.win)
+  vim.api.nvim_win_set_cursor(self.to.win, self.to.pos)
 end
 
 return Entry

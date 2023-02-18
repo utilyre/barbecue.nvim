@@ -4,7 +4,6 @@ local utils = require("barbecue.utils")
 local Entry = require("barbecue.ui.entry")
 local State = require("barbecue.ui.state")
 local components = require("barbecue.ui.components")
-local mouse = require("barbecue.ui.mouse")
 
 local ENTRY_ELLIPSIS = Entry.new({
   config.user.symbols.ellipsis,
@@ -235,7 +234,8 @@ function M.navigate(index, winnr)
   end
 
   if index < 0 then index = #clickable_entries + index + 1 end
-  mouse.navigate(clickable_entries[index].to)
+  local clickable_entry = Entry.from(clickable_entries[index])
+  clickable_entry:navigate()
 end
 
 return M

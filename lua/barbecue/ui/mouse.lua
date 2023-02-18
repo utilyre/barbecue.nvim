@@ -1,7 +1,9 @@
+local Entry = require("barbecue.ui.entry")
+
 local M = {}
 
 setmetatable(M, {
-  __index = function(self, key)
+  __index = function(_, key)
     if type(key) ~= "string" then return nil end
 
     local parts = vim.split(key, "_")
@@ -9,11 +11,12 @@ setmetatable(M, {
       local win = tonumber(parts[2])
       local pos = { tonumber(parts[3]), tonumber(parts[4]) }
 
+      -- NOTE: Only calling the `navigate` method is safe.
+      local entry = Entry.from({ to = { win = win, pos = pos } })
+
       return function(_, _, button)
         if button ~= "l" then return end
-
-        vim.api.nvim_set_current_win(win)
-        vim.api.nvim_win_set_cursor(win, pos)
+        entry:navigate()
       end
     end
 
