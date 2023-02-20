@@ -9,7 +9,7 @@ body:
     attributes:
       label: Requirements
       options:
-        - label: I have scammed [other issues](https://github.com/utilyre/barbecue.nvim/issues) to see if this bug has already been reported.
+        - label: I have skimmed [other issues](https://github.com/utilyre/barbecue.nvim/issues) to see if this bug has already been reported.
           required: true
         - label: I'm fully certain that this is not a breaking change, see [the latest release](https://github.com/utilyre/barbecue.nvim/releases/latest).
           required: true
