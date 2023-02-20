@@ -9,7 +9,7 @@ body:
     attributes:
       label: Requirements
       options:
-        - label: This feature isn't just a vague idea and has a good practical solution.
+        - label: This feature isn't just a vague idea and can have a good practical solution.
           required: true
         - label: I'm completely sure that this feature fits into this plugin.
           required: true
