@@ -54,12 +54,10 @@ end
 
 ---Extract custom section and its length from given function.
 ---
----@param fn fun(bufnr: number): barbecue.Config.custom_section Function to extract custom section from.
----@param bufnr number Buffer to be passed to `fn`.
+---@param custom_section barbecue.Config.custom_section User config value to extract the custom section from.
 ---@return string custom_section Styled custom section.
 ---@return number length Length of custom section.
-local function get_custom_section(fn, bufnr)
-  local custom_section = fn(bufnr)
+local function extract_custom_section(custom_section)
   local length = 0
   local content = ""
 
@@ -185,9 +183,9 @@ function M.update(winnr)
     end
 
     local lead_custom_section, lead_custom_section_length =
-      get_custom_section(config.user.lead_custom_section, bufnr)
+      extract_custom_section(config.user.lead_custom_section(bufnr))
     local custom_section, custom_section_length =
-      get_custom_section(config.user.custom_section, bufnr)
+      extract_custom_section(config.user.custom_section(bufnr))
     local entries = create_entries(
       winnr,
       bufnr,
