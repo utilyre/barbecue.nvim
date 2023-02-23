@@ -96,7 +96,7 @@ API ~
 
 
 - Toggle barbecue [source]
-    <https://github.com/utilyre/barbecue.nvim/blob/v0.4.0/lua/barbecue/ui.lua#L205-L215>
+    <https://github.com/utilyre/barbecue.nvim/blob/v0.4.0/lua/barbecue/ui.lua#L202-L212>
     >
         -- hide barbecue globally
         require("barbecue.ui").toggle(false)
@@ -108,7 +108,7 @@ API ~
         require("barbecue.ui").toggle()
     <
 - Update barbecue (e.g. in an autocmd) [source]
-    <https://github.com/utilyre/barbecue.nvim/blob/v0.4.0/lua/barbecue/ui.lua#L152-L203>
+    <https://github.com/utilyre/barbecue.nvim/blob/v0.4.0/lua/barbecue/ui.lua#L149-L200>
     >
         -- update the current window's winbar
         require("barbecue.ui").update()
@@ -117,7 +117,7 @@ API ~
         require("barbecue.ui").update(winnr)
     <
 - Navigate to entry [source]
-    <https://github.com/utilyre/barbecue.nvim/blob/v0.4.0/lua/barbecue/ui.lua#L217-L239>
+    <https://github.com/utilyre/barbecue.nvim/blob/v0.4.0/lua/barbecue/ui.lua#L214-L237>
     >
         -- navigate to the second entry
         require("barbecue.ui").navigate(2)
