@@ -51,7 +51,7 @@ local M = {
     -- the whole winbar's background
     -- recommended to use SignColumn's or LineNr's background
     -- "none" for transparent (kind of)
-    bg = "none"
+    bg = "none",
 
     -- foreground of the parts that have no specific color (empty table)
     fg = c.fg_dark,
