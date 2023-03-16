@@ -318,7 +318,7 @@ you've seen in the select menu of raw `:Barbecue`.
   ---NOTE: This function shouldn't do any expensive actions as it is run on each
   ---render.
   ---
-  ---@type fun(bufnr: number): barbecue.Config.custom_section
+  ---@type fun(bufnr: number, winnr: number): barbecue.Config.custom_section
   lead_custom_section = function() return " " end,
 
   ---@alias barbecue.Config.custom_section
@@ -330,7 +330,7 @@ you've seen in the select menu of raw `:Barbecue`.
   ---NOTE: This function shouldn't do any expensive actions as it is run on each
   ---render.
   ---
-  ---@type fun(bufnr: number): barbecue.Config.custom_section
+  ---@type fun(bufnr: number, winnr: number): barbecue.Config.custom_section
   custom_section = function() return " " end,
 
   ---@alias barbecue.Config.theme
