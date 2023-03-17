@@ -183,9 +183,9 @@ function M.update(winnr)
     end
 
     local lead_custom_section, lead_custom_section_length =
-      extract_custom_section(config.user.lead_custom_section(bufnr))
+      extract_custom_section(config.user.lead_custom_section(bufnr, winnr))
     local custom_section, custom_section_length =
-      extract_custom_section(config.user.custom_section(bufnr))
+      extract_custom_section(config.user.custom_section(bufnr, winnr))
     local entries = create_entries(
       winnr,
       bufnr,
