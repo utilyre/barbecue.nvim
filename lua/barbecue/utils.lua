@@ -12,15 +12,6 @@ function M.str_escape(str)
   return str
 end
 
----Calculate the length of UTF-8 string.
----
----@param str string UTF-8 string to calculate the length of.
----@return number
-function M.str_len(str)
-  local _, count = str:gsub("[^\128-\193]", "")
-  return count
-end
-
 ---Merge one or more list-like tables into one.
 ---
 ---@param list any[] Table to be merged into.

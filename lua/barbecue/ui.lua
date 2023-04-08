@@ -35,13 +35,21 @@ local function truncate_entries(entries, length, max_length, basename_position)
     length = length - entries[i]:len()
     if has_ellipsis then
       if i < #entries then
-        length = length - (utils.str_len(config.user.symbols.separator) + 2)
+        length = length
+          - (
+            vim.api.nvim_eval_statusline(config.user.symbols.separator, {
+              use_winbar = true,
+            }).width + 2
+          )
       end
 
       table.remove(entries, i)
       n = n + 1
     else
-      length = length + utils.str_len(config.user.symbols.ellipsis)
+      length = length
+        + vim.api.nvim_eval_statusline(config.user.symbols.ellipsis, {
+          use_winbar = true,
+        }).width
       entries[i] = ENTRY_ELLIPSIS
 
       has_ellipsis = true
@@ -63,18 +71,18 @@ local function extract_custom_section(winnr, custom_section)
   local content = ""
 
   if type(custom_section) == "string" then
-    length = utils.str_len(vim.api.nvim_eval_statusline(custom_section, {
+    length = vim.api.nvim_eval_statusline(custom_section, {
       use_winbar = true,
       winid = winnr,
-    }).str)
+    }).width
     content = custom_section
   elseif type(custom_section) == "table" then
     for _, part in ipairs(custom_section) do
       length = length
-        + utils.str_len(vim.api.nvim_eval_statusline(part[1], {
+        + vim.api.nvim_eval_statusline(part[1], {
           use_winbar = true,
           winid = winnr,
-        }).str)
+        }).width
 
       if part[2] ~= nil then
         content = content .. string.format("%%#%s#", part[2])
@@ -108,7 +116,12 @@ local function create_entries(winnr, bufnr, extra_length)
   for i, entry in ipairs(entries) do
     length = length + entry:len()
     if i < #entries then
-      length = length + utils.str_len(config.user.symbols.separator) + 2
+      length = length
+        + vim.api.nvim_eval_statusline(config.user.symbols.separator, {
+          use_winbar = true,
+          winid = winnr,
+        }).width
+        + 2
     end
   end
   truncate_entries(
