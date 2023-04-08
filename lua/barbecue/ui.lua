@@ -54,19 +54,27 @@ end
 
 ---Extract custom section and its length from given function.
 ---
+---@param winnr number Window to be used as context.
 ---@param custom_section barbecue.Config.custom_section User config value to extract the custom section from.
 ---@return string custom_section Styled custom section.
 ---@return number length Length of custom section.
-local function extract_custom_section(custom_section)
+local function extract_custom_section(winnr, custom_section)
   local length = 0
   local content = ""
 
   if type(custom_section) == "string" then
-    length = utils.str_len(custom_section)
+    length = utils.str_len(vim.api.nvim_eval_statusline(custom_section, {
+      use_winbar = true,
+      winid = winnr,
+    }).str)
     content = custom_section
   elseif type(custom_section) == "table" then
     for _, part in ipairs(custom_section) do
-      length = length + utils.str_len(part[1])
+      length = length
+        + utils.str_len(vim.api.nvim_eval_statusline(part[1], {
+          use_winbar = true,
+          winid = winnr,
+        }).str)
 
       if part[2] ~= nil then
         content = content .. string.format("%%#%s#", part[2])
@@ -186,9 +194,12 @@ function M.update(winnr)
     end
 
     local lead_custom_section, lead_custom_section_length =
-      extract_custom_section(config.user.lead_custom_section(bufnr, winnr))
+      extract_custom_section(
+        winnr,
+        config.user.lead_custom_section(bufnr, winnr)
+      )
     local custom_section, custom_section_length =
-      extract_custom_section(config.user.custom_section(bufnr, winnr))
+      extract_custom_section(winnr, config.user.custom_section(bufnr, winnr))
     local entries = create_entries(
       winnr,
       bufnr,
