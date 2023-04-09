@@ -34,11 +34,7 @@ function M.create_updater()
   }
 
   if config.user.show_basename and config.user.show_modified then
-    utils.tbl_merge(events, {
-      "BufWritePost",
-      "TextChanged",
-      "TextChangedI",
-    })
+    table.insert(events, "BufModifiedSet")
   end
 
   vim.api.nvim_create_autocmd(events, {
