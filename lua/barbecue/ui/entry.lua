@@ -89,6 +89,8 @@ end
 
 ---Move cursor to where the Entry points to.
 function Entry:navigate()
+  vim.cmd.mark("'")
+
   vim.api.nvim_set_current_win(self.to.win)
   vim.api.nvim_win_set_cursor(self.to.win, self.to.pos)
 end
