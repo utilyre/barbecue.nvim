@@ -181,6 +181,11 @@ function M.update(winnr)
     not vim.tbl_contains(config.user.include_buftypes, vim.bo[bufnr].buftype)
     or vim.tbl_contains(config.user.exclude_filetypes, vim.bo[bufnr].filetype)
     or vim.api.nvim_win_get_config(winnr).relative ~= ""
+    or (
+      not config.user.show_dirname
+      and not config.user.show_basename
+      and vim.b[bufnr].navic_client_id == nil
+    )
   then
     local last_winbar = state:get_last_winbar()
     if last_winbar ~= nil then
