@@ -5,11 +5,6 @@ local Entry = require("barbecue.ui.entry")
 local State = require("barbecue.ui.state")
 local components = require("barbecue.ui.components")
 
-local ENTRY_ELLIPSIS = Entry.new({
-  config.user.symbols.ellipsis,
-  highlight = theme.highlights.ellipsis,
-})
-
 local M = {}
 
 local visible = true
@@ -50,7 +45,10 @@ local function truncate_entries(entries, length, max_length, basename_position)
         + vim.api.nvim_eval_statusline(config.user.symbols.ellipsis, {
           use_winbar = true,
         }).width
-      entries[i] = ENTRY_ELLIPSIS
+      entries[i] = Entry.new({
+        config.user.symbols.ellipsis,
+        highlight = theme.highlights.ellipsis,
+      })
 
       has_ellipsis = true
       i = i + 1 -- manually increment i when not removing anything from entries
