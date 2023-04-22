@@ -18,7 +18,7 @@ local M = {
   ---Filetypes not to enable winbar in.
   ---
   ---@type string[]
-  exclude_filetypes = { "toggleterm" },
+  exclude_filetypes = { "netrw", "toggleterm" },
 
   modifiers = {
     ---Filename modifiers applied to dirname.
