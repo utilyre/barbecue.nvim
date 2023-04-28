@@ -127,9 +127,9 @@ you've seen in the select menu of raw `:Barbecue`.
   ```
 
 [installation]: #-installation
-[toggle]: https://github.com/utilyre/barbecue.nvim/blob/v1.0.1/lua/barbecue/ui.lua#L229-L239
-[update]: https://github.com/utilyre/barbecue.nvim/blob/v1.0.1/lua/barbecue/ui.lua#L170-L227
-[navigate]: https://github.com/utilyre/barbecue.nvim/blob/v1.0.1/lua/barbecue/ui.lua#L241-L264
+[toggle]: https://github.com/utilyre/barbecue.nvim/blob/v1.2.0/lua/barbecue/ui.lua#L232-L242
+[update]: https://github.com/utilyre/barbecue.nvim/blob/v1.2.0/lua/barbecue/ui.lua#L168-L230
+[navigate]: https://github.com/utilyre/barbecue.nvim/blob/v1.2.0/lua/barbecue/ui.lua#L244-L267
 
 ## 🍴 Recipes
 
