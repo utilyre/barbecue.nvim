@@ -44,12 +44,12 @@ end
 ---
 ---@return number
 function Entry:len()
-  local length = vim.api.nvim_eval_statusline(self.text[1], {
+  local length = vim.api.nvim_eval_statusline(utils.str_escape(self.text[1]), {
     use_winbar = true,
   }).width
   if self.icon ~= nil then
     length = length
-      + vim.api.nvim_eval_statusline(self.icon[1], {
+      + vim.api.nvim_eval_statusline(utils.str_escape(self.icon[1]), {
         use_winbar = true,
       }).width
       + 1
