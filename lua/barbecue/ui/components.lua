@@ -47,11 +47,16 @@ function M.dirname(bufnr)
   end
 
   local dirs = vim.split(dirname, PATH_SEPARATOR, { trimempty = true })
-  for _, dir in ipairs(dirs) do
+  local dir_display_limit = math.floor(config.user.dir_display_limit)
+  local dirs_start_index = (
+    dir_display_limit >= 1 and #dirs - dir_display_limit or 0
+  ) + 1
+
+  for i = math.max(dirs_start_index, 1), #dirs, 1 do
     table.insert(
       entries,
       Entry.new({
-        dir,
+        dirs[i],
         highlight = theme.highlights.dirname,
       })
     )
