@@ -46,7 +46,7 @@ local M = {
   ---
   ---NOTE: Requires show_dirname to be enabled
   ---
-  ---@type number
+  ---@type integer
   dir_display_limit = 0,
 
   ---Whether to display file name.
