@@ -41,6 +41,14 @@ local M = {
   ---@type boolean
   show_dirname = true,
 
+  ---Limits the number of directories to display.
+  ---Any number below 1 disables this feature.
+  ---
+  ---NOTE: Requires show_dirname to be enabled
+  ---
+  ---@type integer
+  dir_display_limit = 0,
+
   ---Whether to display file name.
   ---
   ---@type boolean
