@@ -82,6 +82,8 @@ function M.basename(winnr, bufnr)
   local basename =
     vim.fn.fnamemodify(filename, config.user.modifiers.basename .. ":t")
 
+  if basename == "" then return nil end
+
   local icon
   if config.user.modified(bufnr) and config.user.show_modified then
     icon = {
