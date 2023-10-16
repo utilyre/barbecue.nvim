@@ -162,6 +162,8 @@ function M.get_file_icon(filename, filetype)
     local name = devicons.get_icon_name_by_filetype(filetype)
     icon = icons[name] or devicons.get_default_icon()
     if icon == nil then return nil end
+    -- default icon has no name, resulting in a crash further down
+    if icon.name == nil then return nil end
   end
 
   local highlight = string.format("barbecue_fileicon_%s", icon.name)
