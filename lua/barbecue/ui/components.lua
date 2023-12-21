@@ -74,14 +74,10 @@ function M.basename(winnr, bufnr)
 
   if basename == "" then return nil end
 
-  local icon
+  local icon = theme.get_file_icon(filename, vim.bo[bufnr].filetype)
+
   if config.user.modified(bufnr) and config.user.show_modified then
-    icon = {
-      config.user.symbols.modified,
-      highlight = theme.highlights.modified,
-    }
-  else
-    icon = theme.get_file_icon(filename, vim.bo[bufnr].filetype)
+    basename = config.user.symbols.modified .. " " .. basename
   end
 
   return Entry.new(
