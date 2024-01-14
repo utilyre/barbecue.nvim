@@ -64,6 +64,14 @@ local M = {
   ---@type boolean
   show_navic = true,
 
+  ---Maximum depth of navic context to be shown.
+  ---
+  ---If the context depth exceeds this parameter, context information is
+  ---truncated; default 0 is infinite.
+  ---
+  ---@type integer
+  navic_depth_limit = 0,
+
   ---Get leading custom section contents.
   ---
   ---NOTE: This function shouldn't do any expensive actions as it is run on each

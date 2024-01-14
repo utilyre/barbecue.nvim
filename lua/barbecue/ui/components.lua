@@ -184,6 +184,13 @@ function M.context(winnr, bufnr)
   local nestings = navic.get_data(bufnr)
   if nestings == nil then return {} end
 
+  if
+    config.user.navic_depth_limit >= 1
+    and config.user.navic_depth_limit < #nestings
+  then
+    nestings = vim.list_slice(nestings, 1, config.user.navic_depth_limit)
+  end
+
   return vim.tbl_map(
     function(nesting)
       return Entry.new(
