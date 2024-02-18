@@ -154,7 +154,7 @@ function M.get_file_icon(filename, filetype)
   if not devicons_ok then return nil end
 
   local basename = vim.fn.fnamemodify(filename, ":t")
-  local extension = vim.fn.fnamemodify(filename, ":e")
+  local extension = string.match(basename, "%.(.*)")
 
   local icons = devicons.get_icons()
   local icon = icons[basename] or icons[extension]
