@@ -15,6 +15,11 @@ local M = {
   ---@type string[]
   include_buftypes = { "" },
 
+  --- Function that returns whether to exclude the winbar for the given filetype or not.
+  ---
+  ---@type function
+  exclude_filetype_fn = function(filetype) return false end,
+
   ---Filetypes not to enable winbar in.
   ---
   ---@type string[]
