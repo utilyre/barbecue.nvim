@@ -100,10 +100,10 @@ API ~
     >
         -- hide barbecue globally
         require("barbecue.ui").toggle(false)
-        
+
         -- show barbecue globally
         require("barbecue.ui").toggle(true)
-        
+
         -- toggle barbecue globally
         require("barbecue.ui").toggle()
     <
@@ -112,7 +112,7 @@ API ~
     >
         -- update the current window's winbar
         require("barbecue.ui").update()
-        
+
         -- update the given window's winbar
         require("barbecue.ui").update(winnr)
     <
@@ -121,10 +121,10 @@ API ~
     >
         -- navigate to the second entry
         require("barbecue.ui").navigate(2)
-        
+
         -- navigate to the last entry
         require("barbecue.ui").navigate(-1)
-        
+
         -- just like before but on the given window
         require("barbecue.ui").navigate(index, winnr)
     <
@@ -137,17 +137,17 @@ RECIPES                                                     *barbecue-recipes*
     >
         -- triggers CursorHold event faster
         vim.opt.updatetime = 200
-        
+
         require("barbecue").setup({
           create_autocmd = false, -- prevent barbecue from updating itself automatically
         })
-        
+
         vim.api.nvim_create_autocmd({
           "WinScrolled", -- or WinResized on NVIM-v0.9 and higher
           "BufWinEnter",
           "CursorHold",
           "InsertLeave",
-        
+
           -- include this if you have set `show_modified` to `true`
           "BufModifiedSet",
         }, {
@@ -168,17 +168,17 @@ RECIPES                                                     *barbecue-recipes*
             -- you can take advantage of its `bg` and set a background throughout your winbar
             -- (e.g. basename will look like this: { fg = "#c0caf5", bold = true })
             normal = { fg = "#c0caf5" },
-        
+
             -- these highlights correspond to symbols table from config
             ellipsis = { fg = "#737aa2" },
             separator = { fg = "#737aa2" },
             modified = { fg = "#737aa2" },
-        
+
             -- these highlights represent the _text_ of three main parts of barbecue
             dirname = { fg = "#737aa2" },
             basename = { bold = true },
             context = {},
-        
+
             -- these highlights are used for context/navic icons
             context_file = { fg = "#ac8fe4" },
             context_module = { fg = "#ac8fe4" },
@@ -215,20 +215,20 @@ RECIPES                                                     *barbecue-recipes*
         require("barbecue").setup({
           attach_navic = false, -- prevent barbecue from automatically attaching nvim-navic
         })
-        
+
         require("lspconfig")[server].setup({
           -- ...
-        
+
           on_attach = function(client, bufnr)
             -- ...
-        
+
             if client.server_capabilities["documentSymbolProvider"] then
               require("nvim-navic").attach(client, bufnr)
             end
-        
+
             -- ...
           end,
-        
+
           -- ...
         })
     <
@@ -244,22 +244,22 @@ Click to see default config
       ---
       ---@type boolean
       attach_navic = true,
-    
+
       ---Whether to create winbar updater autocmd.
       ---
       ---@type boolean
       create_autocmd = true,
-    
+
       ---Buftypes to enable winbar in.
       ---
       ---@type string[]
       include_buftypes = { "" },
-    
+
       ---Filetypes not to enable winbar in.
       ---
       ---@type string[]
       exclude_filetypes = { "netrw", "toggleterm" },
-    
+
       modifiers = {
         ---Filename modifiers applied to dirname.
         ---
@@ -267,7 +267,7 @@ Click to see default config
         ---
         ---@type string
         dirname = ":~:.",
-    
+
         ---Filename modifiers applied to basename.
         ---
         ---See: `:help filename-modifiers`
@@ -275,35 +275,40 @@ Click to see default config
         ---@type string
         basename = "",
       },
-    
+
       ---Whether to display path to file.
       ---
       ---@type boolean
       show_dirname = true,
-    
+
       ---Whether to display file name.
       ---
       ---@type boolean
       show_basename = true,
-    
+
       ---Whether to replace file icon with the modified symbol when buffer is
       ---modified.
       ---
       ---@type boolean
       show_modified = false,
-    
+
       ---Get modified status of file.
       ---
       ---NOTE: This can be used to get file modified status from SCM (e.g. git)
       ---
       ---@type fun(bufnr: number): boolean
       modified = function(bufnr) return vim.bo[bufnr].modified end,
-    
+
+      ---Whether to show diagnostics indicator
+      ---
+      ---@type boolean
+      show_diagnostics = false,
+
       ---Whether to show/use navic in the winbar.
       ---
       ---@type boolean
       show_navic = true,
-    
+
       ---Get leading custom section contents.
       ---
       ---NOTE: This function shouldn't do any expensive actions as it is run on each
@@ -311,7 +316,7 @@ Click to see default config
       ---
       ---@type fun(bufnr: number, winnr: number): barbecue.Config.custom_section
       lead_custom_section = function() return " " end,
-    
+
       ---@alias barbecue.Config.custom_section
       ---|string # Literal string.
       ---|{ [1]: string, [2]: string? }[] # List-like table of `[text, highlight?]` tuples in which `highlight` is optional.
@@ -323,7 +328,7 @@ Click to see default config
       ---
       ---@type fun(bufnr: number, winnr: number): barbecue.Config.custom_section
       custom_section = function() return " " end,
-    
+
       ---@alias barbecue.Config.theme
       ---|'"auto"' # Use your current colorscheme's theme or generate a theme based on it.
       ---|string # Theme located under `barbecue.theme` module.
@@ -333,29 +338,29 @@ Click to see default config
       ---
       ---@type barbecue.Config.theme
       theme = "auto",
-    
+
       ---Whether context text should follow its icon's color.
       ---
       ---@type boolean
       context_follow_icon_color = false,
-    
+
       symbols = {
         ---Modification indicator.
         ---
         ---@type string
         modified = "●",
-    
+
         ---Truncation indicator.
         ---
         ---@type string
         ellipsis = "…",
-    
+
         ---Entry separator.
         ---
         ---@type string
         separator = "",
       },
-    
+
       ---@alias barbecue.Config.kinds
       ---|false # Disable kind icons.
       ---|table<string, string> # Type to icon mapping.

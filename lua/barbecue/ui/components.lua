@@ -1,6 +1,7 @@
 local navic = require("nvim-navic")
 local config = require("barbecue.config")
 local theme = require("barbecue.theme")
+local utils = require("barbecue.utils")
 local Entry = require("barbecue.ui.entry")
 
 local PATH_SEPARATOR = package.config:sub(1, 1)
@@ -75,7 +76,7 @@ function M.basename(winnr, bufnr)
   if basename == "" then return nil end
 
   local icon
-  if config.user.modified(bufnr) and config.user.show_modified then
+  if config.user.show_modified and config.user.modified(bufnr) then
     icon = {
       config.user.symbols.modified,
       highlight = theme.highlights.modified,
@@ -84,10 +85,17 @@ function M.basename(winnr, bufnr)
     icon = theme.get_file_icon(filename, vim.bo[bufnr].filetype)
   end
 
+  local highlight
+  if config.user.show_diagnostics and utils.has_diagnostics(bufnr) then
+    highlight = theme.highlights.diagnostics
+  else
+    highlight = theme.highlights.basename
+  end
+
   return Entry.new(
     {
       basename,
-      highlight = theme.highlights.basename,
+      highlight = highlight,
     },
     icon,
     {

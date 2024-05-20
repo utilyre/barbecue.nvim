@@ -37,6 +37,10 @@ function M.create_updater()
     table.insert(events, "BufModifiedSet")
   end
 
+  if config.user.show_basename and config.user.show_diagnostics then
+    table.insert(events, "DiagnosticChanged")
+  end
+
   vim.api.nvim_create_autocmd(events, {
     desc = "Updater",
     group = vim.api.nvim_create_augroup(GROUP_UPDATER, {}),

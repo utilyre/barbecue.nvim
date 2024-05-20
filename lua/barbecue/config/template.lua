@@ -59,6 +59,11 @@ local M = {
   ---@type fun(bufnr: number): boolean
   modified = function(bufnr) return vim.bo[bufnr].modified end,
 
+  ---Whether to show diagnostics indicator
+  ---
+  ---@type boolean
+  show_diagnostics = false,
+
   ---Whether to show/use navic in the winbar.
   ---
   ---@type boolean

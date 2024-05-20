@@ -2,6 +2,19 @@ local PATH_SEPARATOR = package.config:sub(1, 1)
 
 local M = {}
 
+--- Check if file has diagnostic errors.
+---
+---@param buf integer String to be escaped.
+---@return boolean
+function M.has_diagnostics(buf)
+  local severity = vim.diagnostic.severity.ERROR
+  local n = #vim.diagnostic.get(
+    buf,
+    { severity = vim.diagnostic.severity[string.upper(severity)] }
+  )
+  return n > 0
+end
+
 ---Escape string from statusline/winbar expansion.
 ---
 ---@param str string String to be escaped.
