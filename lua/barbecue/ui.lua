@@ -169,8 +169,16 @@ end
 ---buffer contained by it is excluded.
 ---
 ---@async
----@param winnr number? Window to update the winbar of or `nil` for the current window.
+---@param winnr number? Window to update the winbar of or `nil` to update all windows.
 function M.update(winnr)
+  if winnr == nil then
+    local windows = vim.api.nvim_list_wins()
+    for _, w in ipairs(windows) do
+      M.update(w)
+    end
+    return
+  end
+
   winnr = winnr or vim.api.nvim_get_current_win()
   local bufnr = vim.api.nvim_win_get_buf(winnr)
   local state = State.new(winnr)
