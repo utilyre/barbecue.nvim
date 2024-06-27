@@ -178,9 +178,9 @@ function M.get_file_icon(filename, filetype)
     if icon == nil then return nil end
   end
 
-  local highlight = string.format("barbecue_fileicon_%s", icon.name)
-  if file_icons[icon.name] == nil then
-    file_icons[icon.name] = {
+  local highlight = string.format("barbecue_fileicon_%s", file_extension(basename))
+  if file_icons[file_extension(basename)] == nil then
+    file_icons[file_extension(basename)] = {
       highlight = highlight,
       color = icon.color,
     }
