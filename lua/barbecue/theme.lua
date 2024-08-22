@@ -145,6 +145,16 @@ function M.load()
   end
 end
 
+local file_extension = function(filename)
+  local parts = vim.split(filename, "%.")
+  -- this check enables us to get multi-part extensions, like *.test.js for example
+  if #parts > 2 then
+    return table.concat(vim.list_slice(parts, #parts - 1), ".")
+  else
+    return table.concat(vim.list_slice(parts, #parts), ".")
+  end
+end
+
 ---Get a file's icon and additionally store the found icon for later use.
 ---
 ---@param filename string File name to be matched against the icons table.
@@ -155,8 +165,12 @@ function M.get_file_icon(filename, filetype)
 
   local basename = vim.fn.fnamemodify(filename, ":t")
   local extension = vim.fn.fnamemodify(filename, ":e")
-
   local icons = devicons.get_icons()
+  -- local icon_text =
+  --   devicons.get_icon(basename, file_extension(basename), { default = false })
+
+  local icon_text, icon_color = devicons.get_icon_color(basename, file_extension(basename), { default = false })
+
   local icon = icons[basename] or icons[extension]
   if icon == nil then
     local name = devicons.get_icon_name_by_filetype(filetype)
@@ -164,9 +178,9 @@ function M.get_file_icon(filename, filetype)
     if icon == nil then return nil end
   end
 
-  local highlight = string.format("barbecue_fileicon_%s", icon.name)
-  if file_icons[icon.name] == nil then
-    file_icons[icon.name] = {
+  local highlight = string.format("barbecue_fileicon_%s", file_extension(basename))
+  if file_icons[file_extension(basename)] == nil then
+    file_icons[file_extension(basename)] = {
       highlight = highlight,
       color = icon.color,
     }
@@ -177,13 +191,13 @@ function M.get_file_icon(filename, filetype)
       vim.tbl_extend(
         "force",
         current_theme ~= nil and current_theme.normal or {},
-        { foreground = icon.color }
+        { foreground = icon_color or icon.color }
       )
     )
   end
 
   return {
-    icon.icon,
+    icon_text or icon.icon,
     highlight = highlight,
   }
 end
