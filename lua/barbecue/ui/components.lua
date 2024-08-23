@@ -18,19 +18,10 @@ function M.dirname(bufnr)
   local dirname =
     vim.fn.fnamemodify(filename, config.user.modifiers.dirname .. ":h")
 
+  if dirname == "." then return {} end
+
   ---@type barbecue.Entry[]
   local entries = {}
-
-  if dirname == "." then return {} end
-  if dirname:sub(1, 1) == "/" then
-    table.insert(
-      entries,
-      Entry.new({
-        "/",
-        highlight = theme.highlights.dirname,
-      })
-    )
-  end
 
   local protocol_start_index = dirname:find("://")
   if protocol_start_index ~= nil then
@@ -46,12 +37,31 @@ function M.dirname(bufnr)
     dirname = dirname:sub(protocol_start_index + 3)
   end
 
-  local dirs = vim.split(dirname, PATH_SEPARATOR, { trimempty = true })
-  for _, dir in ipairs(dirs) do
+  local dirs = vim.list_extend(
+    dirname:sub(1, 1) == "/" and { "/" } or {},
+    vim.split(dirname, PATH_SEPARATOR, { trimempty = true })
+  )
+
+  local dir_display_limit = config.user.dir_display_limit
+  local dirs_start_index = (
+    dir_display_limit >= 1 and #dirs - dir_display_limit or 0
+  ) + 1
+
+  if dirs_start_index > 1 then
     table.insert(
       entries,
       Entry.new({
-        dir,
+        config.user.symbols.ellipsis,
+        highlight = theme.highlights.dirname,
+      })
+    )
+  end
+
+  for i = math.max(dirs_start_index, 1), #dirs, 1 do
+    table.insert(
+      entries,
+      Entry.new({
+        dirs[i],
         highlight = theme.highlights.dirname,
       })
     )
