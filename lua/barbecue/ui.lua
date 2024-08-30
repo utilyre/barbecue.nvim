@@ -177,6 +177,7 @@ function M.update(winnr)
 
   if
     not vim.tbl_contains(config.user.include_buftypes, vim.bo[bufnr].buftype)
+    or vim.bo[bufnr].filetype = ""
     or vim.tbl_contains(config.user.exclude_filetypes, vim.bo[bufnr].filetype)
     or vim.api.nvim_win_get_config(winnr).relative ~= ""
     or (
