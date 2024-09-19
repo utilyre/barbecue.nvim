@@ -181,6 +181,8 @@ function M.context(winnr, bufnr)
   if not config.user.show_navic then return {} end
   if not navic.is_available() then return {} end
 
+  local cursor_pos = vim.api.nvim_win_get_cursor(winnr)
+  require("nvim-navic.lib").update_context(bufnr, cursor_pos)
   local nestings = navic.get_data(bufnr)
   if nestings == nil then return {} end
 
