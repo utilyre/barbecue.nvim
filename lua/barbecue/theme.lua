@@ -14,6 +14,7 @@ M.highlights = {
   ellipsis = "barbecue_ellipsis",
   separator = "barbecue_separator",
   modified = "barbecue_modified",
+  diagnostics = "barbecue_diagnostics",
 
   dirname = "barbecue_dirname",
   basename = "barbecue_basename",
@@ -129,11 +130,13 @@ function M.load()
   current_theme = theme
 
   for key, name in pairs(M.highlights) do
-    vim.api.nvim_set_hl(
-      0,
-      name,
-      vim.tbl_extend("force", theme.normal, theme[key])
-    )
+    if theme[key] ~= nil then
+      vim.api.nvim_set_hl(
+        0,
+        name,
+        vim.tbl_extend("force", theme.normal, theme[key])
+      )
+    end
   end
 
   for _, icon in pairs(file_icons) do

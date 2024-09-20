@@ -60,6 +60,7 @@ local M = {
   ellipsis = { fg = c.dark5 }, -- Conceal's or Normal's fg
   separator = { fg = c.dark5 }, -- Conceal's or Normal's fg
   modified = { fg = c.warning }, -- BufferVisibleMod's fg (a yellow color)
+  diagnostics = { fg = c.error }, -- LspDiagnosticsDefaultError's fg
 
   dirname = { fg = c.dark5 }, -- Conceal's or Normal's fg
   basename = { fg = c.fg_dark, bold = true }, -- normal's fg and bold are recommended
