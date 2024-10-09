@@ -1,4 +1,3 @@
-local navic = require("nvim-navic")
 local config = require("barbecue.config")
 local theme = require("barbecue.theme")
 local Entry = require("barbecue.ui.entry")
@@ -179,6 +178,8 @@ end
 ---@return barbecue.Entry[]
 function M.context(winnr, bufnr)
   if not config.user.show_navic then return {} end
+
+  local navic = require("nvim-navic")
   if not navic.is_available() then return {} end
 
   local nestings = navic.get_data(bufnr)
