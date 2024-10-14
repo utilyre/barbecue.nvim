@@ -262,6 +262,11 @@ you've seen in the select menu of raw `:Barbecue`.
   ---@type string[]
   include_buftypes = { "" },
 
+  --- Function that returns whether to exclude the winbar for the given buffer or not.
+  ---
+  ---@type function
+  exclude_buffer_fn = function(bufnr) return false end,
+
   ---Filetypes not to enable winbar in.
   ---
   ---@type string[]

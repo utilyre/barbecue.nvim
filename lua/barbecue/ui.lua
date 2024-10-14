@@ -178,6 +178,7 @@ function M.update(winnr)
   if
     not vim.tbl_contains(config.user.include_buftypes, vim.bo[bufnr].buftype)
     or vim.tbl_contains(config.user.exclude_filetypes, vim.bo[bufnr].filetype)
+    or config.user.exclude_buffer_fn(bufnr)
     or vim.api.nvim_win_get_config(winnr).relative ~= ""
     or (
       not config.user.show_dirname
@@ -199,7 +200,6 @@ function M.update(winnr)
     vim.wo[winnr].winbar = ""
     return
   end
-
   vim.schedule(function()
     if
       not vim.api.nvim_buf_is_valid(bufnr)
