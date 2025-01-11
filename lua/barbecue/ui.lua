@@ -103,6 +103,11 @@ local function create_entries(winnr, bufnr, extra_length)
   if vim.api.nvim_buf_get_name(bufnr) == "" then return nil end
 
   local dirname = components.dirname(bufnr)
+
+  -- Don't apply in toggleterm
+  local type = dirname[1] and dirname[1].text and dirname[1].text[1]
+  if type == "term://" then return nil end
+
   local basename = components.basename(winnr, bufnr)
   local context = components.context(winnr, bufnr)
 

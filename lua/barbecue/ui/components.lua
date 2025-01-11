@@ -1,4 +1,3 @@
-local navic = require("nvim-navic")
 local config = require("barbecue.config")
 local theme = require("barbecue.theme")
 local Entry = require("barbecue.ui.entry")
@@ -22,6 +21,10 @@ function M.dirname(bufnr)
   local entries = {}
 
   if dirname == "." then return {} end
+
+  -- Sanitize oil paths
+  dirname = dirname:gsub("^oil:?/?", "/")
+
   if dirname:sub(1, 1) == "/" then
     table.insert(
       entries,
@@ -179,6 +182,8 @@ end
 ---@return barbecue.Entry[]
 function M.context(winnr, bufnr)
   if not config.user.show_navic then return {} end
+
+  local navic = require("nvim-navic")
   if not navic.is_available() then return {} end
 
   local nestings = navic.get_data(bufnr)

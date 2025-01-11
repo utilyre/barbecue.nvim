@@ -1,3 +1,4 @@
+local config = require("barbecue.config")
 local utils = require("barbecue.utils")
 local theme = require("barbecue.theme")
 
@@ -62,29 +63,46 @@ end
 ---
 ---@return string
 function Entry:to_string()
-  return (
-    (
-      self.to == nil and ""
-      or string.format(
-        "%%@v:lua.require'barbecue.ui.mouse'.navigate_%d_%d_%d@",
-        self.to.win,
-        self.to.pos[1],
-        self.to.pos[2]
-      )
+  local mouse = (
+    self.to == nil and ""
+    or string.format(
+      "%%@v:lua.require'barbecue.ui.mouse'.navigate_%d_%d_%d@",
+      self.to.win,
+      self.to.pos[1],
+      self.to.pos[2]
     )
-    .. (self.icon == nil and "" or string.format(
-      "%%#%s#%s%%#%s# ",
+  )
+
+  local icon_fmt = "%%#%s#%s%%#%s#"
+  if config.user.icon_position == "after" then
+    icon_fmt = " " .. icon_fmt
+  else
+    icon_fmt = icon_fmt .. " "
+  end
+
+  local icon = (
+    self.icon == nil and ""
+    or string.format(
+      icon_fmt,
       self.icon.highlight,
       utils.str_escape(self.icon[1]),
       theme.highlights.normal
-    ))
-    .. string.format(
-      "%%#%s#%s",
-      self.text.highlight,
-      utils.str_escape(self.text[1])
     )
-    .. (self.to == nil and "" or "%X")
   )
+
+  local text = string.format(
+    "%%#%s#%s",
+    self.text.highlight,
+    utils.str_escape(self.text[1])
+  )
+
+  local to = (self.to == nil and "" or "%X")
+
+  if config.user.icon_position == "after" then
+    return (mouse .. text .. icon .. to)
+  else
+    return (mouse .. icon .. text .. to)
+  end
 end
 
 ---Move cursor to where the Entry points to.

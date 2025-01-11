@@ -260,7 +260,7 @@ you've seen in the select menu of raw `:Barbecue`.
   ---Buftypes to enable winbar in.
   ---
   ---@type string[]
-  include_buftypes = { "" },
+  include_buftypes = { "", "acwrite" },
 
   ---Filetypes not to enable winbar in.
   ---
@@ -292,6 +292,11 @@ you've seen in the select menu of raw `:Barbecue`.
   ---
   ---@type boolean
   show_basename = true,
+
+  ---Position of the icon relative to the filename. Can be "before" or "after".
+  ---
+  ---@type '"before"'|'"after"'
+  icon_position = "before",
 
   ---Whether to replace file icon with the modified symbol when buffer is
   ---modified.
